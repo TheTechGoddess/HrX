@@ -3,7 +3,7 @@
     <h1 class="text-[40px] font-semibold my-10 text-[#182233]">
       Why clients love us
     </h1>
-    <div class="lg:flex lg:justify-between lg:space-x-4 space-y-12 mb-8">
+    <div class="lg:flex lg:justify-between lg:space-x-4 space-y-12 lg:space-y-0 mb-8">
       <div class="flex flex-col">
         <img
           src="~/assets/images/experience.svg"
