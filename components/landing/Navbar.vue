@@ -1,5 +1,5 @@
 <template>
-  <div class="my-2 flex justify-between">
+  <div class="flex justify-between py-2">
     <div class="flex items-center">
       <div class="mr-6">
         <img src="~/assets/images/logo.svg" alt="" class="w-[70.27px]" />
@@ -13,11 +13,15 @@
       </div>
     </div>
     <div>
-      <ul class="flex space-x-6 items-center">
-        <li>Request A Demo</li>
-        <hr />
+      <ul class="flex space-x-4 items-center">
+        <li class="text-white">Request A Demo</li>
+        <div class="h-8 w-0.5 bg-white"></div>
         <li>
-          <button class="bg-white p-3 text-[#E4669E] font-medium">Login</button>
+          <button
+            class="bg-white px-3 py-2 text-[#E4669E] font-medium rounded-lg"
+          >
+            Login
+          </button>
         </li>
       </ul>
     </div>

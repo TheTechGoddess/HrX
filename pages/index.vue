@@ -1,5 +1,6 @@
 <template>
-  <div class="px-16 bg-red-200">
+  <div class="px-16">
     <LandingNavbar />
+    <LandingHero />
   </div>
 </template>
