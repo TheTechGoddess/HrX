@@ -1,7 +1,7 @@
 <template>
   <div class="py-12 flex justify-between">
     <div class="text-[#182233] w-[50%] mt-3">
-      <h1 class="text-[52px] font-semibold">Simplify HRM, Amplify results</h1>
+      <h1 class="text-[52px] font-bold">Simplify HRM, Amplify results</h1>
       <p class="text-base font-medium my-2 mb-6">
         Unlock your team’s potential, one solution at a time. Elevate efficiency
         in your organization with HRX today!

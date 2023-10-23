@@ -18,7 +18,7 @@
         <div class="h-8 w-0.5 bg-white"></div>
         <li>
           <button
-            class="bg-white px-3 py-2 text-[#E4669E] font-medium rounded-lg"
+            class="bg-white px-4 py-2 text-[#E4669E] font-medium rounded-lg"
           >
             Login
           </button>
