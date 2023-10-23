@@ -6,15 +6,15 @@
       </div>
       <div>
         <ul class="hidden lg:flex space-x-6">
-          <li class="text-[#182233]">About Us</li>
-          <li class="text-[#182233]">Pricing</li>
-          <li class="text-[#182233]">Contact us</li>
+          <li class="text-[#182233] cursor-pointer">About Us</li>
+          <li class="text-[#182233] cursor-pointer">Pricing</li>
+          <li class="text-[#182233] cursor-pointer">Contact us</li>
         </ul>
       </div>
     </div>
     <div>
       <ul class="flex space-x-4 items-center">
-        <li class="text-white">Request A Demo</li>
+        <li class="text-white cursor-pointer">Request A Demo</li>
         <div class="h-8 w-0.5 bg-white"></div>
         <li>
           <button
