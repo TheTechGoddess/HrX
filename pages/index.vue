@@ -1,17 +1,17 @@
 <template>
   <div class="">
-    <div class="h-screen bg-[#F6FDF8] px-16">
+    <div class="lg:h-screen bg-[#F6FDF8] px-4 md:px-8 lg:px-16">
       <LandingNavbar />
       <LandingHero />
     </div>
     <div class="">
-      <LandingCompanies class="bg-white px-16" />
-      <LandingTestimonials class="bg-[#FCF7FF] px-16" />
-      <LandingTeams class="bg-white px-16 py-8" />
+      <LandingCompanies class="bg-white px-4 md:px-8 lg:px-16" />
+      <LandingTestimonials class="bg-[#FCF7FF] px-4 md:px-8 lg:px-16" />
+      <LandingTeams class="bg-white px-4 md:px-8 lg:px-16 py-8" />
       <LandingReady
-        class="bg-gradient-to-r from-pink-300 via-green-200 via-purple-200 to-blue-100 px-16"
+        class="bg-gradient-to-r from-pink-300 via-green-200 via-purple-200 to-blue-100 px-4 md:px-8 lg:px-16"
       />
-      <LandingFooter class="bg-white px-16 pt-20 pb-6" />
+      <LandingFooter class="bg-white px-4 md:px-8 lg:px-16 pt-20 pb-6" />
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="bg-[#FEFDF2] flex flex-col relative rounded-2xl pb-3">
+    <div class="bg-[#FEFDF2] w-full flex flex-col relative rounded-2xl pb-3">
       <h1
         class="text-[40px] px-6 font-semibold my-10 text-center text-[#182233]"
       >
@@ -13,7 +13,7 @@
             :key="index"
             @click="activeButton = index"
             :class="{
-              'px-5 py-2.5 mx-10 text-small-normal': true,
+              'px-5 py-2.5 md:mx-5 lg:mx-10 text-small-normal': true,
               'text-primary-blue border-b-2 border-b-[#E4669E]':
                 activeButton === index,
               'text-light-text': activeButton !== index,
@@ -24,8 +24,8 @@
         </div>
       </div>
       <div>
-        <div v-if="activeButton === 0" class="flex justify-between">
-          <div class="w-[50%] flex flex-col px-6">
+        <div v-if="activeButton === 0" class="lg:flex justify-between">
+          <div class="w-full lg:w-[50%] flex flex-col px-6">
             <h1
               class="text-[#39404F] font-semibold text-[32px] mt-3 self-start"
             >
@@ -33,19 +33,31 @@
             </h1>
             <hr class="w-[45%] bg-[#757C86] my-6" />
             <div class="flex">
-              <img src="~/assets/images/check.svg" alt="" />
+              <img
+                src="~/assets/images/check.svg"
+                alt=""
+                class="-mt-7 md:mt-0"
+              />
               <p class="text-xl text-[#757C86]">
                 Gain valuable insights into your workforce.
               </p>
             </div>
             <div class="flex my-5">
-              <img src="~/assets/images/check.svg" alt="" />
+              <img
+                src="~/assets/images/check.svg"
+                alt=""
+                class="-mt-7 md:mt-0"
+              />
               <p class="text-xl text-[#757C86]">
                 Make data driven decisions for HR strategy.
               </p>
             </div>
             <div class="flex">
-              <img src="~/assets/images/check.svg" alt="" />
+              <img
+                src="~/assets/images/check.svg"
+                alt=""
+                class="-mt-7 md:mt-0"
+              />
               <p class="text-xl text-[#757C86]">
                 Predict and plan for future staffing needs.
               </p>
@@ -56,7 +68,7 @@
               </button>
             </div>
           </div>
-          <div class="w-[50%]">
+          <div class="hidden lg:flex lg:flex-col w-full lg:w-[50%]">
             <div
               class="bg-[url('~/assets/images/design.svg')] bg-cover bg-top-right px-6"
             >

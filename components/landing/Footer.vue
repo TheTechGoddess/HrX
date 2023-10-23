@@ -1,6 +1,6 @@
 <template>
-  <div class="pt-20">
-    <div class="flex justify-between">
+  <div class="pt-8 md:pt-12 lg:pt-20">
+    <div class="md:flex md:justify-between space-y-10 md:space-y-0">
       <div class="text-[#585E6C] text-lg">
         <img src="~/assets/images/logo.svg" alt="" class="w-[70.27px]" />
       </div>
@@ -46,13 +46,13 @@
         <img src="~/assets/images/yt.svg" alt="" />
       </div>
     </div>
-    <hr class="w-[100vh + 32px] -ml-16 -mr-16 my-4" />
-    <div class="flex justify-between items-center">
+    <hr class="w-full md:w-[100vh + 32px] md:-ml-16 md:-mr-16 my-4" />
+    <div class="md:flex justify-between items-center">
       <div class="flex space-x-2 items-center">
         <img src="~/assets/images/copywrite.svg" alt="" class="-mt-1" />
         <p>2023 HRX Corporation. All rights reserved.</p>
       </div>
-      <div class="flex space-x-5">
+      <div class="flex space-x-5 justify-center md:justify-end mt-2 md:mt-0">
         <p>Privacy policy</p>
         <p>Teams</p>
         <p>Legal</p>
