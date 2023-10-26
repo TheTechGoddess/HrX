@@ -18,13 +18,6 @@
         <p>Brand Kit</p>
       </div>
       <div class="space-y-4">
-        <p class="text-[rgb(24,34,51)] font-medium">Resources</p>
-        <p>Blog</p>
-        <p>Media</p>
-        <p>Ebooks</p>
-        <p>Brand Kit</p>
-      </div>
-      <div class="space-y-4">
         <p class="text-[#182233] font-medium">More</p>
         <p>Partner Program</p>
         <p>Customer Stories</p>

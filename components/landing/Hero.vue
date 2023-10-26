@@ -7,7 +7,7 @@
         in your organization with HRX today!
       </p>
       <button class="text-white px-3 py-2 bg-[#E4669E] font-medium rounded-lg">
-        Sign up, it’s free
+        Get Started
       </button>
       <div class="mt-12 flex">
         <img src="~/assets/images/star.svg" alt="" />
