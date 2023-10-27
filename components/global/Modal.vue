@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal z-10">
     <slot></slot>
   </div>
 </template>
