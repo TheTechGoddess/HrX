@@ -1,7 +1,9 @@
 <template>
   <div>
     <Modal :visible="showModal">
-      <div class="bg-white flex flex-col py-6 px-8 rounded-lg w-[650px]">
+      <div
+        class="bg-white flex flex-col py-6 px-8 rounded-lg w-[400px] md:w-[500px] lg:w-[650px]"
+      >
         <img
           src="~/assets/images/close.svg"
           alt=""
@@ -13,7 +15,7 @@
             <h1 class="text-xl text-[#182233] font-medium mb-2">
               Invite Employees
             </h1>
-            <p class="text-[#585E6C] w-[550px]">
+            <p class="text-[#585E6C] lg:w-[550px]">
               Based on the plan you chose ({{ selectedPlanName }}) you can
               {{ inviteMessage }}
               {{ selectedPlanMaxEmployees }}

@@ -1,5 +1,5 @@
 <template>
-  <div class="py-10 xl:pl-28 pl-20 bg-[#FFF]">
+  <div class="py-10 xl:pl-28 lg:pl-20 bg-[#FFF] px-6 lg:px-0">
     <img src="~/assets/images/logo.svg" alt="" class="w-[70.27px]" />
     <div class="mt-16">
       <h1 class="text-2xl text-[#182233] font-semibold">
@@ -10,7 +10,7 @@
       </p>
       <form
         action=""
-        class="my-3 text-[#39404F] mr-48 placeholder:text-[#CFD0D0]"
+        class="my-3 text-[#39404F] md:mr-48 placeholder:text-[#CFD0D0]"
       >
         <div class="py-3">
           <label for="">Upload image</label>

@@ -1,8 +1,8 @@
 <!-- layouts/auth.vue -->
 <template>
   <div class="flex justify-between">
-    <div class="w-[50%]"><slot></slot></div>
-    <div class="w-[50%]">
+    <div class="md:w-[50%]"><slot></slot></div>
+    <div class="md:w-[50%] hidden md:flex">
       <LayoutAuthSidebarLogin />
     </div>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="py-10 pl-20 bg-[#fff]">
+  <div class="py-10 xl:pl-28 lg:pl-20 bg-[#FFF] px-6 lg:px-0">
     <img src="~/assets/images/logo.svg" alt="" class="w-[70.27px]" />
     <LayoutProgressBar />
     <div>
@@ -9,7 +9,7 @@
       </p>
     </div>
     <!-- plans -->
-    <div class="my-10 mr-36">
+    <div class="my-10 lg:mr-36">
       <div
         v-for="plan in plans"
         :key="plan.id"

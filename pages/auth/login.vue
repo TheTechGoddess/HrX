@@ -1,14 +1,14 @@
 <template>
-  <div class="py-10 xl:pl-28 pl-20 bg-[#FFF]">
+  <div class="py-10 xl:pl-28 md:pl-20 bg-[#FFF] px-6 md:px-0">
     <img src="~/assets/images/logo.svg" alt="" class="w-[70.27px]" />
     <div class="mt-16">
       <h1 class="text-2xl text-[#182233] font-semibold">Log in</h1>
       <p class="text-[#585E6C]">Please ensure to input right details</p>
       <form
         action=""
-        class="my-8 text-[#39404F] mr-48 placeholder:text-[#CFD0D0]"
+        class="my-8 text-[#39404F] w-full md:mr-40 placeholder:text-[#CFD0D0]"
       >
-        <div class="py-3 flex flex-col">
+        <div class="py-3 flex flex-col w-full">
           <label for=""> Email Address *</label>
           <input
             type="text"
@@ -89,10 +89,5 @@ import { ref } from "vue";
 definePageMeta({
   layout: "authlogin",
 });
-const isChecked = ref(false);
-const toggleCheckbox = () => {
-  isChecked.value = !isChecked.value;
-};
 const showPassword = ref(false);
-const showConfirmPassword = ref(false);
 </script>
