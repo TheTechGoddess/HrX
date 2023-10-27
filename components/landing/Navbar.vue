@@ -17,11 +17,13 @@
         <li class="text-white cursor-pointer">Request A Demo</li>
         <div class="h-8 w-0.5 bg-white"></div>
         <li>
-          <button
-            class="bg-white px-4 py-2 text-[#E4669E] font-medium rounded-lg"
+          <nuxt-link to="/auth/login">
+            <button
+              class="bg-white px-4 py-2 text-[#E4669E] font-medium rounded-lg"
+            >
+              Login
+            </button></nuxt-link
           >
-            Login
-          </button>
         </li>
       </ul>
     </div>

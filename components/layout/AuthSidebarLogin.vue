@@ -7,8 +7,10 @@
         <p>{{ sidebarDescription }}</p> -->
       <h1 class="text-3xl text-[#182233] font-semibold">Welcome!!!</h1>
       <p class="text-[#585E6C] font-medium my-4">
-        If you have an account with us already,
-        <span class="text-[#E4669E]">Sign Up</span>
+        If you don't have an account with us already,
+        <nuxt-link to="/auth/company-signup">
+          <span class="text-[#E4669E]">Sign Up</span></nuxt-link
+        >
       </p>
       <img src="~/assets/images/hero_image.svg" alt="" class="w-96" />
       <!-- <p class="text-center">{{ sidebarText }}</p> -->

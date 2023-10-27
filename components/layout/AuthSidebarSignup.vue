@@ -10,7 +10,9 @@
       </h1>
       <p class="text-[#585E6C] font-medium my-4">
         If you have an account with us already,
-        <span class="text-[#E4669E]">Log in</span>
+        <nuxt-link to="/auth/login">
+          <span class="text-[#E4669E]">Log in</span></nuxt-link
+        >
       </p>
       <img src="~/assets/images/hero_image.svg" alt="" class="w-96" />
       <!-- <p class="text-center">{{ sidebarText }}</p> -->

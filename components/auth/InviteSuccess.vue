@@ -15,7 +15,7 @@
           All processes have been completed successfully
         </p>
         <div class="mt-6">
-          <nuxt-link to="">
+          <nuxt-link to="/auth/login">
             <button
               type="submit"
               class="py-4 rounded-lg font-medium px-16 bg-[#E4669E] text-white"
