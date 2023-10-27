@@ -63,9 +63,11 @@
               </p>
             </div>
             <div class="my-5">
-              <button class="bg-[#E4669E] text-white py-3 px-4 rounded-lg">
-                Get Started
-              </button>
+              <nuxt-link to="/auth/company-signup">
+                <button class="bg-[#E4669E] text-white py-3 px-4 rounded-lg">
+                  Get Started
+                </button>
+              </nuxt-link>
             </div>
           </div>
           <div class="hidden lg:flex lg:flex-col w-full lg:w-[50%]">

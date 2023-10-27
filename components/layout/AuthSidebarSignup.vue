@@ -1,7 +1,7 @@
 <template>
   <div class="relative bg-[url('~/assets/images/auth-bg.svg')] h-full py-5">
     <div
-      class="bg-[url('~/assets/images/auth-bg.svg')] fixed border-2 custom-border rounded-lg shadow-2xl mx-16 px-10 mr-20 py-10 flex flex-col justify-center items-center"
+      class="bg-[url('~/assets/images/auth-bg.svg')] fixed border-2 custom-border rounded-lg shadow-2xl xl:ml-8 ml-10 px-10 mr-20 w-[40%] py-10 flex flex-col justify-center items-center"
     >
       <!-- <h1>{{ sidebarTitle }}</h1>
       <p>{{ sidebarDescription }}</p> -->
@@ -21,18 +21,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-// Props for the AuthSidebar
-const { sidebarTitle, sidebarDescription, sidebarText } = defineProps({
-  sidebarTitle: String,
-  sidebarDescription: String,
-  sidebarText: String,
-});
-console.log("sidebarTitle:", sidebarTitle);
-console.log("sidebarDescription:", sidebarDescription);
-console.log("sidebarText:", sidebarText);
-</script>
 <style scoped>
 .custom-border {
   border: 2px solid rgba(228, 102, 158, 0.1); /* Replace with your own color and opacity values */

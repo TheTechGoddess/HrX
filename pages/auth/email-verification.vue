@@ -44,12 +44,14 @@
       </div>
       <p class="text-[#E4669E] font-medium mt-16">Resend code</p>
       <div class="mt-4">
-        <button
-          type="submit"
-          class="py-4 rounded-lg font-medium px-16 bg-[#DFE1E4] text-white"
-        >
-          Verify
-        </button>
+        <nuxt-link to="/auth/select-plan">
+          <button
+            type="submit"
+            class="py-4 rounded-lg font-medium px-16 bg-[#DFE1E4] text-white"
+          >
+            Verify
+          </button>
+        </nuxt-link>
       </div>
     </form>
   </div>
@@ -57,6 +59,6 @@
 <script setup>
 import { ref } from "vue";
 definePageMeta({
-  layout: "auth",
+  layout: "authsignup",
 });
 </script>

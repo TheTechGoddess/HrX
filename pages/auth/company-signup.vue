@@ -1,5 +1,5 @@
 <template>
-  <div class="py-10 pl-20 bg-[#FFF]">
+  <div class="py-10 xl:pl-28 pl-20 bg-[#FFF]">
     <img src="~/assets/images/logo.svg" alt="" class="w-[70.27px]" />
     <LayoutProgressBar />
     <div>
@@ -188,12 +188,14 @@
           >
         </div>
         <div class="mt-6">
-          <button
-            type="submit"
-            class="py-4 rounded-lg font-medium px-16 bg-[#DFE1E4] text-white"
-          >
-            Register
-          </button>
+          <nuxt-link to="/auth/email-verification">
+            <button
+              type="submit"
+              class="py-4 rounded-lg font-medium px-16 bg-[#DFE1E4] text-white"
+            >
+              Register
+            </button>
+          </nuxt-link>
         </div>
       </form>
     </div>
@@ -201,8 +203,9 @@
 </template>
 <script setup>
 import { ref } from "vue";
+
 definePageMeta({
-  layout: "auth",
+  layout: "authsignup",
 });
 const isChecked = ref(false);
 const toggleCheckbox = () => {

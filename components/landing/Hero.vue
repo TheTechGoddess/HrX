@@ -6,9 +6,14 @@
         Unlock your team’s potential, one solution at a time. Elevate efficiency
         in your organization with HRX today!
       </p>
-      <button class="text-white px-3 py-2 bg-[#E4669E] font-medium rounded-lg">
-        Get Started
-      </button>
+      <nuxt-link to="/auth/company-signup">
+        <button
+          class="text-white px-3 py-2 bg-[#E4669E] font-medium rounded-lg"
+        >
+          Get Started
+        </button>
+      </nuxt-link>
+
       <div class="mt-12 flex">
         <img src="~/assets/images/star.svg" alt="" />
         <img src="~/assets/images/star.svg" alt="" />

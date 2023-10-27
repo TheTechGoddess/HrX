@@ -43,19 +43,23 @@
         </div>
       </div>
     </div>
-    <invite-employees v-if="showInviteModal" @close="showInviteModal = false" />
+    <invite-employees v-if="showInviteModal" @close="closeInviteModal" />
+    <InviteSuccess v-if="showInviteSuccess" />
   </div>
 </template>
 <script setup>
 import InviteEmployees from "@/components/auth/InviteEmployees.vue";
+import InviteSuccess from "@/components/auth/InviteSuccess.vue";
 import free from "~/assets/images/free.svg";
 import purple from "~/assets/images/purple.svg";
 import blue from "~/assets/images/blue.svg";
 import { ref } from "vue";
 definePageMeta({
-  layout: "auth",
+  layout: "authsignup",
 });
 const showInviteModal = ref(false);
+const showInviteSuccess = ref(true);
+
 const plans = ref([
   {
     id: 1,
@@ -89,6 +93,10 @@ const selectPlan = (plan) => {
   localStorage.setItem("selectedPlanName", plan.name);
   localStorage.setItem("selectedPlanMaxEmployees", plan.maxEmployees);
   showInviteModal.value = true;
+};
+const closeInviteModal = () => {
+  showInviteModal.value = false;
+  showInviteSuccess.value = true;
 };
 </script>
 <style scoped>
