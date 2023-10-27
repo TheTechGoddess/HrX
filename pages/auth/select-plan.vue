@@ -58,7 +58,7 @@ definePageMeta({
   layout: "authsignup",
 });
 const showInviteModal = ref(false);
-const showInviteSuccess = ref(true);
+const showInviteSuccess = ref(false);
 
 const plans = ref([
   {
