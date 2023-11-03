@@ -419,6 +419,8 @@ const register = async () => {
     if (!response.error) {
       console.log("Registration successful:", response);
       const companyId = response.data._id;
+      const email = response.data.companyEmail;
+      localStorage.setItem("email", email);
       router.push(`/auth/email-verification/${companyId}`);
     } else {
       console.error("Registration error:", response.error);

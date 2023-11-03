@@ -165,3 +165,17 @@ const submitButton = (event) => {
   showInviteSuccess.value = true;
 };
 </script>
+<style>
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotate 2s linear infinite;
+}
+</style>

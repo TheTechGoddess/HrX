@@ -80,6 +80,9 @@
           <p v-if="errors.email" class="text-[#FF4B41] text-xs mt-1">
             {{ errors.email }}
           </p>
+          <p v-if="errors.login" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.login }}
+          </p>
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Password *</label>
@@ -161,6 +164,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { login } from "~/services/auth";
 
 definePageMeta({
   layout: "authlogin",
@@ -172,6 +176,7 @@ const email = ref("");
 const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const errors = ref({});
 const showPassword = ref(false);
+const router = useRouter();
 
 const validateForm = () => {
   errors.value = {};
@@ -198,34 +203,49 @@ const clearError = (fieldName) => {
   errors.value[fieldName] = "";
 };
 
-const login = async () => {
-  // const formData = new FormData();
-  // formData.append("companyLogo", companyLogo.value);
-  // formData.append("companyName", companyName.value);
-  // formData.append("industry", industry.value);
-  // formData.append("country", country.value);
-  // formData.append("phoneNumber", phoneNumber.value);
-  // formData.append("password", password.value);
-  // formData.append("companyEmail", companyEmail.value);
-  // try {
-  //   loading.value = true;
-  //   const response = await registerCompany(formData);
-  //   if (!response.error) {
-  //     console.log("Registration successful:", response);
-  //     router.push("/auth/email-verification");
-  //   } else {
-  //     console.error("Registration error:", response.error);
-  //   }
-  // } catch (error) {
-  //   console.error("Unexpected error:", error);
-  // } finally {
-  //   loading.value = false;
-  // }
+const loginFunction = async () => {
+  const email = email.value;
+  const passwordValue = password.value;
+  const type = selectedRole.value;
+  console.log(email, passwordValue, type);
+
+  try {
+    loading.value = true;
+    // Call the login function to make the POST request
+    const response = await login(email, passwordValue, type);
+
+    // Handle the response as needed
+    if (response.error) {
+      // Handle the login error
+      errors.value.login = response.error;
+    } else {
+      router.push("/dashboard");
+    }
+  } catch (error) {
+    // Handle unexpected errors
+    errors.value.login = "An unexpected error occurred: " + error;
+  } finally {
+    loading.value = false;
+  }
 };
 
 const handleSubmit = () => {
   if (validateForm()) {
-    login();
+    loginFunction();
   }
 };
 </script>
+<style>
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotate 2s linear infinite;
+}
+</style>

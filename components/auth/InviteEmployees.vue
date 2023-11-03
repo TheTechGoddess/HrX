@@ -23,20 +23,27 @@
             </p>
           </div>
 
-          <form action="" class="mt-10">
+          <form @submit.prevent="inviteEmployeesSubmit" class="mt-10">
             <p>Employee(s)’s work emails</p>
             <textarea
-              name=""
-              id=""
+              v-model="emailAddresses"
+              name="emailAddresses"
               cols="30"
               rows="5"
               class="border mt-3 w-full border-[#CFD0D0] rounded-lg placeholder:text-[#CFD0D0] px-4 py-3 focus:outline-none"
-              placeholder="Enter employees active email address"
+              :class="{ 'border border-[#FF4B41]': errorMessage }"
+              placeholder="Enter employees' active email addresses"
             ></textarea>
+            <p v-if="errorMessage" class="text-[#FF4B41]">{{ errorMessage }}</p>
             <div class="flex justify-end mt-6">
-              <button class="py-4 rounded-lg font-medium px-16 text-[#E4669E]">
-                Skip
-              </button>
+              <nuxt-link to="/auth/login">
+                <button
+                  class="py-4 rounded-lg font-medium px-16 text-[#E4669E]"
+                >
+                  Skip
+                </button></nuxt-link
+              >
+
               <button
                 type="submit"
                 class="py-4 rounded-lg font-medium px-16 bg-[#E4669E] text-white"
@@ -48,37 +55,60 @@
         </div>
       </div>
     </Modal>
+    <InviteSuccess v-if="showInviteSuccess" />
   </div>
 </template>
 
-<script>
+<script setup>
 import Modal from "@/components/global/Modal.vue";
+import { ref, onMounted, nextTick, computed } from "vue";
+import { inviteEmployees } from "~/services/auth";
+import InviteSuccess from "@/components/auth/InviteSuccess.vue";
 
-export default {
-  components: {
-    Modal,
-  },
-  data() {
-    return {
-      showModal: false,
-    };
-  },
-  created() {
-    // Retrieve values from localStorage and set them to data properties
-    this.selectedPlanName =
-      localStorage.getItem("selectedPlanName") || "Default Plan";
-    this.selectedPlanMaxEmployees =
-      localStorage.getItem("selectedPlanMaxEmployees") || 0;
-  },
-  computed: {
-    inviteMessage() {
-      // Check if selectedPlanMaxEmployees is Infinity, and modify the text accordingly
-      if (this.selectedPlanMaxEmployees === "Infinity") {
-        return "";
-      } else {
-        return "only invite up to";
-      }
-    },
-  },
+// Data properties
+const showModal = ref(false);
+const showInviteSuccess = ref(false);
+let emailAddresses = "";
+let errorMessage = "";
+
+// Computed property
+const selectedPlanName =
+  localStorage.getItem("selectedPlanName") || "Default Plan";
+const selectedPlanMaxEmployees =
+  localStorage.getItem("selectedPlanMaxEmployees") || 0;
+
+const inviteMessage = computed(() => {
+  if (selectedPlanMaxEmployees === "Infinity") {
+    return "";
+  } else {
+    return "only invite up to";
+  }
+});
+
+// Methods
+const inviteEmployeesSubmit = async () => {
+  const emails = emailAddresses
+    .split(",")
+    .map((email) => email.trim())
+    .filter((email) => email !== "");
+  console.log(emails);
+  if (emails.length === 0) {
+    errorMessage = "Please enter at least one email address.";
+    console.log(errorMessage);
+    return;
+  }
+
+  try {
+    const response = await inviteEmployees(emails);
+
+    if (response.error) {
+      errorMessage = response.error;
+    } else {
+      showModal.value = false;
+      showInviteSuccess.value = true;
+    }
+  } catch (error) {
+    errorMessage = "An unexpected error occurred: " + error;
+  }
 };
 </script>

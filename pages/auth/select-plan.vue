@@ -44,12 +44,10 @@
       </div>
     </div>
     <invite-employees v-if="showInviteModal" @close="closeInviteModal" />
-    <InviteSuccess v-if="showInviteSuccess" />
   </div>
 </template>
 <script setup>
 import InviteEmployees from "@/components/auth/InviteEmployees.vue";
-import InviteSuccess from "@/components/auth/InviteSuccess.vue";
 import { selectPlan } from "~/services/auth";
 import free from "~/assets/images/free.svg";
 import purple from "~/assets/images/purple.svg";
@@ -59,7 +57,6 @@ definePageMeta({
   layout: "authsignup",
 });
 const showInviteModal = ref(false);
-const showInviteSuccess = ref(false);
 
 const plans = ref([
   {
@@ -140,5 +137,17 @@ const closeInviteModal = () => {
 }
 .mt-40 {
   margin-top: 54px;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotate 2s linear infinite;
 }
 </style>
