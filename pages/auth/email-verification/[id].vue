@@ -56,7 +56,7 @@ const router = useRouter();
 const loading = ref(false);
 const errorMessage = ref("");
 const inputError = ref(false);
-const confirmationCode = route.params.id; // Replace with your dynamic code
+const confirmationCode = route.params.id; 
 const email = localStorage.getItem("email");
 const confirmationDigits = ref(["", "", "", "", "", ""]);
 
@@ -83,7 +83,7 @@ const verifyEmail = async () => {
     const response = await confirmEmail(confirmationCode, confirmationData);
 
     if (response.error) {
-      errorMessage.value = response.error; // Use the error message from the confirmEmail function
+      errorMessage.value = response.error; 
       inputError.value = true;
     } else {
       console.log("Verification successful:", response);
@@ -93,7 +93,7 @@ const verifyEmail = async () => {
       router.push("/auth/select-plan");
     }
   } catch (error) {
-    console.error("Unexpected error:", error); // Set a generic error message
+    console.error("Unexpected error:", error); 
   } finally {
     loading.value = false;
   }

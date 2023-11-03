@@ -12,7 +12,7 @@
       @submit.prevent="verifyEmail"
       class="my-3 mt-16 text-[#39404F]"
     >
-      <div class="flex justify-between w-full lg:mr-40">
+      <div class="flex justify-between  md:mr-40">
         <input
           v-for="index in 6"
           :key="index"

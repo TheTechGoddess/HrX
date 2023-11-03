@@ -5,7 +5,7 @@
         class="bg-white flex flex-col justify-center p-10 rounded-lg text-center w-[400px]"
       >
         <img
-          src="~/assets/images/success_check.svg"
+          src="~/assets/images/email.svg"
           alt=""
           class="self-center cursor-pointer w-12"
           @click="$emit('close')"
@@ -40,23 +40,6 @@ export default {
     return {
       showModal: false,
     };
-  },
-  created() {
-    // Retrieve values from localStorage and set them to data properties
-    this.selectedPlanName =
-      localStorage.getItem("selectedPlanName") || "Default Plan";
-    this.selectedPlanMaxEmployees =
-      localStorage.getItem("selectedPlanMaxEmployees") || 0;
-  },
-  computed: {
-    inviteMessage() {
-      // Check if selectedPlanMaxEmployees is Infinity, and modify the text accordingly
-      if (this.selectedPlanMaxEmployees === "Infinity") {
-        return "";
-      } else {
-        return "only invite up to";
-      }
-    },
   },
 };
 </script>

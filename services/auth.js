@@ -218,7 +218,7 @@ export async function confirmEmployee(employeeId, confirmationCode) {
 }
 
 export async function resetPassword(email) {
-  const url = useRuntimeConfig(); 
+  const url = useRuntimeConfig();
   const baseUrl = url.public.baseUrl;
   const endpoint = "/api/v1/registeration/reset-password";
 
@@ -236,12 +236,48 @@ export async function resetPassword(email) {
     } else {
       const errorResponse = await response.json();
       return {
-        error: errorResponse.error || "An error occurred while resetting the password.",
+        error:
+          errorResponse.error ||
+          "An error occurred while resetting the password.",
       };
     }
   } catch (error) {
     return {
       error: "An unexpected error occurred while resetting the password.",
+    };
+  }
+}
+
+export async function registerEmployee(formData) {
+  console.log(formData);
+  const url = useRuntimeConfig();
+  const baseUrl = url.public.baseUrl;
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(
+      `${baseUrl}/api/v1/registeration/employee/set-data`,
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      // If the request is successful, parse the response as JSON
+      return await response.json();
+    } else {
+      // If there's an error, handle it or return an error message
+      return { error: "An error occurred while registering the company." };
+    }
+  } catch (error) {
+    // Handle any unexpected errors
+    return {
+      error: "An unexpected error occurred while registering the company.",
     };
   }
 }

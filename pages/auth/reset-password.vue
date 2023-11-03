@@ -45,11 +45,13 @@
         </div>
       </form>
     </div>
+    <check-mail v-if="showCheckMail" />
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import { resetPassword } from "~/services/auth";
+import CheckMail from "@/components/auth/CheckMail.vue";
 
 definePageMeta({
   layout: "authsignup",
@@ -59,6 +61,7 @@ const email = ref("");
 const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const errors = ref({});
 const router = useRouter();
+const showCheckMail = ref(false);
 
 const validateForm = () => {
   errors.value = {};
@@ -82,19 +85,18 @@ const clearError = (fieldName) => {
 const forgetPassword = async () => {
   try {
     loading.value = true;
-    const response = await resetPassword(email);
+    const response = await resetPassword(email.value);
 
     if (response.error) {
-      errors.login = response.error; // Set the error message from the resetPassword function
+      errors.value.login = response.error; // Set the error message from the resetPassword function
     } else {
       // Handle success, you can show a message to the user
       console.log("Password reset request successful:", response);
-      // Optionally, you can navigate to another page or display a success message.
-      router.push("/auth/login"); // Redirect to a success page
+      showCheckMail.value = true;
     }
   } catch (error) {
     console.error("Unexpected error:", error); // Set a generic error message
-    errors.login = "An unexpected error occurred while resetting the password.";
+    errors.value.login = "An unexpected error occurred: " + error;
   } finally {
     loading.value = false;
   }
