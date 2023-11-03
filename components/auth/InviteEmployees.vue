@@ -38,7 +38,6 @@
                 Skip
               </button>
               <button
-                @click="$emit('close')"
                 type="submit"
                 class="py-4 rounded-lg font-medium px-16 bg-[#E4669E] text-white"
               >

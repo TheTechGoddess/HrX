@@ -6,15 +6,80 @@
       <p class="text-[#585E6C]">Please ensure to input right details</p>
       <form
         action=""
-        class="my-8 text-[#39404F] w-full md:mr-40 placeholder:text-[#CFD0D0]"
+        @submit.prevent="handleSubmit"
+        class="my-8 text-[#39404F] lg:mr-40 placeholder:text-[#CFD0D0]"
       >
+        <div class="mb-3">
+          <div class="flex items-center mt-2 mb-1">
+            <input
+              type="radio"
+              id="companyCheckbox"
+              class="hidden"
+              v-model="selectedRole"
+              value="Company"
+            />
+            <label
+              for="companyCheckbox"
+              class="relative cursor-pointer select-none"
+            >
+              <div
+                class="w-4 h-4 border border-[#182233] rounded-full flex items-center justify-center"
+              >
+                <div
+                  class="w-2.5 h-2.5 rounded-full flex items-center justify-center"
+                  :class="{
+                    'bg-[#E4669E]': selectedRole === 'Company',
+                    'bg-transparent': selectedRole !== 'Company',
+                  }"
+                ></div>
+              </div>
+            </label>
+            <span class="ml-2 text-[#39404F] font-normal">Company</span>
+          </div>
+
+          <div class="flex items-center mt-2 mb-1">
+            <input
+              type="radio"
+              id="employeeCheckbox"
+              class="hidden"
+              v-model="selectedRole"
+              value="Employee"
+            />
+            <label
+              for="employeeCheckbox"
+              class="relative cursor-pointer select-none"
+            >
+              <div
+                class="w-4 h-4 border border-[#182233] rounded-full flex items-center justify-center"
+              >
+                <div
+                  class="w-2.5 h-2.5 rounded-full flex items-center justify-center"
+                  :class="{
+                    'bg-[#E4669E]': selectedRole === 'Employee',
+                    'bg-transparent': selectedRole !== 'Employee',
+                  }"
+                ></div>
+              </div>
+            </label>
+            <span class="ml-2 text-[#39404F] font-normal">Employee</span>
+          </div>
+          <p v-if="errors.selectedRole" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.selectedRole }}
+          </p>
+        </div>
         <div class="py-3 flex flex-col w-full">
           <label for=""> Email Address *</label>
           <input
             type="text"
             class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
             placeholder="Enter your  email address"
+            v-model="email"
+            :class="{ 'border border-[#FF4B41]': errors.email }"
+            @input="clearError('email')"
           />
+          <p v-if="errors.email" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.email }}
+          </p>
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Password *</label>
@@ -23,6 +88,9 @@
               :type="showPassword ? 'text' : 'password'"
               class="bg-[#F7F8FA] px-4 py-4 mt-2 w-full rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
               placeholder="Enter password"
+              v-model="password"
+              :class="{ 'border border-[#FF4B41]': errors.password }"
+              @input="clearError('password')"
             />
             <i
               @click="showPassword = !showPassword"
@@ -65,19 +133,27 @@
               </svg>
             </i>
           </div>
+          <p v-if="errors.password" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.password }}
+          </p>
         </div>
         <div class="flex items-center mt-2 mb-1">
           <p class="text-[#E4669E] font-medium">Forgot password</p>
         </div>
         <div class="mt-10">
-          <nuxt-link to="/auth/email-verification">
-            <button
-              type="submit"
-              class="py-4 rounded-lg font-medium px-16 bg-[#DFE1E4] text-white"
-            >
-              Log in
-            </button>
-          </nuxt-link>
+          <button
+            type="submit"
+            class="py-4 rounded-lg flex font-medium px-16 text-white"
+            :class="isFormValid ? 'bg-[#E4669E]' : 'bg-[#DFE1E4]'"
+          >
+            <p>Log In</p>
+            <img
+              v-if="loading"
+              src="~/assets/images/loading.svg"
+              alt=""
+              class="ml-2 rotating"
+            />
+          </button>
         </div>
       </form>
     </div>
@@ -89,5 +165,67 @@ import { ref } from "vue";
 definePageMeta({
   layout: "authlogin",
 });
+const loading = ref(false);
+const selectedRole = ref("");
+const password = ref("");
+const email = ref("");
+const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+const errors = ref({});
 const showPassword = ref(false);
+
+const validateForm = () => {
+  errors.value = {};
+  if (selectedRole.value !== "Company" && selectedRole.value !== "Employee") {
+    errors.value.selectedRole = "Please select between Company and Employee";
+  }
+  if (!email.value.trim()) {
+    errors.value.email = "Email address is required.";
+  } else if (!emailPattern.test(email.value)) {
+    errors.value.email =
+      "Invalid email format. Please enter a valid email address.";
+  }
+  if (!password.value.trim()) {
+    errors.value.password = "Password is required";
+  }
+  return Object.keys(errors.value).length === 0;
+};
+
+const isFormValid = computed(() => {
+  return Object.keys(errors.value).length === 0;
+});
+
+const clearError = (fieldName) => {
+  errors.value[fieldName] = "";
+};
+
+const login = async () => {
+  // const formData = new FormData();
+  // formData.append("companyLogo", companyLogo.value);
+  // formData.append("companyName", companyName.value);
+  // formData.append("industry", industry.value);
+  // formData.append("country", country.value);
+  // formData.append("phoneNumber", phoneNumber.value);
+  // formData.append("password", password.value);
+  // formData.append("companyEmail", companyEmail.value);
+  // try {
+  //   loading.value = true;
+  //   const response = await registerCompany(formData);
+  //   if (!response.error) {
+  //     console.log("Registration successful:", response);
+  //     router.push("/auth/email-verification");
+  //   } else {
+  //     console.error("Registration error:", response.error);
+  //   }
+  // } catch (error) {
+  //   console.error("Unexpected error:", error);
+  // } finally {
+  //   loading.value = false;
+  // }
+};
+
+const handleSubmit = () => {
+  if (validateForm()) {
+    login();
+  }
+};
 </script>

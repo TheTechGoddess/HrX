@@ -11,15 +11,41 @@
       </p>
       <form
         action=""
-        class="my-3 text-[#39404F] md:mr-48 placeholder:text-[#CFD0D0]"
+        @submit.prevent="handleSubmit"
+        class="my-3 text-[#39404F] lg:mr-40 placeholder:text-[#CFD0D0]"
       >
         <div class="py-3">
-          <label for="">Upload company’s logo *</label>
+          <label for="logo">Upload company’s logo *</label>
           <div
-            class="mt-2 w-12 h-12 rounded-full bg-[#F7F8FA] flex justify-center"
+            class="mt-2 w-12 h-12 rounded-full items-center bg-[#F7F8FA] flex justify-center"
+            :class="{ 'border border-[#FF4B41]': errors.companyLogo }"
+            @input="clearError('companyLogo')"
           >
-            <img src="~/assets/images/add.svg" alt="" class="w-4" />
+            <input
+              type="file"
+              id="logo"
+              accept="image/*"
+              @change="handleLogoUpload"
+              class="hidden"
+            />
+            <label for="logo" class="cursor-pointer">
+              <img
+                v-if="logoPreview"
+                :src="logoPreview"
+                alt="Company Logo"
+                class="w-12 h-12 rounded-full"
+              />
+              <img
+                v-else
+                src="~/assets/images/add.svg"
+                alt="Add Logo"
+                class="w-4"
+              />
+            </label>
           </div>
+          <p v-if="errors.companyLogo" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.companyLogo }}
+          </p>
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Company’s name *</label>
@@ -27,7 +53,13 @@
             type="text"
             class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
             placeholder="Enter your company’s name"
+            v-model="companyName"
+            :class="{ 'border border-[#FF4B41]': errors.companyName }"
+            @input="clearError('companyName')"
           />
+          <p v-if="errors.companyName" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.companyName }}
+          </p>
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Company’s Email Address *</label>
@@ -35,7 +67,13 @@
             type="text"
             class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
             placeholder="Enter your company’s email address"
+            v-model="companyEmail"
+            :class="{ 'border border-[#FF4B41]': errors.companyEmail }"
+            @input="clearError('companyEmail')"
           />
+          <p v-if="errors.companyEmail" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.companyEmail }}
+          </p>
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Industry *</label>
@@ -43,7 +81,13 @@
             type="text"
             class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
             placeholder="Enter your Industry"
+            v-model="industry"
+            :class="{ 'border border-[#FF4B41]': errors.industry }"
+            @input="clearError('industry')"
           />
+          <p v-if="errors.industry" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.industry }}
+          </p>
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Country *</label>
@@ -51,7 +95,13 @@
             type="text"
             class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
             placeholder="Select Country"
+            v-model="country"
+            :class="{ 'border border-[#FF4B41]': errors.country }"
+            @input="clearError('country')"
           />
+          <p v-if="errors.country" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.country }}
+          </p>
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Phone number *</label>
@@ -59,7 +109,13 @@
             type="text"
             class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
             placeholder="Enter your company’s name"
+            v-model="phoneNumber"
+            :class="{ 'border border-[#FF4B41]': errors.phoneNumber }"
+            @input="clearError('phoneNumber')"
           />
+          <p v-if="errors.phoneNumber" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.phoneNumber }}
+          </p>
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Password *</label>
@@ -68,6 +124,9 @@
               :type="showPassword ? 'text' : 'password'"
               class="bg-[#F7F8FA] px-4 py-4 mt-2 w-full rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
               placeholder="Password must be alphanumeric"
+              v-model="password"
+              :class="{ 'border border-[#FF4B41]': errors.password }"
+              @input="clearError('password')"
             />
             <i
               @click="showPassword = !showPassword"
@@ -110,6 +169,9 @@
               </svg>
             </i>
           </div>
+          <p v-if="errors.password" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.password }}
+          </p>
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Confirm Password *</label>
@@ -118,6 +180,9 @@
               :type="showConfirmPassword ? 'text' : 'password'"
               class="bg-[#F7F8FA] px-4 py-4 mt-2 w-full rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
               placeholder="Password must be a match"
+              v-model="confirmPassword"
+              :class="{ 'border border-[#FF4B41]': errors.confirmPassword }"
+              @input="clearError('confirmPassword')"
             />
             <i
               @click="showConfirmPassword = !showConfirmPassword"
@@ -160,6 +225,9 @@
               </svg>
             </i>
           </div>
+          <p v-if="errors.confirmPassword" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.confirmPassword }}
+          </p>
         </div>
         <div class="flex items-center mt-2 mb-1">
           <input
@@ -187,15 +255,23 @@
             <span class="text-[#182233]">Terms and Conditions</span></span
           >
         </div>
+        <p v-if="errors.isChecked" class="text-[#FF4B41] text-xs mt-1">
+          {{ errors.isChecked }}
+        </p>
         <div class="mt-6">
-          <nuxt-link to="/auth/email-verification">
-            <button
-              type="submit"
-              class="py-4 rounded-lg font-medium px-16 bg-[#DFE1E4] text-white"
-            >
-              Register
-            </button>
-          </nuxt-link>
+          <button
+            type="submit"
+            class="py-4 rounded-lg flex font-medium px-16 text-white"
+            :class="isFormValid ? 'bg-[#E4669E]' : 'bg-[#DFE1E4]'"
+          >
+            <p>Register</p>
+            <img
+              v-if="loading"
+              src="~/assets/images/loading.svg"
+              alt=""
+              class="ml-2 rotating"
+            />
+          </button>
         </div>
       </form>
     </div>
@@ -203,6 +279,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { registerCompany } from "~/services/auth";
 
 definePageMeta({
   layout: "authsignup",
@@ -211,6 +288,165 @@ const isChecked = ref(false);
 const toggleCheckbox = () => {
   isChecked.value = !isChecked.value;
 };
+const loading = ref(false);
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
+const logoFile = ref(null);
+const logoPreview = ref(null);
+const router = useRouter();
+const companyLogo = ref(null);
+const companyName = ref("");
+const industry = ref("");
+const country = ref("");
+const phoneNumber = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const companyEmail = ref("");
+const errors = ref({});
+const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+const validateForm = () => {
+  errors.value = {};
+  if (!companyLogo.value) {
+    errors.value.companyLogo = "Company Logo is required.";
+  }
+  if (!companyName.value.trim()) {
+    errors.value.companyName = "Company Name is required.";
+  }
+  if (!industry.value.trim()) {
+    errors.value.industry = "Industry is required.";
+  }
+  if (!country.value.trim()) {
+    errors.value.country = "Country is required.";
+  }
+  if (!phoneNumber.value.trim()) {
+    errors.value.phoneNumber = "Phone Number is required.";
+  }
+  if (!companyEmail.value.trim()) {
+    errors.value.companyEmail = "Email address is required.";
+  } else if (!emailPattern.test(companyEmail.value)) {
+    errors.value.companyEmail =
+      "Invalid email format. Please enter a valid email address.";
+  }
+  if (password.value.length < 8) {
+    errors.value.password =
+      "Your password must contain at least (one number, one special character, uppercase, lowercase and minimum of 8 characters)";
+  }
+  if (!/[\W_]/.test(password.value)) {
+    errors.value.password =
+      "Your password must contain at least (one number, one special character, uppercase, lowercase and minimum of 8 characters)";
+  }
+  if (!/[a-z]/.test(password.value)) {
+    errors.value.password =
+      "Your password must contain at least (one number, one special character, uppercase, lowercase and minimum of 8 characters)";
+  }
+  if (!/[A-Z]/.test(password.value)) {
+    errors.value.password =
+      "Your password must contain at least (one number, one special character, uppercase, lowercase and minimum of 8 characters)";
+  }
+  if (!/\d/.test(password.value)) {
+    errors.value.password =
+      "Your password must contain at least (one number, one special character, uppercase, lowercase and minimum of 8 characters)";
+  }
+  if (password.value !== confirmPassword.value) {
+    errors.value.confirmPassword = "Passwords do not match.";
+  }
+  if (!isChecked.value) {
+    errors.value.isChecked =
+      "Tick the box to agree to the terms and conditions.";
+  }
+  return Object.keys(errors.value).length === 0;
+};
+
+const isFormValid = computed(() => {
+  return (
+    Object.keys(errors.value).length === 0 &&
+    companyLogo.value &&
+    companyName.value.trim() !== "" &&
+    industry.value.trim() !== "" &&
+    country.value.trim() !== "" &&
+    phoneNumber.value.trim() !== "" &&
+    password.value.length >= 8 &&
+    /[\W_]/.test(password.value) &&
+    /[a-z]/.test(password.value) &&
+    /[A-Z]/.test(password.value) &&
+    /\d/.test(password.value) &&
+    password.value === confirmPassword.value &&
+    isChecked.value
+  );
+});
+
+const clearError = (fieldName) => {
+  errors.value[fieldName] = "";
+};
+const handleLogoUpload = (event) => {
+  const file = event.target.files[0];
+
+  if (file) {
+    // Check if the selected file is an image
+    if (file.type.startsWith("image/")) {
+      // Set the selected logo to the companyLogo variable
+      companyLogo.value = file;
+
+      // Read the file and set the logoPreview to show a preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        logoPreview.value = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // Display an error message or reset the input
+      alert("Please select an image file.");
+      event.target.value = null; // Reset the input
+    }
+  }
+};
+
+const register = async () => {
+  const formData = new FormData();
+  formData.append("companyLogo", companyLogo.value);
+  formData.append("companyName", companyName.value);
+  formData.append("industry", industry.value);
+  formData.append("country", country.value);
+  formData.append("phoneNumber", phoneNumber.value);
+  formData.append("password", password.value);
+  formData.append("companyEmail", companyEmail.value);
+
+  try {
+    loading.value = true;
+    const response = await registerCompany(formData);
+
+    if (!response.error) {
+      console.log("Registration successful:", response);
+      const companyId = response.data._id;
+      router.push(`/auth/email-verification/${companyId}`);
+    } else {
+      console.error("Registration error:", response.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error:", error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const handleSubmit = () => {
+  if (validateForm()) {
+    register();
+  }
+};
 </script>
+<style>
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotate 2s linear infinite;
+}
+</style>

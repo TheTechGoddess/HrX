@@ -1,8 +1,10 @@
 <template>
   <div class="">
-    <div class="lg:h-screen bg-[#F6FDF8] px-4 md:px-8 lg:px-16">
-      <LandingNavbar />
-      <LandingHero />
+    <div class="lg:h-screen bg-[#F6FDF8] relative">
+      <div class="px-4 md:px-8 lg:px-16">
+        <LandingNavbar />
+        <LandingHero />
+      </div>
     </div>
     <div class="">
       <LandingCompanies class="bg-white px-4 md:px-8 lg:px-16" />

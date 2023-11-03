@@ -13,8 +13,8 @@
       <div
         v-for="plan in plans"
         :key="plan.id"
-        class="flex justify-between w-full border-2 custom-border cursor-pointer px-6 py-3 my-8 shadow-2xl rounded-lg"
-        @click="selectPlan(plan)"
+        class="flex justify-between w-full hover:shadow-sm hover:shadow-[#23231f] hover:scale-110 duration-500 border-2 custom-border cursor-pointer px-6 py-3 my-8 shadow-2xl rounded-lg"
+        @click="selectAPlan(plan)"
       >
         <div>
           <h1 class="text-[#182233] font-semibold text-lg">{{ plan.name }}</h1>
@@ -50,6 +50,7 @@
 <script setup>
 import InviteEmployees from "@/components/auth/InviteEmployees.vue";
 import InviteSuccess from "@/components/auth/InviteSuccess.vue";
+import { selectPlan } from "~/services/auth";
 import free from "~/assets/images/free.svg";
 import purple from "~/assets/images/purple.svg";
 import blue from "~/assets/images/blue.svg";
@@ -69,6 +70,7 @@ const plans = ref([
     analyticsCount: 20,
     image: free,
     price: 0,
+    planName: "earlyStage",
   },
   {
     id: 2,
@@ -78,6 +80,7 @@ const plans = ref([
     analyticsCount: 50,
     image: purple,
     price: 100,
+    planName: "startUp",
   },
   {
     id: 3,
@@ -87,16 +90,34 @@ const plans = ref([
     analyticsCount: "all",
     image: blue,
     price: 300,
+    planName: "growth",
   },
 ]);
-const selectPlan = (plan) => {
-  localStorage.setItem("selectedPlanName", plan.name);
-  localStorage.setItem("selectedPlanMaxEmployees", plan.maxEmployees);
-  showInviteModal.value = true;
+const selectAPlan = async (plan) => {
+  // Send the plan in camelCase to the backend
+  const selectedPlan = plan.planName;
+
+  try {
+    // Call the selectPlan function to make the POST request
+    const response = await selectPlan(selectedPlan);
+
+    // Handle the response as needed
+    if (response.error) {
+      // Handle the error
+      console.error(response.error);
+    } else {
+      localStorage.setItem("selectedPlanName", plan.name);
+      localStorage.setItem("selectedPlanMaxEmployees", plan.maxEmployees);
+      showInviteModal.value = true;
+    }
+  } catch (error) {
+    // Handle unexpected errors
+    console.error("An unexpected error occurred:", error);
+  }
 };
 const closeInviteModal = () => {
   showInviteModal.value = false;
-  showInviteSuccess.value = true;
+  // showInviteSuccess.value = true;
 };
 </script>
 <style scoped>
