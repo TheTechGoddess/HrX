@@ -140,8 +140,10 @@
             {{ errors.password }}
           </p>
         </div>
-        <div class="flex items-center mt-2 mb-1">
-          <p class="text-[#E4669E] font-medium">Forgot password</p>
+        <div class="flex items-center mt-2 mb-1 cursor-pointer">
+          <nuxt-link to="/auth/reset-password">
+            <p class="text-[#E4669E] font-medium">Forgot password</p></nuxt-link
+          >
         </div>
         <div class="mt-10">
           <button
