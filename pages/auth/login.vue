@@ -73,12 +73,12 @@
             type="text"
             class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
             placeholder="Enter your  email address"
-            v-model="email"
-            :class="{ 'border border-[#FF4B41]': errors.email }"
-            @input="clearError('email')"
+            v-model="emailAddress"
+            :class="{ 'border border-[#FF4B41]': errors.emailAddress }"
+            @input="clearError('emailAddress')"
           />
-          <p v-if="errors.email" class="text-[#FF4B41] text-xs mt-1">
-            {{ errors.email }}
+          <p v-if="errors.emailAddress" class="text-[#FF4B41] text-xs mt-1">
+            {{ errors.emailAddress }}
           </p>
           <p v-if="errors.login" class="text-[#FF4B41] text-xs mt-1">
             {{ errors.login }}
@@ -172,7 +172,7 @@ definePageMeta({
 const loading = ref(false);
 const selectedRole = ref("");
 const password = ref("");
-const email = ref("");
+const emailAddress = ref("");
 const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const errors = ref({});
 const showPassword = ref(false);
@@ -183,10 +183,10 @@ const validateForm = () => {
   if (selectedRole.value !== "Company" && selectedRole.value !== "Employee") {
     errors.value.selectedRole = "Please select between Company and Employee";
   }
-  if (!email.value.trim()) {
-    errors.value.email = "Email address is required.";
-  } else if (!emailPattern.test(email.value)) {
-    errors.value.email =
+  if (!emailAddress.value.trim()) {
+    errors.value.emailAddress = "Email address is required.";
+  } else if (!emailPattern.test(emailAddress.value)) {
+    errors.value.emailAddress =
       "Invalid email format. Please enter a valid email address.";
   }
   if (!password.value.trim()) {
@@ -204,7 +204,7 @@ const clearError = (fieldName) => {
 };
 
 const loginFunction = async () => {
-  const email = email.value;
+  const email = emailAddress.value;
   const passwordValue = password.value;
   const type = selectedRole.value;
   console.log(email, passwordValue, type);

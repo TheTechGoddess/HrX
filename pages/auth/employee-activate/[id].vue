@@ -9,17 +9,17 @@
     </div>
     <form
       action=""
-      @submit.prevent="verifyEmail"
+      @submit.prevent="handleSubmit"
       class="my-3 mt-16 text-[#39404F]"
     >
-      <div class="flex justify-between  md:mr-40">
+      <div class="flex justify-between md:mr-40">
         <input
           v-for="index in 6"
           :key="index"
           v-model="confirmationDigits[index - 1]"
           @input="onInput(index)"
           type="text"
-          class="bg-[#F7F8FA] flex text-center px-4 py-4 w-16 rounded-lg focus:outline-none focus:border-none focus:ring-0"
+          class="bg-[#F7F8FA] flex text-center mr-1.5 px-4 py-4 w-16 rounded-lg focus:outline-none focus:border-none focus:ring-0"
           :class="{ 'border border-[#ff4b41] text-[#ff4b41]': inputError }"
           maxlength="1"
         />
@@ -70,6 +70,10 @@ const onInput = (index) => {
       nextInputRef.focus();
     }
   }
+
+  // Clear the error message and inputError flag for the current input
+  errorMessage.value = "";
+  inputError.value = false;
 };
 
 const isAllFieldsFilled = computed(() => {
@@ -97,6 +101,14 @@ const verifyEmail = async () => {
     console.error("Unexpected error:", error); // Set a generic error message
   } finally {
     loading.value = false;
+  }
+};
+const handleSubmit = () => {
+  if (isAllFieldsFilled.value) {
+    verifyEmail();
+  } else {
+    errorMessage.value = "Please fill in all fields.";
+    inputError.value = true;
   }
 };
 </script>

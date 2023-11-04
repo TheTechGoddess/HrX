@@ -6,7 +6,7 @@
       <h1 class="text-2xl text-[#182233] font-semibold">Email verification</h1>
       <p class="text-[#585E6C]">Enter the 6 digits sent to your email here</p>
     </div>
-    <form @submit.prevent="verifyEmail" class="my-3 mt-16 text-[#39404F]">
+    <form @submit.prevent="handleSubmit" class="my-3 mt-16 text-[#39404F]">
       <div class="flex justify-between lg:mr-40">
         <input
           v-for="index in 6"
@@ -56,7 +56,7 @@ const router = useRouter();
 const loading = ref(false);
 const errorMessage = ref("");
 const inputError = ref(false);
-const confirmationCode = route.params.id; 
+const confirmationCode = route.params.id;
 const email = localStorage.getItem("email");
 const confirmationDigits = ref(["", "", "", "", "", ""]);
 
@@ -67,6 +67,10 @@ const onInput = (index) => {
       nextInputRef.focus();
     }
   }
+
+  // Clear the error message and inputError flag for the current input
+  errorMessage.value = "";
+  inputError.value = false;
 };
 
 const isAllFieldsFilled = computed(() => {
@@ -83,7 +87,7 @@ const verifyEmail = async () => {
     const response = await confirmEmail(confirmationCode, confirmationData);
 
     if (response.error) {
-      errorMessage.value = response.error; 
+      errorMessage.value = response.error;
       inputError.value = true;
     } else {
       console.log("Verification successful:", response);
@@ -93,9 +97,18 @@ const verifyEmail = async () => {
       router.push("/auth/select-plan");
     }
   } catch (error) {
-    console.error("Unexpected error:", error); 
+    console.error("Unexpected error:", error);
   } finally {
     loading.value = false;
+  }
+};
+
+const handleSubmit = () => {
+  if (isAllFieldsFilled.value) {
+    verifyEmail();
+  } else {
+    errorMessage.value = "Please fill in all fields.";
+    inputError.value = true;
   }
 };
 </script>

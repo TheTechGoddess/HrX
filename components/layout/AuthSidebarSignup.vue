@@ -3,7 +3,7 @@
     class="bg-[url('~/assets/images/auth-bg.svg')] flex items-center text-center h-screen"
   >
     <div
-      class="bg-[url('~/assets/images/auth-bg.svg')] fixed border-2 custom-border rounded-lg shadow-2xl xl:ml-8 ml-10 px-10 mr-20 w-[40%] py-10 flex flex-col justify-center items-center"
+      class="bg-[url('~/assets/images/auth-bg.svg')] fixed border-2 custom-border rounded-lg xl:ml-8 ml-10 px-10 mr-20 w-[40%] py-10 flex flex-col justify-center items-center"
     >
       <!-- <h1>{{ sidebarTitle }}</h1>
       <p>{{ sidebarDescription }}</p> -->
