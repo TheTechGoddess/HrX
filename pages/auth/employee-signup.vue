@@ -233,7 +233,13 @@
         </div>
       </form>
     </div>
-    <InviteSuccess v-if="showInviteSuccess" />
+    <InviteSuccess
+      :title="'Success'"
+      :message="'All processes have been completed successfully'"
+      :buttonLink="'/auth/login'"
+      :buttonText="'Log in'"
+      v-if="showInviteSuccess"
+    />
   </div>
 </template>
 <script setup>
@@ -244,7 +250,7 @@ import InviteSuccess from "@/components/auth/InviteSuccess.vue";
 definePageMeta({
   layout: "authsignup",
 });
-const isChecked = ref(false);
+const isChecked = ref();
 const toggleCheckbox = () => {
   isChecked.value = !isChecked.value;
 };

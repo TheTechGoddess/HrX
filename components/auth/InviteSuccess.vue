@@ -2,25 +2,23 @@
   <div>
     <Modal :visible="showModal">
       <div
-        class="bg-white flex flex-col justify-center p-10 rounded-lg text-center w-[400px]"
+        class="bg-white flex flex-col justify-center p-6 rounded-lg text-center w-[400px]"
       >
         <img
-          src="~/assets/images/email.svg"
+          src="~/assets/images/success_check.svg"
           alt=""
-          class="self-center cursor-pointer w-12"
-          @click="$emit('close')"
+          class="self-center cursor-pointer w-24"
+          @click="closeModal"
         />
-        <h1 class="text-2xl text-[#182233] font-semibold mt-8">Successful</h1>
-        <p class="text-[#585E6C] mb-6 mt-2">
-          All processes have been completed successfully
-        </p>
-        <div class="mt-6">
-          <nuxt-link to="/auth/login">
+        <h1 class="text-3xl text-[#182233] font-semibold mt-4">{{ title }}</h1>
+        <p class="text-[#585E6C] mb-6 mt-2">{{ message }}</p>
+        <div class="mt-2">
+          <nuxt-link :to="buttonLink">
             <button
               type="submit"
               class="py-4 rounded-lg font-medium px-16 bg-[#E4669E] text-white"
             >
-              Log in
+              {{ buttonText }}
             </button>
           </nuxt-link>
         </div>
@@ -36,10 +34,17 @@ export default {
   components: {
     Modal,
   },
-  data() {
-    return {
-      showModal: false,
-    };
+  props: {
+    showModal: Boolean, // Prop to control the visibility of the modal
+    title: String, // Prop for the modal title
+    message: String, // Prop for the modal message
+    buttonLink: String, // Prop for the button link
+    buttonText: String, // Prop for the button text
+  },
+  methods: {
+    closeModal() {
+      this.$emit("close"); // Emit 'close' event to notify the parent component
+    },
   },
 };
 </script>

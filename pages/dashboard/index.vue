@@ -1,7 +1,16 @@
 <template>
-  <div>dashboard baby</div>
+  <div>
+    <!-- Your component's content goes here -->
+  </div>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { onBeforeMount } from "vue";
+import { useRoute } from "vue-router";
+
+const router = useRouter();
+
+onBeforeMount(() => {
+  router.push("/dashboard/overview");
+});
 </script>
