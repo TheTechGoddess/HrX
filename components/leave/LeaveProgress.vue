@@ -8,13 +8,13 @@
       :key="index"
       class="flex space-x-20 items-center justify-center"
     >
-      <div class="flex space-x-3">
+      <div class="flex space-x-3 item-center justify-center content-center">
         <div
-          class="w-12 h-12 bg-[#FFFAFF] border border-[#FCF0F5] rounded flex justify-center content-center items-center"
+          class="w-14 h-14 bg-[#FFFAFF] border border-[#FCF0F5] rounded flex text-[#E4669E] text-3xl font-semibold justify-center content-center items-center"
         >
           {{ statistic.value < 10 ? "0" + statistic.value : statistic.value }}
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col mt-1.5">
           <p class="text-[#39404F]">{{ statistic.label }}</p>
           <p class="text-[#757C86] text-sm">{{ statistic.unit }}</p>
         </div>

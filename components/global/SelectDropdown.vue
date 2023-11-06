@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown relative">
-    <input
+    <!-- <input
       type="text"
       :value="getSelectedCountText()"
       @focus="showDropdown"
@@ -33,11 +33,11 @@
           <span class="ml-2">{{ option }}</span>
         </label>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
-<script>
+<!-- <script>
 export default {
   name: "SelectDropdown",
   props: {
@@ -125,6 +125,6 @@ export default {
     window.removeEventListener("click", this.handleWindowClick);
   },
 };
-</script>
+</script> -->
 
 <style></style>
