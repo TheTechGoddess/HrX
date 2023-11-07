@@ -1,5 +1,7 @@
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+  >
     <div v-for="(request, index) in pendingRequests" :key="index">
       <h1
         class="py-2 rounded-t-lg border-t border-x border-x-[#CAE4CE] border-t-[#CAE4CE] bg-[#EDF6EF] text-[#4EA45A] text-center"

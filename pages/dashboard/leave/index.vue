@@ -81,8 +81,8 @@
 </template>
 
 <script setup>
-import LeaveProgress from "~/components/leave/leaveprogress.vue";
-import LeaveHeader from "~/components/leave/LeaveHeader.vue";
+import LeaveProgress from "../../../components/leave/LeaveProgress.vue";
+import LeaveHeader from "../../../components/leave/LeaveHeader.vue";
 import ButtonSwitch from "../../../components/global/ButtonSwitch.vue";
 import PendingTable from "../../../components/leave/PendingTable.vue";
 import ApprovedTable from "../../../components/leave/ApprovedTable.vue";
