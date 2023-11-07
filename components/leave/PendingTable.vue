@@ -18,7 +18,7 @@
         </div>
       </div>
       <div
-        class="flex flex-col justify-center px-4 space-y-2 border-t py-4 items-center bg-[#FCF0F5] border border-[#ECEDEF]"
+        class="flex flex-col justify-center px-4 space-y-2 border-t py-4 items-center bg-[#FFFAFFB2] border border-[#FCF0F5]"
       >
         <p class="text-sm text-[#E4669E]">{{ request.daysLeft }} days</p>
         <p class="text-xs text-[#B2B8BD]">{{ request.leavePeriod }}</p>
