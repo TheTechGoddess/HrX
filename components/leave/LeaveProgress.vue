@@ -29,6 +29,7 @@
 </template>
 
 <script setup>
+const loginType = localStorage.getItem("loginType");
 const statistics = [
   { label: "Total", value: 0, unit: "days" },
   { label: "Applied", value: 0, unit: "days" },

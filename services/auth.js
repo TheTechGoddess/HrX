@@ -1,4 +1,4 @@
-import { useUserStore } from "../store/auth";
+import { useLoginUser } from "../store/auth";
 // auth.js
 
 // Create a function that handles the form submission
@@ -162,18 +162,23 @@ export async function login(email, password, type) {
     });
 
     if (response.ok) {
-      // If the request is successful, you can handle the success response here if needed.
-      // For example, you can return response.json() to process the response data.
-      return await response.json();
+      const responseData = await response.json();
+      const token = responseData.data.token;
+      console.log(token);
+
+      const loginUser = useLoginUser();
+      loginUser.token = token;
+      loginUser.isLoggedIn = true;
+      localStorage.setItem("token", token);
+
+      return { token };
     } else {
-      // If there's an error, handle it or return an error message.
       const errorResponse = await response.json();
       return {
         error: errorResponse.error || "An error occurred while logging in.",
       };
     }
   } catch (error) {
-    // Handle any unexpected errors
     return {
       error: "An unexpected error occurred while logging in.",
     };

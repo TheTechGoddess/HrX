@@ -8,8 +8,13 @@
         v-for="(page, index) in pages"
         :key="index"
         :to="page.path"
-        :class="{ 'bg-[#F7FAFC]': isActive(page.path) }"
-        class="flex py-2 my-1 px-5 rounded-l-xl"
+        :style="{
+          'background-image': isActive(page.path)
+            ? 'linear-gradient(to right, #FAE0EC, #FCF0F5, #F8F8F8)'
+            : 'none',
+          'border-left': isActive(page.path) ? '5px solid #E4669E' : 'none',
+        }"
+        class="flex py-2.5 my-1 px-5 rounded-l-xl"
       >
         <img :src="page.imageSrc" alt="" />
         <p class="mx-2 text-sm text-[#757C86]">{{ page.title }}</p>

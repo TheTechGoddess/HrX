@@ -221,6 +221,7 @@ const loginFunction = async () => {
       // Handle the login error
       errors.value.login = response.error;
     } else {
+      localStorage.setItem("loginType", type);
       router.push("/dashboard");
     }
   } catch (error) {

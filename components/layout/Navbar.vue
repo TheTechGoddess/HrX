@@ -19,9 +19,13 @@
         class="absolute top-2.5 left-4"
       />
     </div>
-    <div class="flex items-center">
-      <img src="~/assets/images/notifications.svg" alt="" />
-      <img src="~/assets/images/settings.svg" alt="" class="mt-2" />
+    <div class="flex items-center space-x-6">
+      <div class="p-2 bg-[#FCF0F5] rounded-full">
+        <img src="~/assets/images/notifications.svg" alt="" />
+      </div>
+      <div class="p-2 bg-[#FCF0F5] rounded-full">
+        <img src="~/assets/images/settings.svg" alt="" class="" />
+      </div>
     </div>
   </div>
 </template>
