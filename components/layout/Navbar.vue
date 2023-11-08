@@ -1,8 +1,12 @@
 <template>
   <div class="flex justify-between px-6 items-center content-center">
     <div class="flex items-center space-x-2">
-      <img src="~/assets/images/company-logo.svg" alt="" class="w-6" />
-      <p>Mazrz Health</p>
+      <img
+        :src="userStore.data.company.logo"
+        alt=""
+        class="w-8 h-8 rounded-full"
+      />
+      <p>{{ userStore.data.company.companyName }}</p>
       <img src="~/assets/images/down_arrow.svg" alt="" class="w-2" />
     </div>
     <div class="ml-36 w-[50%] relative">
@@ -30,4 +34,39 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { onBeforeMount } from "vue";
+import { getMe } from "~/services/auth";
+import { useUserStore } from "~/store/user"; 
+const userStore = useUserStore();
+onBeforeMount(async () => {
+  const userStore = useUserStore();
+
+  const fetchUserData = async () => {
+    try {
+      const response = await getMe();
+      if (response.error) {
+        userStore.setError(response.error);
+      } else {
+        userStore.setId(response.data._id);
+        userStore.setEmail(response.data.email);
+        userStore.setFullName(response.data.fullName);
+        userStore.setRole(response.data.role);
+        userStore.setStatus(response.data.status);
+        userStore.setIsEmployed(response.data.isEmployed);
+        userStore.setDisplayPicture(response.data.displayPicture);
+
+        // Set company-related data
+        userStore.setCompanyName(response.data.company.companyName);
+        userStore.setCompanyLogo(response.data.company.logo);
+        console.log("Data stored in userStore:", userStore); // Log the entire store
+      }
+    } catch (error) {
+      userStore.setError("An unexpected error occurred.");
+    }
+  };
+
+  // Call the fetchUserData function when the component mounts
+  fetchUserData();
+});
+</script>

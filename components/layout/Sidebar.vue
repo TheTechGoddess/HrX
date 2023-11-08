@@ -29,6 +29,9 @@ import overview from "~/assets/images/overview.svg";
 import wellness from "~/assets/images/wellness.svg";
 import user from "~/assets/images/user.svg";
 import leave from "~/assets/images/leave.svg";
+import { useLoginUser } from "~/store/auth";
+
+const loginUser = useLoginUser();
 
 const route = useRoute();
 
@@ -37,6 +40,11 @@ const pages = [
   {
     title: "Wellness Program",
     path: "/dashboard/wellness",
+    imageSrc: wellness,
+  },
+  {
+    title: "Reward & Recognition",
+    path: "/dashboard/reward",
     imageSrc: wellness,
   },
   {
@@ -54,6 +62,15 @@ const pages = [
 
 function isActive(path) {
   return route.path.startsWith(path);
+}
+// Conditionally add the "User Management" page to the `pages` array
+if (loginUser.loginType !== "company") {
+  const userManagementIndex = pages.findIndex(
+    (page) => page.title === "User Management"
+  );
+  if (userManagementIndex !== -1) {
+    pages.splice(userManagementIndex, 1);
+  }
 }
 </script>
 <style scoped></style>

@@ -164,11 +164,13 @@ export async function login(email, password, type) {
     if (response.ok) {
       const responseData = await response.json();
       const token = responseData.data.token;
+
       console.log(token);
 
       const loginUser = useLoginUser();
       loginUser.token = token;
       loginUser.isLoggedIn = true;
+      loginUser.loginType = type;
       localStorage.setItem("token", token);
 
       return { token };
@@ -283,6 +285,39 @@ export async function registerEmployee(formData) {
     // Handle any unexpected errors
     return {
       error: "An unexpected error occurred while registering the company.",
+    };
+  }
+}
+
+export async function getMe() {
+  const url = useRuntimeConfig();
+  const baseUrl = url.public.baseUrl;
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${baseUrl}/api/v1/registeration/get-me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      // If the request is successful, parse the response as JSON
+      return await response.json();
+    } else {
+      // If there's an error, handle it or return an error message
+      const errorResponse = await response.json();
+      return {
+        error:
+          errorResponse.error || "An error occurred while fetching user data.",
+      };
+    }
+  } catch (error) {
+    // Handle any unexpected errors
+    return {
+      error: "An unexpected error occurred while fetching user data.",
     };
   }
 }

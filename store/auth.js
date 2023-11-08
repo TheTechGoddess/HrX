@@ -4,6 +4,7 @@ export const useLoginUser = defineStore("loginUser", {
   state: () => ({
     token: null,
     isLoggedIn: false,
+    loginType: null
   }),
   getters: {
     // Getter to check if the user is logged in

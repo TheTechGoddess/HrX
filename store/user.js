@@ -1,37 +1,60 @@
-// store/user.js
+// userStore.js
+
 import { defineStore } from "pinia";
 
-export const useUserStore = defineStore({
-  id: "user", 
+export const useUserStore = defineStore("user", {
   state: () => ({
-    id: null,
-    email: null,
-    firstName: null,
-    lastName: null,
-    accessToken: null,
-    isLoggedIn: false,
+    data: {
+      _id: null,
+      email: null,
+      role: null,
+      company: {
+        _id: null,
+        companyName: null,
+        logo: null,
+      },
+      status: null,
+      isEmployed: null,
+      isConfirmed: null,
+      serviceDocument: [],
+      createdAt: null,
+      updatedAt: null,
+      __v: null,
+      displayPicture: null,
+      fullName: null,
+    },
+    error: null,
   }),
   actions: {
-    setUserDetails(userDetails) {
-      this.id = userDetails.id;
-      this.email = userDetails.email;
-      this.firstName = userDetails.first_name;
-      this.lastName = userDetails.last_name;
-      this.isLoggedIn = true;
+    setId(id) {
+      this.data._id = id;
     },
-
-    // Action to set the access token
-    setAccessToken(token) {
-      this.accessToken = token;
+    setEmail(email) {
+      this.data.email = email;
+    },
+    setFullName(fullName) {
+      this.data.fullName = fullName;
+    },
+    setRole(role) {
+      this.data.role = role;
+    },
+    setStatus(status) {
+      this.data.status = status;
+    },
+    setIsEmployed(isEmployed) {
+      this.data.isEmployed = isEmployed;
+    },
+    setDisplayPicture(displayPicture) {
+      this.data.displayPicture = displayPicture;
+    },
+    setCompanyName(companyName) {
+      this.data.company.companyName = companyName;
+    },
+    setCompanyLogo(logo) {
+      this.data.company.logo = logo;
+    },
+    setError(error) {
+      this.error = error;
     },
   },
-  getters: {
-    // Getter to check if the user is logged in
-    isAuthenticated() {
-      const isLoggedIn = this.accessToken !== null;
-      console.log("IsLoggedIn:", isLoggedIn, 5);
-      return isLoggedIn;
-    },
-  },
-  persist: true,
 });

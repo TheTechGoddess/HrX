@@ -1,7 +1,7 @@
 <!-- layouts/auth.vue -->
 <template>
   <div class="md:flex md:justify-between">
-    <div class="w-[295px]">
+    <div class="hidden md:flex md:flex-col md:w-[295px]">
       <LayoutSidebar />
     </div>
 

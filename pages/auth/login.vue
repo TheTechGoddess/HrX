@@ -167,6 +167,7 @@
 <script setup>
 import { ref } from "vue";
 import { login } from "~/services/auth";
+import { useLoginUser } from "~/store/auth";
 
 definePageMeta({
   layout: "authlogin",
@@ -221,7 +222,10 @@ const loginFunction = async () => {
       // Handle the login error
       errors.value.login = response.error;
     } else {
-      localStorage.setItem("loginType", type);
+      const loginUser = useLoginUser();
+
+      loginUser.loginType = type;
+      console.log(loginUser.loginType, 9);
       router.push("/dashboard");
     }
   } catch (error) {

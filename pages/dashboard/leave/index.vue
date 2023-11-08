@@ -1,8 +1,18 @@
 <template>
   <div>
     <LeaveHeader />
-    <LeaveProgress v-if="loginType === 'Employee'" />
-    <div v-if="loginType === 'Employee'">
+    <LeaveProgress v-if="loginUser.loginType === 'Employee'" />
+    <div
+      v-if="loginUser.loginType === 'Company'"
+      class="bg-white w-full px-4 py-8 rounded-2xl my-6"
+    >
+      <ButtonSwitch
+        :buttons="tabButtons"
+        custom-path="/leave/requestleave/"
+        custom-title="Request for Leave"
+      ></ButtonSwitch>
+    </div>
+    <div v-else>
       <div class="bg-white w-full p-4 rounded-t-2xl">
         <div class="flex justify-between items-center">
           <p class="text-2xl txt-[#39404F] font-medium">Leaves</p>
@@ -70,13 +80,6 @@
         </table>
       </div>
     </div>
-    <div v-else class="bg-white w-full px-4 py-8 rounded-2xl my-6">
-      <ButtonSwitch
-        :buttons="tabButtons"
-        custom-path="/leave/requestleave/"
-        custom-title="Request for Leave"
-      ></ButtonSwitch>
-    </div>
   </div>
 </template>
 
@@ -90,8 +93,10 @@ import RejectedTable from "../../../components/leave/RejectedTable.vue";
 import pending from "~/assets/images/pending.svg";
 import approved from "~/assets/images/approved.svg";
 import rejected from "~/assets/images/rejected.svg";
-
-const loginType = localStorage.getItem("loginType");
+import { useUserStore } from "~/store/user";
+import { useLoginUser } from "~/store/auth";
+const userStore = useUserStore();
+const loginUser = useLoginUser();
 const leaveData = [
   {
     sn: 1,
