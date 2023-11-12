@@ -37,8 +37,12 @@
 <script setup>
 import { onBeforeMount } from "vue";
 import { getMe } from "~/services/auth";
-import { useUserStore } from "~/store/user"; 
+import { useLoginUser } from "~/store/auth";
+import { useUserStore } from "~/store/user";
 const userStore = useUserStore();
+const loginUser = useLoginUser();
+// if ((loginUser.loginType = "Employee")) {
+// }
 onBeforeMount(async () => {
   const userStore = useUserStore();
 

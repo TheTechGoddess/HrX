@@ -5,7 +5,7 @@
     </div>
     <div class="my-10 flex flex-col">
       <router-link
-        v-for="(page, index) in pages"
+        v-for="(page, index) in filteredPages"
         :key="index"
         :to="page.path"
         :style="{
@@ -32,7 +32,6 @@ import leave from "~/assets/images/leave.svg";
 import { useLoginUser } from "~/store/auth";
 
 const loginUser = useLoginUser();
-
 const route = useRoute();
 
 const pages = [
@@ -48,8 +47,8 @@ const pages = [
     imageSrc: wellness,
   },
   {
-    title: "User Management",
-    path: "/dashboard/user-management",
+    title: "Employee Management",
+    path: "/dashboard/employee-management",
     imageSrc: user,
   },
   { title: "Leave Management", path: "/dashboard/leave", imageSrc: leave },
@@ -60,17 +59,16 @@ const pages = [
   },
 ];
 
+const filteredPages = computed(() => {
+  if (loginUser.loginType === "Employee") {
+    return pages.filter((page) => page.title !== "Employee Management");
+  }
+  return pages;
+});
+
 function isActive(path) {
   return route.path.startsWith(path);
 }
-// Conditionally add the "User Management" page to the `pages` array
-if (loginUser.loginType !== "company") {
-  const userManagementIndex = pages.findIndex(
-    (page) => page.title === "User Management"
-  );
-  if (userManagementIndex !== -1) {
-    pages.splice(userManagementIndex, 1);
-  }
-}
 </script>
+
 <style scoped></style>

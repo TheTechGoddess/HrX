@@ -168,6 +168,7 @@
 import { ref } from "vue";
 import { login } from "~/services/auth";
 import { useLoginUser } from "~/store/auth";
+const loginUser = useLoginUser();
 
 definePageMeta({
   layout: "authlogin",
@@ -216,16 +217,15 @@ const loginFunction = async () => {
     loading.value = true;
     // Call the login function to make the POST request
     const response = await login(email, passwordValue, type);
-
+    const setType = type;
     // Handle the response as needed
     if (response.error) {
       // Handle the login error
       errors.value.login = response.error;
     } else {
-      const loginUser = useLoginUser();
-
-      loginUser.loginType = type;
-      console.log(loginUser.loginType, 9);
+      console.log("Before setting loginType:", setType, loginUser.loginType);
+      loginUser.setLoginType(setType);
+      console.log("After setting loginType:", setType, loginUser.loginType);
       router.push("/dashboard");
     }
   } catch (error) {

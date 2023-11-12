@@ -8,8 +8,6 @@
     >
       <ButtonSwitch
         :buttons="tabButtons"
-        custom-path="/leave/requestleave/"
-        custom-title="Request for Leave"
       ></ButtonSwitch>
     </div>
     <div v-else>
