@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="flex justify-between items-center w-full">
+    <div class="flex justify-between items-center w-full bg-white">
       <div class="w-full">
         <div class="flex border-b border-b-[#ECEDEF] w-full">
           <button
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="mx-4 mt-10">
+    <div class="mt-10">
       <component :is="activeComponent" />
     </div>
   </div>

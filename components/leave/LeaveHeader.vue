@@ -15,7 +15,6 @@
       <p class="text-xs text-[#39404F]">Annual</p>
       <img src="~/assets/images/down_arrow.svg" alt="" />
     </button>
-    <p>{{ loginUser.loginType }}</p>
   </div>
 </template>
 
