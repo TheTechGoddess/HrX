@@ -14,8 +14,6 @@ export async function registerCompany(formData) {
         method: "POST",
         body: formData,
         headers: {
-          // Make sure to set the correct content type for FormData
-          // and any other required headers
           Accept: "application/json",
         },
       }

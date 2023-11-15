@@ -43,73 +43,29 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { getHrApprovedLeave } from "~/services/leave";
 
-const pendingRequests = ref([
-  {
-    leaveType: "Annual leave",
-    employeeImage: "~/assets/images/img1.svg",
-    employeeName: "Zainab Momo",
-    sentDate: "sent 3 days ago",
-    daysLeft: 21,
-    leavePeriod: "January 15 - January 20, 2023",
-    progress: 30,
-    reason:
-      "My sister’s getting married and I’ve gotta turn up. Prrrrr! YKTVZZ!",
-  },
-  {
-    leaveType: "Annual leave",
-    employeeImage: "~/assets/images/img1.svg",
-    employeeName: "Zainab Momo",
-    sentDate: "sent 3 days ago",
-    daysLeft: 21,
-    leavePeriod: "January 15 - January 20, 2023",
-    progress: 30,
-    reason:
-      "My sister’s getting married and I’ve gotta turn up. Prrrrr! YKTVZZ!",
-  },
-  {
-    leaveType: "Annual leave",
-    employeeImage: "~/assets/images/img1.svg",
-    employeeName: "Zainab Momo",
-    sentDate: "sent 3 days ago",
-    daysLeft: 21,
-    leavePeriod: "January 15 - January 20, 2023",
-    progress: 30,
-    reason:
-      "My sister’s getting married and I’ve gotta turn up. Prrrrr! YKTVZZ!",
-  },
-  {
-    leaveType: "Annual leave",
-    employeeImage: "~/assets/images/img1.svg",
-    employeeName: "Zainab Momo",
-    sentDate: "sent 3 days ago",
-    daysLeft: 21,
-    leavePeriod: "January 15 - January 20, 2023",
-    progress: 30,
-    reason:
-      "My sister’s getting married and I’ve gotta turn up. Prrrrr! YKTVZZ!",
-  },
-  {
-    leaveType: "Annual leave",
-    employeeImage: "~/assets/images/img1.svg",
-    employeeName: "Zainab Momo",
-    sentDate: "sent 3 days ago",
-    daysLeft: 21,
-    leavePeriod: "January 15 - January 20, 2023",
-    progress: 30,
-    reason:
-      "My sister’s getting married and I’ve gotta turn up. Prrrrr! YKTVZZ!",
-  },
-]);
+const pendingRequests = ref([]);
 
-const rejectRequest = (index) => {
-  // Handle reject action for the request at the given index
-  console.log("Request rejected:", pendingRequests.value[index]);
+const fetchApprovedRequests = async () => {
+  try {
+    // Assuming you have a function to get the bearer token
+
+    // Call the service to get leave types
+    const pendingResponse = await getHrApprovedLeave();
+
+    // Update statistics based on the response
+    if (!pendingResponse.error) {
+      pendingRequests.value = pendingResponse.data.docs;
+      console.log(pendingResponse);
+    } else {
+      console.error("Error fetching leave types:", pendingResponse.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error:", error);
+  }
 };
 
-const approveRequest = (index) => {
-  // Handle approve action for the request at the given index
-  console.log("Request approved:", pendingRequests.value[index]);
-};
+onMounted(fetchApprovedRequests);
 </script>

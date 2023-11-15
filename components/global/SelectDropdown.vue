@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown relative">
-    <!-- <input
+    <input
       type="text"
       :value="getSelectedCountText()"
       @focus="showDropdown"
@@ -9,7 +9,7 @@
       class="px-4 py-3.5 rounded placeholder-[#a9a3af] text-[#344054] bg-[#F7F8F9] text-sm w-full"
     />
     <img
-      src="~/assets/images/dropdown_icon.svg"
+      src="~/assets/images/down_arrow.svg"
       alt=""
       class="absolute top-1/2 right-2 transform -translate-y-1/2 w-4 h-6 bg-center bg-no-repeat cursor-pointer"
       @click="toggleDropdown"
@@ -33,11 +33,11 @@
           <span class="ml-2">{{ option }}</span>
         </label>
       </li>
-    </ul> -->
+    </ul>
   </div>
 </template>
 
-<!-- <script>
+<script>
 export default {
   name: "SelectDropdown",
   props: {
@@ -125,6 +125,6 @@ export default {
     window.removeEventListener("click", this.handleWindowClick);
   },
 };
-</script> -->
+</script>
 
 <style></style>

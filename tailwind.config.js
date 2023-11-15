@@ -12,6 +12,7 @@ module.exports = {
         bodytext: "#585E6C",
         greybg: "#757C86",
         deactivated: "#ECEDEF",
+        error: "#FF4B41",
       },
     },
   },

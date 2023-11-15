@@ -29,11 +29,35 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
+import { getLeaveTypes, getLeaveSummary } from "~/services/leave";
+
 const loginType = localStorage.getItem("loginType");
-const statistics = [
+const statistics = ref([
   { label: "Total", value: 0, unit: "days" },
   { label: "Applied", value: 0, unit: "days" },
   { label: "Days", value: 0, unit: "Left" },
   { label: "Rejected", value: 0, unit: "Requests" },
-];
+]);
+
+const fetchLeaveTypes = async () => {
+  try {
+    // Assuming you have a function to get the bearer token
+
+    // Call the service to get leave types
+    const leaveTypesResponse = await getLeaveTypes();
+
+    // Update statistics based on the response
+    if (!leaveTypesResponse.error) {
+      console.log(leaveTypesResponse);
+    } else {
+      console.error("Error fetching leave types:", leaveTypesResponse.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error:", error);
+  }
+};
+
+// Call fetchLeaveTypes on component mount
+onMounted(fetchLeaveTypes);
 </script>

@@ -1,78 +1,71 @@
+<!-- OptionsDropdown.vue -->
 <template>
-  <div class="dropdown relative">
+  <div class="relative">
     <input
       type="text"
       :value="selectedOption"
-      @focus="showDropdown"
-      @input="updateSelectedOption($event.target.value)"
-      :placeholder="placeholder || 'Select an option'"
-      class="px-4 py-3.5 rounded placeholder-[#CFD0D0] text-[#344054] bg-[#F7F8FA] text-sm w-full"
-    />
-    <img
-      src="~/assets/images/dropdown2.svg"
-      alt=""
-      class="absolute top-1/2 right-4 transform -translate-y-1/2 w-4 bg-center bg-no-repeat cursor-pointer"
+      readonly
       @click="toggleDropdown"
+      :placeholder="placeholder || 'Select'"
+      class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0 w-full"
     />
-    <ul
-      v-show="isOpen"
-      class="dropdown-options z-90 absolute w-full top-full left-0 mt-1 py-4 bg-[#FFFFFF] border border-[#9882B3] text-[#344054] text-sm rounded"
+    <div
+      v-show="showDropdown"
+      class="absolute top-full left-0 w-full border bg-white overflow-y-auto z-10 max-h-[200px] rounded"
     >
-      <li
-        v-for="option in options"
-        :key="option"
-        @click="selectOption(option)"
-        class="px-4 py-2 cursor-pointer z-90"
+      <ul class="mt-2 p-0">
+        <li
+          v-for="option in options"
+          :key="option"
+          @click="selectOption(option)"
+          class="p-2 cursor-pointer hover:bg-gray-100"
+        >
+          {{ option }}
+        </li>
+      </ul>
+    </div>
+    <div
+      class="absolute top-1/2 right-4 transform -translate-y-1/3 w-4 h-6 bg-center bg-no-repeat cursor-pointer"
+      style="pointer-events: none"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        stroke="black"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="w-6 h-6"
       >
-        {{ option }}
-      </li>
-    </ul>
+        <path d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: "OptionsDropdown",
-  props: {
-    value: {
-      type: String,
-      required: true,
-    },
-    options: {
-      type: Array,
-      required: true,
-    },
-    placeholder: {
-      type: String,
-      default: "",
-    },
-  },
-  data() {
-    return {
-      selectedOption: "",
-      isOpen: false,
-    };
-  },
-  mounted() {
-    this.selectedOption = this.value;
-  },
-  methods: {
-    toggleDropdown() {
-      this.isOpen = !this.isOpen;
-    },
-    showDropdown() {
-      this.isOpen = true;
-    },
-    selectOption(option) {
-      this.selectedOption = option;
-      this.$emit("input", option); // Emitting 'input' event with the selected option
-      this.isOpen = false;
-    },
-    updateSelectedOption(value) {
-      this.selectedOption = value;
-    },
-  },
+<script setup>
+import { ref, defineProps, defineEmits } from "vue";
+
+// Props
+const { options, modelValue } = defineProps(["options", "modelValue"]);
+const emits = defineEmits(["update:modelValue"]);
+
+// Selected option
+const selectedOption = ref(modelValue);
+
+// Show/hide dropdown
+const showDropdown = ref(false);
+
+// Toggle dropdown visibility
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value;
+};
+
+// Select an option and hide the dropdown
+const selectOption = (option) => {
+  selectedOption.value = option;
+  emits("update:modelValue", option);
+  showDropdown.value = false;
 };
 </script>
-
-<style></style>
