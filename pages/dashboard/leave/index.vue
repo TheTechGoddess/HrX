@@ -1,14 +1,11 @@
 <template>
   <div>
     <LeaveHeader />
-    <LeaveProgress v-if="loginUser.loginType === 'Employee'" />
     <div
       v-if="loginUser.loginType === 'Company'"
       class="bg-white w-full px-4 py-8 rounded-2xl my-6"
     >
-      <ButtonSwitch
-        :buttons="tabButtons"
-      ></ButtonSwitch>
+      <ButtonSwitch :buttons="tabButtons"></ButtonSwitch>
     </div>
     <div v-else>
       <div class="bg-white w-full p-4 rounded-t-2xl">
@@ -22,14 +19,14 @@
         </div>
         <div class="flex justify-between items-center my-6">
           <button
-            class="border border-[#CFD0D0] space-x-2 py-2 px-3 flex rounded-xl items-center"
+            class="border border-[#CFD0D0] space-x-2 py-4 px-3 flex rounded-xl items-center"
           >
             <img src="~/assets/images/annual.svg" alt="" />
             <p class="text-xs text-[#39404F]">Last 6 months</p>
             <img src="~/assets/images/down_arrow.svg" alt="" />
           </button>
           <button
-            class="border border-[#CFD0D0] space-x-2 py-2 px-3 flex rounded-xl items-center"
+            class="border border-[#CFD0D0] space-x-2 py-4 px-3 flex rounded-xl items-center"
           >
             <img src="~/assets/images/annual.svg" alt="" />
             <p class="text-xs text-[#39404F]">Status</p>
@@ -37,41 +34,55 @@
           </button>
         </div>
       </div>
-      <div>
-        <table class="w-full border-collapse rounded-b-2xl">
+      <div lass="rounded-b-2xl overflow-x-auto">
+        <table class="w-full border-collapse">
           <thead class="text-left text-[#757C86] font-medium text-sm">
             <tr class="">
               <th class="pl-4 py-4">S/N</th>
-              <th>Type</th>
-              <th>From</th>
-              <th>To</th>
-              <th>Number of days</th>
-              <th>Reason</th>
-              <th>Status</th>
+              <th class="">Type</th>
+              <th class="">From</th>
+              <th class="">To</th>
+              <th class="">Number of days</th>
+              <th class="">Reason</th>
+              <th class="">Status</th>
             </tr>
           </thead>
           <tbody class="text-[#39404F] text-sm rounded-b-2xl bg-white">
             <tr
-              v-for="leave in leaveData"
-              :key="leave.sn"
+              v-for="(leave, index) in leaveData"
+              :key="index"
               class="border border-[#F9FAFB]"
             >
-              <td class="pl-4 py-4">{{ leave.sn }}</td>
-              <td class="py-4">{{ leave.type }}</td>
-              <td class="py-4">{{ leave.from }}</td>
-              <td class="py-4">{{ leave.to }}</td>
-              <td class="py-4">{{ dynamicDaysText(leave.days) }}</td>
-              <td class="py-4">{{ leave.reason }}</td>
+              <td class="pl-4 py-4 overflow-hidden whitespace-nowrap text-left">
+                {{ index + 1 }}j
+              </td>
+              <td class="py-4 overflow-hidden whitespace-nowrap text-left">
+                {{ leave.leaveType }}
+              </td>
+              <td class="py-4 overflow-hidden whitespace-nowrap text-left">
+                {{ formatDate(leave.startDate) }}
+              </td>
+              <td class="py-4 overflow-hidden whitespace-nowrap text-left">
+                {{ formatDate(leave.endDate) }}
+              </td>
+              <td class="py-4 overflow-hidden whitespace-nowrap text-left">
+                {{
+                  dynamicDaysText(calculateDays(leave.startDate, leave.endDate))
+                }}
+              </td>
+              <td class="py-4 overflow-hidden whitespace-nowrap text-left">
+                {{ leave.reason }}
+              </td>
               <td
-                class="py-1 w-[100px] my-3 flex space-x-1 justify-center rounded-2xl"
+                class="py-1 w-[100px] my-3 flex space-x-1 justify-center rounded-2xl overflow-hidden whitespace-nowrap text-left"
                 :class="{
-                  'text-[#DAA419] bg-[#FBF6E8]': leave.status === 'Pending',
-                  'text-[#058836] bg-[#F0FFEC]': leave.status === 'Approved',
-                  'text-[#FF5454] bg-[#FFE5E5]': leave.status === 'Rejected',
+                  'text-[#DAA419] bg-[#FBF6E8]': leave.hrStatus === 'Pending',
+                  'text-[#058836] bg-[#F0FFEC]': leave.hrStatus === 'Approved',
+                  'text-[#FF5454] bg-[#FFE5E5]': leave.hrStatus === 'Rejected',
                 }"
               >
-                <img :src="getStatusImage(leave.status)" alt="" />
-                <p>{{ leave.status }}</p>
+                <img :src="getStatusImage(leave.hrStatus)" alt="" />
+                <p>{{ leave.hrStatus }}</p>
               </td>
             </tr>
           </tbody>
@@ -82,7 +93,6 @@
 </template>
 
 <script setup>
-import LeaveProgress from "../../../components/leave/LeaveProgress.vue";
 import LeaveHeader from "../../../components/leave/LeaveHeader.vue";
 import ButtonSwitch from "../../../components/global/ButtonSwitch.vue";
 import PendingTable from "../../../components/leave/PendingTable.vue";
@@ -93,37 +103,11 @@ import approved from "~/assets/images/approved.svg";
 import rejected from "~/assets/images/rejected.svg";
 import { useUserStore } from "~/store/user";
 import { useLoginUser } from "~/store/auth";
+import { getMyLeave } from "~/services/leave";
+import { ref, onMounted } from "vue";
 const userStore = useUserStore();
 const loginUser = useLoginUser();
-const leaveData = [
-  {
-    sn: 1,
-    type: "Annual leave",
-    from: "15/01/2023",
-    to: "20/01/2023",
-    days: 5,
-    reason: "My sister’s wedding...",
-    status: "Pending",
-  },
-  {
-    sn: 2,
-    type: "Casual leave",
-    from: "02/04/2022",
-    to: "05/01/2022",
-    days: 3,
-    reason: "Burnout break",
-    status: "Approved",
-  },
-  {
-    sn: 3,
-    type: "Sick leave",
-    from: "02/04/2022",
-    to: "05/01/2022",
-    days: 1,
-    reason: "Down with a flu",
-    status: "Rejected",
-  },
-];
+const leaveData = ref([]);
 const tabButtons = [
   {
     label: "Pending",
@@ -138,9 +122,50 @@ const tabButtons = [
     component: RejectedTable,
   },
 ];
+
+const fetchMyLeave = async () => {
+  try {
+    // Assuming you have a function to get the bearer token
+
+    // Call the service to get leave types
+    const LeaveResponse = await getMyLeave();
+
+    // Update statistics based on the response
+    if (!LeaveResponse.error) {
+      leaveData.value = LeaveResponse.data.docs;
+      console.log(LeaveResponse);
+    } else {
+      console.error("Error fetching leave types:", LeaveResponse.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error:", error);
+  }
+};
+
+onMounted(fetchMyLeave);
+
 const dynamicDaysText = (days) => {
   return days === 1 ? "1 day" : `${days} days`;
 };
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, "0"); // Get day and pad with 0 if needed
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Get month (add 1 as months are zero-indexed) and pad with 0 if needed
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+function calculateDays(startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+  const daysDifference = Math.round(
+    Math.abs((end - start) / millisecondsPerDay)
+  );
+  return daysDifference;
+}
+
 const statusImageMap = {
   Pending: pending,
   Approved: approved,

@@ -11,9 +11,13 @@
       <div class="bg-white px-4 py-4 border-x border-x-[#ECEDEF]">
         <p class="text-[#39404F] font-medium mb-5">{{ request.leaveType }}</p>
         <div class="flex -mt-1">
-          <img :src="request.employeeImage" alt="" />
+          <img
+            :src="request.displayPicture"
+            alt=""
+            class="h-6 w-6 rounded-full"
+          />
           <p class="text-sm text-[#585E6C] ml-1.5">
-            {{ request.employeeName }}
+            {{ request.fullName }}
           </p>
           <div class="w-2 h-2 bg-[#757C86] rounded-full mx-3 mt-1.5"></div>
           <p class="text-xs text-[#B2B8BD] mt-0.5">

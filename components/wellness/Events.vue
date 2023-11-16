@@ -23,7 +23,8 @@
         Add new event
       </button>
     </div>
-    <div>
+    <HrEvents />
+    <div v-if="loginUser.loginType === 'Employee'">
       <div class="my-8 flex justify-between">
         <h1 class="text-header font-medium text-xl">Health Programs</h1>
         <button
@@ -34,30 +35,33 @@
           <img src="~/assets/images/down_arrow.svg" alt="" />
         </button>
       </div>
-      {{ event }}
       <div class="my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <a
-          v-for="event in events"
-          :key="event._id"
-          :href="event.link"
+          v-for="employeeEvent in employeeEvents"
+          :key="employeeEvent._id"
+          :href="employeeEvent.link"
           target="_blank"
           rel="noopener noreferrer"
           class="border border-deactivated p-4 flex flex-col justify-center rounded-lg cursor-pointer"
         >
-          <img :src="event.image" alt="" class="h-32 rounded-lg" />
+          <img :src="employeeEvent.image" alt="" class="h-32 rounded-lg" />
           <div class="flex space-x-3 items-center">
             <div class="p-1 rounded-lg border border-deactivated my-3">
               <img :src="logoImg" alt="" />
             </div>
-            <p class="text-bodytext text-xs">{{ event.organizer }}</p>
+            <p class="text-bodytext text-xs">{{ employeeEvent.organizer }}</p>
           </div>
-          <h1 class="text-header text-xl font-medium">{{ event.eventName }}</h1>
-          <p class="my-3 text-xs text-bodytext">{{ event.description }}</p>
+          <h1 class="text-header text-xl font-medium">
+            {{ employeeEvent.eventName }}
+          </h1>
+          <p class="my-3 text-xs text-bodytext">
+            {{ employeeEvent.description }}
+          </p>
           <div class="flex space-x-2 items-center">
             <img src="~/assets/images/calender.svg" alt="" />
             <p class="text-xs font-medium text-bodytext">
-              <span>{{ formatDate(event.startDate) }} </span> -
-              <span> {{ formatDate(event.endDate) }} </span>
+              <span>{{ formatDate(employeeEvent.startDate) }} </span> -
+              <span> {{ formatDate(employeeEvent.endDate) }} </span>
               <!-- <span class="ml-1">{{ event.year }}</span> -->
             </p>
           </div>
@@ -72,7 +76,8 @@ import { useLoginUser } from "~/store/auth";
 import eventImg from "~/assets/images/event_img.svg";
 import logoImg from "~/assets/images/wellness_logo.svg";
 import AddEvent from "./AddEvent.vue";
-import { getEventsHr } from "~/services/wellness";
+import HrEvents from "./HrEvents.vue";
+import { getEventsEmployee } from "~/services/wellness";
 const loginUser = useLoginUser();
 
 const isModalVisible = ref(false);
@@ -85,21 +90,21 @@ const closeModal = () => {
   isModalVisible.value = false;
 };
 
-const events = ref([]);
+const employeeEvents = ref([]);
 
-const fetchEvents = async () => {
+const fetchEmployeeEvents = async () => {
   try {
     // Assuming you have a function to get the bearer token
-
+    console.log(12);
     // Call the service to get leave types
-    const event = await getEventsHr();
+    const employeeEvent = await getEventsEmployee();
 
     // Update statistics based on the response
-    if (!event.error) {
-      console.log(event);
-      events.value = event.data.docs;
+    if (!employeeEvent.error) {
+      console.log(employeeEvent);
+      employeeEvents.value = employeeEvent.data.docs;
     } else {
-      console.error("Error fetching leave types:", event.error);
+      console.error("Error fetching leave types:", employeeEvent.error);
     }
   } catch (error) {
     console.error("Unexpected error:", error);
@@ -113,5 +118,5 @@ const formatDate = (dateString) => {
 };
 
 // Call fetchLeaveTypes on component mount
-onMounted(fetchEvents);
+onMounted(fetchEmployeeEvents);
 </script>

@@ -11,19 +11,29 @@
       <div class="bg-white px-4 py-4 border-x border-x-[#ECEDEF]">
         <p class="text-[#39404F] font-medium mb-5">{{ request.leaveType }}</p>
         <div class="flex -mt-1">
-          <img :src="request.employeeImage" alt="" />
+          <img
+            :src="request.displayPicture"
+            alt=""
+            class="h-6 w-6 rounded-full"
+          />
           <p class="text-sm text-[#585E6C] ml-1.5">
-            {{ request.employeeName }}
+            {{ request.fullName }}
           </p>
           <div class="w-2 h-2 bg-[#757C86] rounded-full mx-3 mt-1.5"></div>
-          <p class="text-xs text-[#B2B8BD] mt-0.5">{{ request.sentDate }}</p>
+          <p class="text-xs text-[#B2B8BD] mt-0.5">
+            sent {{ calculateDaysDifference(request.createdAt) }} days ago
+          </p>
         </div>
       </div>
       <div
         class="flex flex-col justify-center px-4 space-y-2 border-t py-4 pb-4 items-center bg-[#FFFAFF] border border-[#FCF0F5]"
       >
-        <p class="text-sm text-[#E4669E]">{{ request.daysLeft }} days</p>
-        <p class="text-xs text-[#B2B8BD]">{{ request.leavePeriod }}</p>
+        <p class="text-sm text-[#E4669E]">
+          sent {{ calculateDaysDifference(request.createdAt) }} days ago
+        </p>
+        <p class="text-xs text-[#B2B8BD]">
+          {{ calculateLeavePeriod(request.startDate, request.endDate) }}
+        </p>
         <div class="h-2 w-full bg-[#ECEDEF] rounded relative">
           <div
             :style="'width:' + request.progress + '%'"
@@ -65,6 +75,44 @@ const fetchApprovedRequests = async () => {
   } catch (error) {
     console.error("Unexpected error:", error);
   }
+};
+
+const calculateLeavePeriod = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  // Assuming you want to format the result as "Month Day, Year - Month Day, Year"
+  const options = { month: "long", day: "numeric", year: "numeric" };
+  const formattedStartDate = start.toLocaleDateString("en-US", options);
+  const formattedEndDate = end.toLocaleDateString("en-US", options);
+
+  return `${formattedStartDate} - ${formattedEndDate}`;
+};
+
+const calculateDaysLeft = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  // Calculate the difference in milliseconds
+  const timeDifference = end - start;
+
+  // Convert milliseconds to days
+  const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+  return daysDifference;
+};
+
+const calculateDaysDifference = (createdAt) => {
+  const requestDate = new Date(createdAt);
+  const today = new Date();
+
+  // Calculate the difference in milliseconds
+  const timeDifference = today - requestDate;
+
+  // Convert milliseconds to days
+  const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  return daysDifference;
 };
 
 onMounted(fetchApprovedRequests);

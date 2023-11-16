@@ -9,7 +9,7 @@
       <p>{{ userStore.data.company.companyName }}</p>
       <img src="~/assets/images/down_arrow.svg" alt="" class="w-2" />
     </div>
-    <div class="ml-36 w-[50%] relative">
+    <div class="lg:ml-36 w-[50%] relative hidden md:flex">
       <input
         type="search"
         name=""
@@ -25,10 +25,10 @@
     </div>
     <div class="flex items-center space-x-6">
       <div class="p-2 bg-[#FCF0F5] rounded-full">
-        <img src="~/assets/images/notifications.svg" alt="" />
+        <img src="~/assets/images/notifications.svg" alt="" class="w-8" />
       </div>
       <div class="p-2 bg-[#FCF0F5] rounded-full">
-        <img src="~/assets/images/settings.svg" alt="" class="" />
+        <img src="~/assets/images/settings.svg" alt="" class="w-8" />
       </div>
     </div>
   </div>

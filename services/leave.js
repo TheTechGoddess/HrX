@@ -267,13 +267,13 @@ export async function getLeaveSummary(leaveType) {
   const url = useRuntimeConfig();
   const baseUrl = url.public.baseUrl;
   const endpoint = `/api/v1/leave/summary?leaveType=${leaveType}`;
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -283,13 +283,14 @@ export async function getLeaveSummary(leaveType) {
     } else {
       const errorResponse = await response.json();
       return {
-        error: errorResponse.error || 'An error occurred while fetching leave summary.',
+        error:
+          errorResponse.error ||
+          "An error occurred while fetching leave summary.",
       };
     }
   } catch (error) {
     return {
-      error: 'An unexpected error occurred while fetching leave summary.',
+      error: "An unexpected error occurred while fetching leave summary.",
     };
   }
 }
-

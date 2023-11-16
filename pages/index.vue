@@ -1,11 +1,15 @@
 <template>
   <div class="">
-    <div class="lg:h-screen bg-[#F6FDF8] relative">
-      <div class="px-4 md:px-8 lg:px-16">
+    <div class="lg:h-screen relative">
+      <div
+        class="px-4 md:px-8 lg:px-16"
+        style="background: linear-gradient(to right, #f6fdf8 49%, #e4669e 49%)"
+      >
         <LandingNavbar />
         <LandingHero />
       </div>
     </div>
+
     <div class="">
       <LandingCompanies class="bg-white px-4 md:px-8 lg:px-16" />
       <LandingTestimonials class="bg-[#FCF7FF] px-4 md:px-8 lg:px-16" />

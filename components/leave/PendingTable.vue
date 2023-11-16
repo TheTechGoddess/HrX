@@ -11,9 +11,13 @@
       <div class="bg-white px-4 py-4 border-x border-x-[#ECEDEF]">
         <p class="text-[#39404F] font-medium mb-5">{{ request.leaveType }}</p>
         <div class="flex -mt-1">
-          <img :src="request.employeeImage" alt="" />
+          <img
+            :src="request.displayPicture"
+            alt=""
+            class="h-6 w-6 rounded-full"
+          />
           <p class="text-sm text-[#585E6C] ml-1.5">
-            {{ request.employeeName }}
+            {{ request.fullName }}
           </p>
           <div class="w-2 h-2 bg-[#757C86] rounded-full mx-3 mt-1.5"></div>
           <p class="text-xs text-[#B2B8BD] mt-0.5">
@@ -37,7 +41,11 @@
           ></div>
         </div>
         <p class="text-[#757C86] text-[10px]">
-          {{ request.daysLeft }} days left
+          {{
+            request.daysleft !== null
+              ? request.daysleft + " days left"
+              : "No days left"
+          }}
         </p>
       </div>
       <div class="p-4 border border-[#ECEDEF] rounded-b-lg">
@@ -46,39 +54,167 @@
         <div class="mt-12 space-x-4 justify-center text-center">
           <button
             class="border border-[#FF4B41] text-[#FF4B41] px-3 py-1.5 rounded-lg font-medium"
-            @click="rejectRequest(index)"
+            @click="rejectRequestInit(request._id)"
           >
             Reject
           </button>
           <button
             class="bg-[#4EA45A] text-white px-3 py-2 rounded-lg font-medium"
-            @click="approveRequest(index)"
+            @click="approveRequest(request._id)"
           >
             Approve
           </button>
         </div>
       </div>
     </div>
+    <div v-if="rejectModal">
+      <Modal :visible="showModal">
+        <div
+          class="bg-white flex flex-col py-6 px-8 rounded-lg w-[400px] md:w-[500px] lg:w-[650px]"
+        >
+          <img
+            src="~/assets/images/close.svg"
+            alt=""
+            class="self-end cursor-pointer"
+            @click="$emit('close')"
+          />
+          <div class="mt-2">
+            <div class="mr-5">
+              <h1 class="text-xl text-[#182233] font-medium mb-2">
+                Give a rejection reason
+              </h1>
+            </div>
+
+            <form @submit.prevent="handleSubmit" class="mt-10">
+              <p>Reason *</p>
+              <textarea
+                v-model="rejectionMessage"
+                name="rejectionMessage"
+                cols="30"
+                rows="5"
+                class="border mt-3 w-full border-[#CFD0D0] rounded-lg placeholder:text-[#CFD0D0] px-4 py-3 focus:outline-none"
+                :class="{ 'border border-[#FF4B41]': errorMessage }"
+                placeholder="Type message here"
+              ></textarea>
+              <p v-if="errorMessage" class="text-[#FF4B41]">
+                {{ errorMessage }}
+              </p>
+              <div class="flex justify-center mt-6">
+                <button
+                  type="submit"
+                  class="py-4 rounded-lg font-medium px-10 bg-[#E4669E] text-white"
+                >
+                  Send Message
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </Modal>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { getHrPendingLeave } from "~/services/leave";
+import {
+  getHrPendingLeave,
+  updateLeaveStatus,
+  getLeaveSummary,
+} from "~/services/leave";
+import Modal from "@/components/global/Modal.vue";
 
 const pendingRequests = ref([]);
+let leaveIdToReject = null;
+let rejectionMessage = "";
+let errorMessage = "";
+const rejectModal = ref(false);
+
+const rejectRequestInit = (leaveId) => {
+  rejectionMessage = "";
+  errorMessage = "";
+  // Store leaveId for later use in handleSubmit
+  // This will update the local variable leaveId which can be used in the handleSubmit method
+  leaveIdToReject = leaveId;
+  rejectModal.value = true;
+};
+
+const approveRequest = async (leaveId) => {
+  try {
+    const statusData = {
+      status: "Approved",
+      comment: "Approved",
+    };
+
+    const response = await updateLeaveStatus(leaveId, statusData);
+
+    if (!response.error) {
+      // Handle successful approval, e.g., update UI, fetch updated pending requests, etc.
+      console.log("Leave request approved successfully:", response);
+      fetchPendingRequests(); // Assuming this function fetches updated pending requests
+    } else {
+      console.error("Error approving leave request:", response.error);
+      // Handle error scenario: display an error message, etc.
+    }
+  } catch (error) {
+    console.error("Unexpected error while approving leave request:", error);
+    // Handle unexpected errors, if any
+  }
+};
+
+const handleSubmit = async () => {
+  if (!rejectionMessage) {
+    errorMessage = "Please provide a rejection reason.";
+    return;
+  }
+
+  try {
+    const statusData = {
+      status: "Rejected",
+      comment: rejectionMessage,
+    };
+
+    const response = await updateLeaveStatus(leaveIdToReject, statusData);
+
+    if (!response.error) {
+      console.log("Leave request rejected successfully:", response);
+      fetchPendingRequests();
+      rejectModal.value = false;
+    } else {
+      console.error("Error rejecting leave request:", response.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error while rejecting leave request:", error);
+  }
+};
 
 const fetchPendingRequests = async () => {
   try {
-    // Assuming you have a function to get the bearer token
-
-    // Call the service to get leave types
     const pendingResponse = await getHrPendingLeave();
 
-    // Update statistics based on the response
     if (!pendingResponse.error) {
       pendingRequests.value = pendingResponse.data.docs;
-      console.log(pendingResponse);
+
+      // Fetch leave summary for each pending request
+      for (const request of pendingResponse.data.docs) {
+        const leaveSummary = await getLeaveSummary(request.leaveType);
+
+        // Calculate progress if leave summary data exists
+        if (!leaveSummary.error) {
+          const { appliedDays, daysleft } = leaveSummary.data;
+          const totalDays = appliedDays + (daysleft || 0); // Treat null as 0
+
+          // Calculate progress percentage
+          const progress =
+            totalDays !== 0 ? (appliedDays / totalDays) * 100 : 0;
+
+          // Assign progress to request object
+          request.progress = progress;
+          request.daysleft = daysleft;
+        } else {
+          console.error("Error fetching leave summary:", leaveSummary.error);
+        }
+      }
     } else {
       console.error("Error fetching leave types:", pendingResponse.error);
     }
@@ -125,15 +261,5 @@ const calculateDaysDifference = (createdAt) => {
   const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
   return daysDifference;
-};
-
-const rejectRequest = (index) => {
-  // Handle reject action for the request at the given index
-  console.log("Request rejected:", pendingRequests.value[index]);
-};
-
-const approveRequest = (index) => {
-  // Handle approve action for the request at the given index
-  console.log("Request approved:", pendingRequests.value[index]);
 };
 </script>
