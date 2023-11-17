@@ -36,11 +36,7 @@ const route = useRoute();
 
 const pages = [
   { title: "Overview", path: "/dashboard/overview", imageSrc: overview },
-  {
-    title: "Wellness Program",
-    path: "/dashboard/wellness",
-    imageSrc: wellness,
-  },
+
   {
     title: "Reward & Recognition",
     path: "/dashboard/reward",
@@ -56,6 +52,11 @@ const pages = [
     title: "Performance Management",
     path: "/dashboard/performance-management",
     imageSrc: overview,
+  },
+  {
+    title: "Wellness Program",
+    path: "/dashboard/wellness",
+    imageSrc: wellness,
   },
 ];
 

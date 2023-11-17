@@ -55,7 +55,13 @@
         </div>
       </div>
     </Modal>
-    <InviteSuccess v-if="showInviteSuccess" />
+    <InviteSuccess
+      :title="'Success'"
+      :message="'All processes have been completed successfully'"
+      :buttonLink="'/auth/login'"
+      :buttonText="'Go To Login'"
+      v-if="showInviteSuccess"
+    />
   </div>
 </template>
 

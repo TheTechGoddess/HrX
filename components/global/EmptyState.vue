@@ -1,0 +1,47 @@
+<template>
+  <div
+    class="empty-state bg-white rounded-lg p-6 border flex flex-col justify-center items-center content-center border-gray-300 text-center"
+  >
+    <img :src="image" alt="Empty State" class="mx-auto mb-4 max-w-xs" />
+    <h2 class="text-sm font-medium text-header">{{ title }}</h2>
+    <p class="text-bodytext text-xs w-[200px] text-center mt-1">
+      {{ description }}
+    </p>
+    <button
+      v-if="buttonText"
+      @click="handleButtonClick"
+      class="mt-4 px-6 py-2 bg-primary text-white rounded-md"
+    >
+      {{ buttonText }}
+    </button>
+  </div>
+</template>
+
+<script setup>
+import { defineProps, defineEmits } from "vue";
+
+const props = defineProps({
+  image: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  buttonText: {
+    type: String,
+    default: "", // Make the button text optional
+  },
+});
+
+const emits = defineEmits(["button-click"]); // Emitting an event to trigger an action
+
+const handleButtonClick = () => {
+  emits("button-click"); // Emitting the 'button-click' event
+};
+</script>

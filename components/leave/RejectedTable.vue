@@ -28,7 +28,7 @@
       <div
         class="flex flex-col justify-center px-4 space-y-2 border-t py-4 pb-4 items-center bg-[#FFFAFF] border border-[#FCF0F5]"
       >
-        <p class="text-sm text-[#E4669E]">
+        <p class="text-sm text-primary">
           {{ calculateDaysLeft(request.startDate, request.endDate) }} days
         </p>
         <p class="text-xs text-[#B2B8BD]">
@@ -36,17 +36,43 @@
         </p>
         <div class="h-2 w-full bg-[#ECEDEF] rounded relative">
           <div
-            :style="'width:' + request.progress + '%'"
-            class="h-2 bg-[#E4669E] absolute rounded"
+            :style="
+              'width:' +
+              Math.min((request.totalDaysTaken / request.max) * 100, 100) +
+              '%'
+            "
+            class="h-2 bg-primary absolute rounded"
           ></div>
         </div>
         <p class="text-[#757C86] text-[10px]">
-          {{ request.daysLeft }} days left
+          {{
+            request.daysleft !== null
+              ? request.daysleft + " days left"
+              : "No days left"
+          }}
         </p>
       </div>
-      <div class="p-4 border border-[#ECEDEF] rounded-b-lg">
+      <div class="p-4 border-x border-x-[#ECEDEF]">
         <p class="text-xs text-[#B2B8BD]">Reason</p>
         <p class="text-sm my-3 text-[#585E6C]">{{ request.reason }}</p>
+      </div>
+      <div class="p-4 border border-[#ECEDEF] rounded-b-lg">
+        <div
+          class="flex space-x-2 items-center cursor-pointer"
+          @click="seeReasonOpen(request._id)"
+        >
+          <img
+            v-if="request.seeReason"
+            src="~/assets/images/pinkdropup.svg"
+            alt=""
+          />
+          <img v-else src="~/assets/images/pinkdropdown.svg" alt="" />
+          <p class="text-sm text-primary">See Reason</p>
+        </div>
+
+        <div v-if="request.seeReason" class="my-2">
+          <p class="text-header">{{ request.hrComment }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -57,7 +83,14 @@ import { ref, onMounted } from "vue";
 import { getHrRejectedLeave } from "~/services/leave";
 
 const pendingRequests = ref([]);
-
+// const seeReason = ref(false);
+const seeReasonOpen = (requestId) => {
+  // Find the request by its _id and toggle the 'seeReason' property
+  const request = pendingRequests.value.find((req) => req._id === requestId);
+  if (request) {
+    request.seeReason = !request.seeReason;
+  }
+};
 const fetchRejectedRequests = async () => {
   try {
     // Assuming you have a function to get the bearer token
@@ -67,8 +100,8 @@ const fetchRejectedRequests = async () => {
 
     // Update statistics based on the response
     if (!pendingResponse.error) {
-      pendingRequests.value = pendingResponse.data.docs;
-      console.log(pendingResponse);
+      pendingRequests.value = pendingResponse.data;
+      seeReason: false, console.log(pendingResponse);
     } else {
       console.error("Error fetching leave types:", pendingResponse.error);
     }

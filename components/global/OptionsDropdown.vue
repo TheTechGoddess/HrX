@@ -48,7 +48,11 @@
 import { ref, defineProps, defineEmits } from "vue";
 
 // Props
-const { options, modelValue } = defineProps(["options", "modelValue"]);
+const { options, modelValue, placeholder } = defineProps([
+  "options",
+  "modelValue",
+  "placeholder",
+]);
 const emits = defineEmits(["update:modelValue"]);
 
 // Selected option

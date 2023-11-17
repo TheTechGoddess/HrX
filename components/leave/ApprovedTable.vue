@@ -36,12 +36,18 @@
         </p>
         <div class="h-2 w-full bg-[#ECEDEF] rounded relative">
           <div
-            :style="'width:' + request.progress + '%'"
+            :style="
+              'width:' +  Math.min((request.totalDaysTaken / request.max) * 100, 100) + '%'
+            "
             class="h-2 bg-[#E4669E] absolute rounded"
           ></div>
         </div>
         <p class="text-[#757C86] text-[10px]">
-          {{ request.daysLeft }} days left
+          {{
+            request.daysleft !== null
+              ? request.daysleft + " days left"
+              : "No days left"
+          }}
         </p>
       </div>
       <div class="p-4 border border-[#ECEDEF] rounded-b-lg">
@@ -67,7 +73,7 @@ const fetchApprovedRequests = async () => {
 
     // Update statistics based on the response
     if (!pendingResponse.error) {
-      pendingRequests.value = pendingResponse.data.docs;
+      pendingRequests.value = pendingResponse.data;
       console.log(pendingResponse);
     } else {
       console.error("Error fetching leave types:", pendingResponse.error);

@@ -36,7 +36,11 @@
         </p>
         <div class="h-2 w-full bg-[#ECEDEF] rounded relative">
           <div
-            :style="'width:' + request.progress + '%'"
+            :style="
+              'width:' +
+              Math.min((request.totalDaysTaken / request.max) * 100, 100) +
+              '%'
+            "
             class="h-2 bg-[#E4669E] absolute rounded"
           ></div>
         </div>
@@ -193,28 +197,7 @@ const fetchPendingRequests = async () => {
     const pendingResponse = await getHrPendingLeave();
 
     if (!pendingResponse.error) {
-      pendingRequests.value = pendingResponse.data.docs;
-
-      // Fetch leave summary for each pending request
-      for (const request of pendingResponse.data.docs) {
-        const leaveSummary = await getLeaveSummary(request.leaveType);
-
-        // Calculate progress if leave summary data exists
-        if (!leaveSummary.error) {
-          const { appliedDays, daysleft } = leaveSummary.data;
-          const totalDays = appliedDays + (daysleft || 0); // Treat null as 0
-
-          // Calculate progress percentage
-          const progress =
-            totalDays !== 0 ? (appliedDays / totalDays) * 100 : 0;
-
-          // Assign progress to request object
-          request.progress = progress;
-          request.daysleft = daysleft;
-        } else {
-          console.error("Error fetching leave summary:", leaveSummary.error);
-        }
-      }
+      pendingRequests.value = pendingResponse.data;
     } else {
       console.error("Error fetching leave types:", pendingResponse.error);
     }

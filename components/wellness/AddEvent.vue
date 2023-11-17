@@ -2,7 +2,7 @@
   <div>
     <Modal :visible="showModal">
       <div
-        class="bg-white flex flex-col py-6 px-8 rounded-lg w-[300px] h-screen overflow-y-auto md:w-[500px] lg:w-[400px]"
+        class="bg-white flex flex-col hide-scrollbar py-6 px-8 rounded-lg w-[300px] h-screen overflow-y-auto md:w-[500px] lg:w-[400px]"
       >
         <img
           src="~/assets/images/close.svg"
@@ -402,3 +402,13 @@ const submitEvent = async () => {
   }
 };
 </script>
+<style>
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+</style>

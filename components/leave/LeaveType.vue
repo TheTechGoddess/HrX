@@ -65,7 +65,13 @@
         </div>
       </div>
     </Modal>
-    <leave-success v-if="showLeaveSuccess" />
+    <InviteSuccess
+      :title="'Success'"
+      :message="'You’ve successfully created a new leave for employees!'"
+      :buttonLink="'/auth/login'"
+      :buttonText="'Go To Login'"
+      v-if="showLeaveSuccess"
+    />
   </div>
 </template>
 
