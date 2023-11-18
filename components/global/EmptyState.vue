@@ -1,10 +1,10 @@
 <template>
   <div
-    class="empty-state bg-white rounded-lg p-6 border flex flex-col justify-center items-center content-center border-gray-300 text-center"
+    class="w-full bg-white rounded-lg py-6 flex flex-col justify-center items-center content-center text-center"
   >
-    <img :src="image" alt="Empty State" class="mx-auto mb-4 max-w-xs" />
+    <img :src="image" alt="Empty State" class="mb-4 max-w-xs" />
     <h2 class="text-sm font-medium text-header">{{ title }}</h2>
-    <p class="text-bodytext text-xs w-[200px] text-center mt-1">
+    <p class="text-bodytext text-xs text-center mt-1">
       {{ description }}
     </p>
     <button

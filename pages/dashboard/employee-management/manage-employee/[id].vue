@@ -24,7 +24,6 @@ import Title from "@/components/layout/Title.vue";
 import ButtonSwitch from "../../../components/global/ButtonSwitch.vue";
 import GeneralDetails from "../../../../components/employee/GeneralDetails.vue";
 import Permissions from "../../../../components/employee/Permissions.vue";
-import ActivityLog from "../../../../components/employee/ActivityLog.vue";
 
 const tabButtons = [
   {
@@ -34,10 +33,6 @@ const tabButtons = [
   {
     label: "Permissions",
     component: Permissions,
-  },
-  {
-    label: "Activity Log",
-    component: ActivityLog,
   },
 ];
 </script>

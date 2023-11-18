@@ -12,7 +12,7 @@
       </button>
     </div>
     <div class="rounded-b-2xl overflow-x-auto">
-      <table class="w-full border-collapse">
+      <table v-if="employees.length > 0" class="w-full border-collapse">
         <thead class="text-left text-[#757C86] font-medium text-sm">
           <tr class="">
             <th class="pl-4 py-4 px-8">Name</th>
@@ -23,15 +23,11 @@
           </tr>
         </thead>
         <tbody class="text-[#39404F] text-sm rounded-b-2xl bg-white">
-          <!-- <nuxt-link
-        
-            :to="`/dashboard/employee-management/manage-employee/${employee.employee}`"
-          ></nuxt-link> -->
           <tr
             v-for="employee in employees"
             :key="employee.employee"
             class="border border-[#F9FAFB] cursor-pointer"
-            @click="navigateToEmployee(employee.employee)"
+            @click="navigateToEmployee(employee._id)"
           >
             <td
               class="py-2 px-8 pl-4 flex space-x-1 mt-2 overflow-hidden whitespace-nowrap text-left"
@@ -59,7 +55,7 @@
             </td>
 
             <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
-              {{ employee.role }}
+              {{ employee.jobRole }}
             </td>
             <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
               {{ employee.department }}
@@ -109,12 +105,21 @@
           </tr>
         </tbody>
       </table>
+      <div v-else class="w-full">
+        <EmptyState
+          class="py-16 w-full"
+          :image="currentaward"
+          title="No Employees found"
+          description="Try inviting employees to the platform by clicking the invite employees button"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 import { getEmployeesHr } from "~/services/employee";
 import { ref, onMounted } from "vue";
+import EmptyState from "../global/EmptyState.vue";
 const router = useRouter();
 const employees = ref([]);
 

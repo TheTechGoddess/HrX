@@ -3,8 +3,8 @@
   <div
     class="2xl:w-full 2xl:text-center 2xl:flex 2xl:flex-col"
   >
-    <div class="md:flex md:justify-between 2xl:w-[1500px] 2xl:self-center">
-      <div class="hidden md:flex md:flex-col md:w-[295px]">
+    <div class="lg:flex lg:justify-between 2xl:w-[1500px] 2xl:self-center">
+      <div class="hidden lg:flex lg:flex-col lg:w-[295px]">
         <LayoutSidebar />
       </div>
 

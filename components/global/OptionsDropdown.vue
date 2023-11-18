@@ -7,7 +7,7 @@
       readonly
       @click="toggleDropdown"
       :placeholder="placeholder || 'Select'"
-      class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0 w-full"
+      class="bg-[#F7F8FA] px-4 py-3.5 text-sm rounded text-[#344054] placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0 w-full"
     />
     <div
       v-show="showDropdown"
@@ -25,7 +25,7 @@
       </ul>
     </div>
     <div
-      class="absolute top-1/2 right-4 transform -translate-y-1/3 w-4 h-6 bg-center bg-no-repeat cursor-pointer"
+      class="absolute top-1/2 right-4 transform -translate-y-1/2 w-4 h-6 bg-center bg-no-repeat cursor-pointer"
       style="pointer-events: none"
     >
       <svg

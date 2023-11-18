@@ -12,7 +12,8 @@
     </div>
 
     <div class="md:flex md:justify-between md:space-x-4 py-6">
-      <PerformanceRate />
+      <PerformanceRate v-if="loginUser.loginType === 'Employee'" />
+      <EmployeeMetrics v-else />
       <PerformanceMetrics />
     </div>
     <PerformanceAssessment />
@@ -24,4 +25,8 @@ import Title from "@/components/layout/Title.vue";
 import PerformanceRate from "../../../components/performance-management/PerformanceRate.vue";
 import PerformanceMetrics from "../../../components/performance-management/PerformanceMetrics.vue";
 import PerformanceAssessment from "../../../components/performance-management/PerformanceAssessment.vue";
+import { useLoginUser } from "~/store/auth";
+import EmployeeMetrics from "../../../components/performance-management/EmployeeMetrics.vue";
+
+const loginUser = useLoginUser();
 </script>
