@@ -1,14 +1,28 @@
 <template>
   <div class="flex justify-between px-6 items-center content-center">
-    <div class="flex items-center space-x-2">
-      <img
-        :src="userStore.data.company.logo"
-        alt=""
-        class="w-8 h-8 rounded-full"
-      />
-      <p>{{ userStore.data.company.companyName }}</p>
-      <img src="~/assets/images/down_arrow.svg" alt="" class="w-2" />
+    <div>
+      <div
+        class="flex items-center space-x-2"
+        v-if="loginUser.loginType === 'Employee'"
+      >
+        <img
+          :src="userStore.data.company.logo"
+          alt=""
+          class="w-8 h-8 rounded-full"
+        />
+        <p>{{ userStore.data.company.companyName }}</p>
+        <img src="~/assets/images/down_arrow.svg" alt="" class="w-2" />
+      </div>
+      <div class="flex items-center space-x-2" v-else>
+        <img
+          :src="companyStore.data.logo"
+          alt=""
+          class="w-8 h-8 rounded-full"
+        />
+        <p>{{ companyStore.data.companyName }}</p>
+      </div>
     </div>
+
     <div class="lg:ml-36 w-[50%] relative hidden md:flex">
       <input
         type="search"
@@ -36,11 +50,13 @@
 
 <script setup>
 import { onBeforeMount } from "vue";
-import { getMe } from "~/services/auth";
+import { getMe, getCompany } from "~/services/auth";
 import { useLoginUser } from "~/store/auth";
 import { useUserStore } from "~/store/user";
+import { useCompanyStore } from "~/store/company";
 const userStore = useUserStore();
 const loginUser = useLoginUser();
+const companyStore = useCompanyStore();
 // if ((loginUser.loginType = "Employee")) {
 // }
 onBeforeMount(async () => {
@@ -70,7 +86,28 @@ onBeforeMount(async () => {
     }
   };
 
+  const fetchCompanyData = async () => {
+    try {
+      const response = await getCompany();
+      if (response.error) {
+        companyStore.setError(response.error);
+        console.log(error);
+      } else {
+        companyStore.setId(response.data._id);
+        companyStore.setCompanyEmail(response.data.companyEmail);
+        companyStore.setCompanyName(response.data.companyName);
+        companyStore.setRole(response.data.role);
+        companyStore.setLogo(response.data.logo);
+        companyStore.setSubscriptionType(response.data.subscriptionType);
+        console.log(response); // Log the entire store
+      }
+    } catch (error) {
+      companyStore.setError("An unexpected error occurred.");
+    }
+  };
+
   // Call the fetchUserData function when the component mounts
   fetchUserData();
+  fetchCompanyData();
 });
 </script>
