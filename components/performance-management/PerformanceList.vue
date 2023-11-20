@@ -12,14 +12,15 @@
       </button>
     </div>
     <div class="rounded-b-2xl overflow-x-auto">
-      <table class="w-full border-collapse">
+      <table v-if="employees.length > 0" class="w-full border-collapse">
         <thead class="text-left text-[#757C86] font-medium text-sm">
           <tr class="">
+            <th class="py-2 px-8 text-left"></th>
             <th class="pl-4 py-4 px-8">Name</th>
             <th class="px-8">Job Role</th>
             <th class="px-8">Department</th>
-            <th class="px-8">Date</th>
             <th class="px-8">Status</th>
+            <th class="px-8">Average Rating</th>
           </tr>
         </thead>
         <tbody class="text-[#39404F] text-sm rounded-b-2xl bg-white">
@@ -27,8 +28,10 @@
             v-for="employee in employees"
             :key="employee.employee"
             class="border border-[#F9FAFB] cursor-pointer"
-            @click="navigateToEmployee(employee._id)"
           >
+            <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
+              <input type="checkbox" :id="'employee_' + employee._id" />
+            </td>
             <td
               class="py-2 px-8 pl-4 flex space-x-1 mt-2 overflow-hidden whitespace-nowrap text-left"
             >
@@ -61,14 +64,6 @@
               {{ employee.department }}
             </td>
             <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
-              <p>
-                {{ formatDateTime(employee.createdAt).date }} -
-                <span class="text-[#757C86] text-xs">
-                  {{ formatDateTime(employee.createdAt).time }}</span
-                >
-              </p>
-            </td>
-            <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
               <div
                 class="w-[110px] py-1 flex justify-center rounded-2xl space-x-2"
                 :class="{
@@ -79,7 +74,7 @@
                   'text-[#CFD0D0] bg-[#CFD0D0] bg-opacity-10':
                     employee.status === 'Deactivated',
                   'text-[#F6AF45] bg-[#F6AF45] bg-opacity-10':
-                    employee.status === 'Leave',
+                    employee.status === 'On Leave',
                 }"
               >
                 <div
@@ -88,7 +83,7 @@
                     'bg-[#769BAE]': employee.status === 'Invited',
                     'bg-[#058836]': employee.status === 'Active',
                     'bg-[#CFD0D0]': employee.status === 'Deactivated',
-                    'bg-[#F6AF45]': employee.status === 'Leave',
+                    'bg-[#F6AF45]': employee.status === 'On Leave',
                   }"
                 ></div>
                 <p>
@@ -97,24 +92,46 @@
                       ? "Onboarding"
                       : employee.status === "Deactivated"
                       ? "Exited"
-                      : employee.status === "Leave"
-                      ? "On Leave"
                       : employee.status
                   }}
                 </p>
               </div>
             </td>
+            <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
+              <div v-html="renderStars(employee.averageRating)"></div>
+            </td>
           </tr>
         </tbody>
       </table>
+      <div v-else class="w-full">
+        <EmptyState
+          class="py-16 w-full"
+          :image="currentaward"
+          title="No Employees found"
+          description="Try inviting employees to the platform by clicking the invite employees button"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 import { getEmployeesHr } from "~/services/employee";
 import { ref, onMounted } from "vue";
+import EmptyState from "../global/EmptyState.vue";
 const router = useRouter();
 const employees = ref([]);
+
+const renderStars = (rating) => {
+  const roundedRating = Math.round(rating); // Round the rating to the nearest integer
+  const fullStars = '<span class="text-yellow-500 w-6 h-6">★</span>'.repeat(
+    roundedRating
+  ); // Full stars
+  const emptyStars = '<span class="text-gray-300 w-6 h-6">★</span>'.repeat(
+    5 - roundedRating
+  ); // Empty stars
+
+  return fullStars + emptyStars; // Concatenate full and empty stars
+};
 
 const fetchEmployee = async () => {
   try {
@@ -136,32 +153,6 @@ const fetchEmployee = async () => {
 };
 
 onMounted(fetchEmployee);
-
-const formatDateTime = (timestamp) => {
-  const dateObject = new Date(timestamp);
-
-  // Format date
-  const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(
-    dateObject
-  );
-  const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
-    dateObject
-  );
-  const year = dateObject.getFullYear();
-
-  const formattedDate = `${day}th ${month} ${year}`;
-
-  // Format time
-  const hours = dateObject.getHours();
-  const minutes = dateObject.getMinutes();
-  const period = hours >= 12 ? "PM" : "AM";
-
-  const formattedTime = `${hours % 12 || 12}:${minutes
-    .toString()
-    .padStart(2, "0")} ${period}`;
-
-  return { date: formattedDate, time: formattedTime };
-};
 
 const navigateToEmployee = (employeeId) => {
   router.push(`/dashboard/employee-management/manage-employee/${employeeId}`);

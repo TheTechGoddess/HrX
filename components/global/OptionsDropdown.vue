@@ -7,7 +7,7 @@
       readonly
       @click="toggleDropdown"
       :placeholder="placeholder || 'Select'"
-      class="bg-[#F7F8FA] px-4 py-3.5 text-sm rounded text-[#344054] placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0 w-full"
+      class="bg-[#F7F8FA] cursor-pointer px-4 py-3.5 text-sm rounded text-[#344054] placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0 w-full"
     />
     <div
       v-show="showDropdown"
