@@ -606,12 +606,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import OptionsDropdown from "~/components/global/OptionsDropdown.vue";
-import { getEmployeeHr, updateEmployeeHr } from "~/services/employee";
+import { getMe, updateEmployee } from "~/services/employee";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
-const employeeId = employeeData._id;
 const employeeData = ref(null);
 const edited = ref(false);
 const editProfile = () => {
@@ -658,7 +657,7 @@ const departmentOptions = [
 
 async function fetchEmployeeHRData() {
   try {
-    const result = await getEmployeeHr(employeeId);
+    const result = await getMe();
 
     if (result.error) {
       console.error("Error fetching employee HR:", result.error);
@@ -745,7 +744,7 @@ const save = async () => {
   }
 
   try {
-    const response = await updateEmployeeHr(employeeId, updatedData);
+    const response = await updateEmployee(updatedData);
 
     if (response.error) {
       console.error("Error updating employee data:", response.error);

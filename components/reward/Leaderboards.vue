@@ -239,7 +239,7 @@
         </tbody> -->
       </table>
     </div>
-    <div v-else>
+    <div v-else class="py-60 bg-white rounded-lg">
       <!-- emptystate employee -->
       <EmptyState
         v-if="loginUser.loginType === 'Employee'"
@@ -250,7 +250,7 @@
       />
       <EmptyState
         v-else
-        class="py-10"
+        class="py-16"
         :image="currentaward"
         title="No leaderboard data available"
         description="Win awards and secure your spot on the leaderboard. Your achievements will shine here."

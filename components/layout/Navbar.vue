@@ -39,11 +39,12 @@
     </div>
     <div class="flex items-center space-x-6">
       <div class="p-2 bg-[#FCF0F5] rounded-full">
-        <img src="~/assets/images/notifications.svg" alt="" class="w-8" />
+        <img src="~/assets/images/notifications.svg" alt="" class="w-6" />
       </div>
-      <div class="p-2 bg-[#FCF0F5] rounded-full">
-        <img src="~/assets/images/settings.svg" alt="" class="w-8" />
-      </div>
+      <nuxt-link to="/dashboard/overview/settings"
+        ><div class="p-2 bg-[#FCF0F5] rounded-full">
+          <img src="~/assets/images/settings.svg" alt="" class="w-6" /></div
+      ></nuxt-link>
     </div>
   </div>
 </template>

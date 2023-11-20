@@ -305,11 +305,16 @@
       </div>
     </div>
     <set-award v-if="isModalVisible" @close="closeModal" />
-    <vote-employee v-if="voteEmployee" :awardsId="awardsId" />
+    <vote-employee
+      v-if="voteEmployee"
+      :awardsId="awardsId"
+      @close="closeVote"
+    />
     <voting-results
       v-if="votingResultModal"
       :awardsId="awardsId"
       :awardsIdHr="awardsIdHr"
+      @close="closeResult"
     />
     <nominate-employee v-if="nominateEmployee" :awardsId="awardsId" />
   </div>
@@ -367,6 +372,18 @@ const openVoteResult = (awardId) => {
 const openVoteResultHr = (awardIdHr) => {
   awardsIdHr.value = awardIdHr;
   votingResultModal.value = true;
+};
+
+const closeModal = () => {
+  isModalVisible.value = false;
+};
+
+const closeVote = () => {
+  voteEmployee.value = false;
+};
+
+const closeResult = () => {
+  votingResultModal.value = false;
 };
 
 // Inside your <script setup>
