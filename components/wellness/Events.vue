@@ -88,7 +88,7 @@ import logoImg from "~/assets/images/wellness_logo.svg";
 import AddEvent from "./AddEvent.vue";
 import HrEvents from "./HrEvents.vue";
 import { getEventsEmployee } from "~/services/wellness";
-import EmptyState from "../global/emptystate.vue";
+import EmptyState from "../global/EmptyState.vue";
 const loginUser = useLoginUser();
 
 const isModalVisible = ref(false);

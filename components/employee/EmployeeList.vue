@@ -172,7 +172,6 @@ const navigateToEmployee = (employeeId) => {
 .elem {
   width: 150px;
   height: 150px;
-  position: relative;
   border-radius: 50%;
   background: radial-gradient(
       circle closest-side at 50% 50%,

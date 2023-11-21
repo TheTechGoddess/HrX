@@ -78,7 +78,7 @@ import { useLoginUser } from "~/store/auth";
 import AddTraining from "./AddTraining.vue";
 import HrTrainings from "./HrTrainings.vue";
 import { getTrainingsEmployee } from "~/services/wellness";
-import EmptyState from "../global/emptystate.vue";
+import EmptyState from "../global/EmptyState.vue";
 import eventImg from "~/assets/images/empty_events.svg";
 const loginUser = useLoginUser();
 

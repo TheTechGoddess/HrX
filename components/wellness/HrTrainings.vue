@@ -49,7 +49,7 @@
 <script setup>
 import { useLoginUser } from "~/store/auth";
 import { getTrainingsHr } from "~/services/wellness";
-import EmptyState from "../global/emptystate.vue";
+import EmptyState from "../global/EmptyState.vue";
 import eventImg from "~/assets/images/empty_events.svg";
 const loginUser = useLoginUser();
 

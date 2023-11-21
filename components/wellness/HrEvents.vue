@@ -53,7 +53,7 @@
 import { useLoginUser } from "~/store/auth";
 import logoImg from "~/assets/images/wellness_logo.svg";
 import { getEventsHr, getEventsEmployee } from "~/services/wellness";
-import EmptyState from "../global/emptystate.vue";
+import EmptyState from "../global/EmptyState.vue";
 import eventImg from "~/assets/images/empty_events.svg";
 const loginUser = useLoginUser();
 
