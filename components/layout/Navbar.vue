@@ -2,7 +2,7 @@
   <div class="flex justify-between px-6 items-center content-center">
     <div>
       <div
-        class="flex items-center space-x-2"
+        class="flex items-center space-x-2 ml-16 lg:ml-0"
         v-if="loginUser.loginType === 'Employee'"
       >
         <img
@@ -11,9 +11,8 @@
           class="w-8 h-8 rounded-full"
         />
         <p>{{ userStore.data.company.companyName }}</p>
-        <img src="~/assets/images/down_arrow.svg" alt="" class="w-2" />
       </div>
-      <div class="flex items-center space-x-2" v-else>
+      <div class="flex items-center space-x-2 ml-16 lg:ml-0" v-else>
         <img
           :src="companyStore.data.logo"
           alt=""

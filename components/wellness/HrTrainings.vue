@@ -1,45 +1,56 @@
 <template>
-  <div v-if="loginUser.loginType === 'Company'">
-    <div class="my-8 flex justify-between">
-      <h1 class="text-header font-medium text-xl">Health Programs</h1>
-      <button
-        class="border border-[#CFD0D0] space-x-2 py-2 px-3 flex rounded-xl items-center"
-      >
-        <img src="~/assets/images/annual.svg" alt="" />
-        <p class="text-xs text-[#39404F]">Oldest</p>
-        <img src="~/assets/images/down_arrow.svg" alt="" />
-      </button>
+  <div>
+    <div v-if="events.length > 0 && loginUser.loginType === 'Company'">
+      <div class="my-8 flex justify-between">
+        <h1 class="text-header font-medium text-xl">Health Programs</h1>
+        <button
+          class="border border-[#CFD0D0] space-x-2 py-2 px-3 flex rounded-xl items-center"
+        >
+          <img src="~/assets/images/annual.svg" alt="" />
+          <p class="text-xs text-[#39404F]">Oldest</p>
+          <img src="~/assets/images/down_arrow.svg" alt="" />
+        </button>
+      </div>
+      <div class="my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a
+          v-for="event in events"
+          :key="event._id"
+          :href="event.link"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border border-deactivated p-4 flex flex-col justify-center rounded-lg cursor-pointer"
+        >
+          <img :src="event.image" alt="" class="h-32 rounded-lg" />
+          <div class="flex space-x-3 items-center">
+            <p class="text-bodytext text-xs">{{ event.organizer }}</p>
+          </div>
+          <h1 class="text-header text-xl font-medium">{{ event.eventName }}</h1>
+          <p class="my-3 text-xs text-bodytext">{{ event.description }}</p>
+          <div class="flex space-x-2 items-center">
+            <img src="~/assets/images/calender.svg" alt="" />
+            <p class="text-xs font-medium text-bodytext">
+              <span>{{ formatDate(event.startDate) }} </span> -
+              <span> {{ formatDate(event.endDate) }} </span>
+              <!-- <span class="ml-1">{{ event.year }}</span> -->
+            </p>
+          </div>
+        </a>
+      </div>
     </div>
-    <div class="my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <a
-        v-for="event in events"
-        :key="event._id"
-        :href="event.link"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="border border-deactivated p-4 flex flex-col justify-center rounded-lg cursor-pointer"
-      >
-        <img :src="event.image" alt="" class="h-32 rounded-lg" />
-        <div class="flex space-x-3 items-center">
-          <p class="text-bodytext text-xs">{{ event.organizer }}</p>
-        </div>
-        <h1 class="text-header text-xl font-medium">{{ event.eventName }}</h1>
-        <p class="my-3 text-xs text-bodytext">{{ event.description }}</p>
-        <div class="flex space-x-2 items-center">
-          <img src="~/assets/images/calender.svg" alt="" />
-          <p class="text-xs font-medium text-bodytext">
-            <span>{{ formatDate(event.startDate) }} </span> -
-            <span> {{ formatDate(event.endDate) }} </span>
-            <!-- <span class="ml-1">{{ event.year }}</span> -->
-          </p>
-        </div>
-      </a>
-    </div>
+    <EmptyState
+      v-else
+      class="py-24"
+      :image="eventImg"
+      title="You haven’t added any trainings yet"
+      description="To add an event, click on the ‘Add new training’ button "
+    />
   </div>
 </template>
 <script setup>
 import { useLoginUser } from "~/store/auth";
 import { getTrainingsHr } from "~/services/wellness";
+import EmptyState from "../global/emptystate.vue";
+import eventImg from "~/assets/images/empty_events.svg";
 const loginUser = useLoginUser();
 
 const events = ref([]);

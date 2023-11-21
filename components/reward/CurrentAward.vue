@@ -286,7 +286,7 @@
           <!-- emptystate employee -->
           <EmptyState
             v-if="loginUser.loginType === 'Employee'"
-            class="py-16"
+            class="py-24"
             :image="currentaward"
             title="No award in view"
             description="To enable nominations and voting, HR will establish the award program."
@@ -294,7 +294,7 @@
           <!-- emptystate hr -->
           <EmptyState
             v-else
-            class="py-10"
+            class="py-24"
             :image="currentaward"
             title="No award in view"
             description="To enable nominations and voting, HR will establish the award program."

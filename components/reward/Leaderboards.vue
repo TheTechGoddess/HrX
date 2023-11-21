@@ -243,14 +243,14 @@
       <!-- emptystate employee -->
       <EmptyState
         v-if="loginUser.loginType === 'Employee'"
-        class="py-16"
+        class="py-28"
         :image="currentaward"
         title="No leaderboard data available"
         description="Win awards and secure your spot on the leaderboard. Your achievements will shine here."
       />
       <EmptyState
         v-else
-        class="py-16"
+        class="py-28"
         :image="currentaward"
         title="No leaderboard data available"
         description="Win awards and secure your spot on the leaderboard. Your achievements will shine here."

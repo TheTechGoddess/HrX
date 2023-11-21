@@ -77,6 +77,7 @@
 
 <script setup>
 import Modal from "@/components/global/Modal.vue";
+import InviteSuccess from "../auth/InviteSuccess.vue";
 import OptionsDropdown from "../global/OptionsDropdown.vue";
 import LeaveSuccess from "./LeaveSuccess.vue";
 import { createLeaveType } from "~/services/leave";

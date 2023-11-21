@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="lg:h-screen relative">
+    <div class="relative">
       <div
         class="px-4 md:px-8 lg:px-16"
         style="background: linear-gradient(to right, #f6fdf8 49%, #e4669e 49%)"

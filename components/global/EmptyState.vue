@@ -2,9 +2,9 @@
   <div
     class="w-full bg-white rounded-lg py-6 flex flex-col justify-center items-center content-center text-center"
   >
-    <img :src="image" alt="Empty State" class="mb-4 max-w-xs" />
-    <h2 class="text-sm font-medium text-header">{{ title }}</h2>
-    <p class="text-bodytext text-xs text-center mt-1">
+    <img :src="image" alt="Empty State" class="mb-4 max-w-sm" />
+    <h2 class="text-xl font-medium text-header">{{ title }}</h2>
+    <p class="text-bodytext text-center mt-1">
       {{ description }}
     </p>
     <button

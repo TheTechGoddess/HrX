@@ -11,13 +11,11 @@
         Add New
       </p>
     </div>
-    <div
-      class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 my-5 text-center"
-    >
+    <div class="flex justify-between flex-wrap my-2 text-center">
       <div
         v-for="(game, index) in games"
         :key="index"
-        class="w-36 h-24 flex justify-center items-center content-center text-center shadow-inner cursor-pointer rounded-lg bg-deactivated"
+        class="w-36 h-24 flex justify-center my-2 items-center content-center text-center shadow-inner cursor-pointer rounded-lg bg-deactivated"
       >
         <p class="font-bold text-xl text-header">{{ game.name }}</p>
       </div>

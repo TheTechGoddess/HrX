@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="previousWinners && loginUser.loginType === 'Employee'"
+      v-if="previousWinners.length > 0 && loginUser.loginType === 'Employee'"
       class="bg-white w-full flex flex-col p-4 rounded-lg max-h-[350px] overflow-auto slim-scrollbar"
     >
       <div class="flex justify-between items-center">
@@ -54,7 +54,9 @@
       </div>
     </div>
     <div
-      v-else-if="previousWinnersHr && loginUser.loginType === 'Company'"
+      v-else-if="
+        previousWinnersHr.length > 0 && loginUser.loginType === 'Company'
+      "
       class="bg-white w-full flex flex-col p-4 rounded-lg max-h-[350px] overflow-auto slim-scrollbar"
     >
       <div class="flex justify-between items-center">
@@ -110,17 +112,17 @@
       <!-- emptystate employee -->
       <EmptyState
         v-if="loginUser.loginType === 'Employee'"
-        class="py-16"
+        class="py-24"
         :image="currentaward"
         title="No award in view"
         description="To enable nominations and voting, HR will establish the award program. employee"
       />
       <EmptyState
         v-else
-        class="py-10"
+        class="py-24"
         :image="currentaward"
         title="No award in view"
-        description="To enable nominations and voting, HR will establish the award program. hr"
+        description="To enable nominations and voting, HR will establish the award program"
       />
     </div>
   </div>

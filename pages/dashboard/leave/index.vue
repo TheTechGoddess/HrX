@@ -17,24 +17,8 @@
             </button></nuxt-link
           >
         </div>
-        <div class="flex justify-between items-center my-6">
-          <button
-            class="border border-[#CFD0D0] space-x-2 py-4 px-3 flex rounded-xl items-center"
-          >
-            <img src="~/assets/images/annual.svg" alt="" />
-            <p class="text-xs text-[#39404F]">Last 6 months</p>
-            <img src="~/assets/images/down_arrow.svg" alt="" />
-          </button>
-          <button
-            class="border border-[#CFD0D0] space-x-2 py-4 px-3 flex rounded-xl items-center"
-          >
-            <img src="~/assets/images/annual.svg" alt="" />
-            <p class="text-xs text-[#39404F]">Status</p>
-            <img src="~/assets/images/down_arrow.svg" alt="" />
-          </button>
-        </div>
       </div>
-      <div lass="rounded-b-2xl overflow-x-auto">
+      <div v-if="leaveData.length > 0" class="rounded-b-2xl overflow-x-auto">
         <table class="w-full border-collapse">
           <thead class="text-left text-[#757C86] font-medium text-sm">
             <tr class="">
@@ -54,7 +38,7 @@
               class="border border-[#F9FAFB]"
             >
               <td class="pl-4 py-4 overflow-hidden whitespace-nowrap text-left">
-                {{ index + 1 }}j
+                {{ index + 1 }}
               </td>
               <td class="py-4 overflow-hidden whitespace-nowrap text-left">
                 {{ leave.leaveType }}
@@ -88,6 +72,14 @@
           </tbody>
         </table>
       </div>
+      <div v-else>
+        <EmptyState
+          class="py-28"
+          :image="leave"
+          title="You haven’t made any requests yet"
+          description="To request a leave, click on the ‘Request leave’ button above to get started"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -101,10 +93,12 @@ import RejectedTable from "../../../components/leave/RejectedTable.vue";
 import pending from "~/assets/images/pending.svg";
 import approved from "~/assets/images/approved.svg";
 import rejected from "~/assets/images/rejected.svg";
+import leave from "~/assets/images/empty_leave.svg";
 import { useUserStore } from "~/store/user";
 import { useLoginUser } from "~/store/auth";
 import { getMyLeave } from "~/services/leave";
 import { ref, onMounted } from "vue";
+import EmptyState from "../../../components/global/EmptyState.vue";
 const userStore = useUserStore();
 const loginUser = useLoginUser();
 const leaveData = ref([]);

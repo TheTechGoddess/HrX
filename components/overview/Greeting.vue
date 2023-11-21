@@ -20,7 +20,11 @@
           Remember info lo fin fo. I hope you have a good day today!
         </p>
       </div>
-      <img src="~/assets/images/banner_img.svg" alt="" class="-mt-10 -mb-10" />
+      <img
+        src="~/assets/images/banner_img.svg"
+        alt=""
+        class="hidden md:flex -mt-10 -mb-10"
+      />
     </div>
     <div
       v-else
