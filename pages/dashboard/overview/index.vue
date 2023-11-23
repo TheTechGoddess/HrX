@@ -7,8 +7,8 @@
         <Anonymous class="md:w-[49%]" />
       </div>
       <div class="w-full md:flex md:justify-between md:space-x-4 -mt-3">
-        <Games class="md:w-[59%]" />
-        <Adventure class="md:w-[39%]" />
+        <Games class="md:w-[49%]" />
+        <Adventure class="md:w-[49%]" />
       </div>
     </div>
   </div>

@@ -25,7 +25,7 @@
       </div>
     </div>
     <!-- mobile view -->
-    <div class="fixed flex flex-col lg:hidden">
+    <div class="absolute flex flex-col lg:hidden">
       <div class="flex flex-col lg:hidden">
         <button
           @click="toggleSidebar"

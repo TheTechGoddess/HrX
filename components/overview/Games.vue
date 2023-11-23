@@ -6,51 +6,95 @@
       <h1 class="text-header text-xl">Games</h1>
       <p
         v-if="loginUser.loginType === 'Company'"
+        @click="isModalVisible = true"
         class="text-primary font-medium cursor-pointer"
       >
         Add New
       </p>
     </div>
-    <div class="flex justify-between flex-wrap my-2 text-center">
-      <div
-        v-for="(game, index) in games"
-        :key="index"
+    <div
+      v-if="games.length > 0 && loginUser.loginType === 'Employee'"
+      class="flex justify-between flex-wrap my-2 text-center"
+    >
+      <a
+        v-for="game in games"
+        :key="game._id"
+        :href="game.link"
         class="w-36 h-24 flex justify-center my-2 items-center content-center text-center shadow-inner cursor-pointer rounded-lg bg-deactivated"
       >
         <p class="font-bold text-xl text-header">{{ game.name }}</p>
-      </div>
+      </a>
     </div>
+    <div
+      v-else-if="gamesHr.length > 0 && loginUser.loginType === 'Company'"
+      class="flex justify-between flex-wrap my-2 text-center"
+    >
+      <a
+        v-for="game in gamesHr"
+        :key="game._id"
+        :href="game.link"
+        class="w-36 h-24 flex justify-center my-2 items-center content-center text-center shadow-inner cursor-pointer rounded-lg bg-deactivated"
+      >
+        <p class="font-bold text-xl text-header">{{ game.name }}</p>
+      </a>
+    </div>
+    <EmptyState
+      v-else
+      class="py-32"
+      :image="currentaward"
+      title="No games in view"
+      description="Hr will establish the Games."
+    />
   </div>
+  <new-game v-if="isModalVisible" @close="closeModal" />
 </template>
 <script setup>
 import { useLoginUser } from "~/store/auth";
+import NewGame from "./NewGame.vue";
+import { getGameData, getGameDataHR } from "~/services/employee";
+import EmptyState from "../global/EmptyState.vue";
+import currentaward from "~/assets/images/empty_currentaward.svg";
 const loginUser = useLoginUser();
+const isModalVisible = ref(false);
 
-const games = [
-  { name: "Kahoot", isSelected: false },
-  { name: "Among Us", isSelected: false },
-  { name: "Minecraft", isSelected: false },
-  { name: "Fortnite", isSelected: false },
-  { name: "LOLs", isSelected: false },
-  { name: "Valorant", isSelected: false },
-  { name: "Overwatch", isSelected: false },
-  { name: "Rocket", isSelected: false },
-  { name: "Apex", isSelected: false },
-  { name: "Dota", isSelected: false },
-  { name: "COD: Warzone", isSelected: false },
-  { name: "FIFA", isSelected: false },
-  { name: "The Legend of Zelda", isSelected: false },
-  { name: "Super Mario Bros", isSelected: false },
-  { name: "World of Warcraft", isSelected: false },
-  { name: "Genshin Impact", isSelected: false },
-  { name: "Among Trees", isSelected: false },
-  { name: "Cyberpunk", isSelected: false },
-  { name: "Red Dead", isSelected: false },
-  { name: "Assassin's Creed", isSelected: false },
-  { name: "Halo Infinite", isSelected: false },
-  { name: "The Witcher 3", isSelected: false },
-  // Add even more games here...
-];
+const closeModal = () => {
+  isModalVisible.value = false;
+};
+const games = ref([]);
+const gamesHr = ref([]);
+
+const fetchGames = async () => {
+  try {
+    const data = await getGameData();
+    if (!data.error) {
+      console.log(data);
+      games.value = data.data.docs; // Update the reactive variable
+    } else {
+      console.error("Error fetching previous winners:", data.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error occurred:", error);
+  }
+};
+
+const fetchGamesHr = async () => {
+  try {
+    const data = await getGameDataHR();
+    if (!data.error) {
+      console.log(data);
+      gamesHr.value = data.data.docs; // Update the reactive variable
+    } else {
+      console.error("Error fetching previous winners:", data.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error occurred:", error);
+  }
+};
+
+onMounted(() => {
+  fetchGames();
+  fetchGamesHr();
+});
 </script>
 <style>
 /* Styling the scrollbar */

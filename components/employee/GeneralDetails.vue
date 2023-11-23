@@ -611,7 +611,7 @@ import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
-const employeeId = employeeData._id;
+const employeeId = route.params.id;
 const employeeData = ref(null);
 const edited = ref(false);
 const editProfile = () => {

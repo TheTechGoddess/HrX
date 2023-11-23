@@ -164,7 +164,7 @@ export async function deactivateEmployeeHR(employeeId) {
 export async function updateEmployee(updatedData) {
   const url = useRuntimeConfig();
   const baseUrl = url.public.baseUrl;
-  const endpoint = '/api/v1/management/update-employee';
+  const endpoint = "/api/v1/management/update-employee";
   const token = localStorage.getItem("token");
 
   try {
@@ -255,8 +255,7 @@ export async function updateCompany(updatedData) {
     }
   } catch (error) {
     return {
-      error:
-        "An unexpected error occurred while updating company information.",
+      error: "An unexpected error occurred while updating company information.",
     };
   }
 }
@@ -283,14 +282,12 @@ export async function createGame(gameData) {
       const errorResponse = await response.json();
       return {
         error:
-          errorResponse.error ||
-          "An error occurred while creating the game.",
+          errorResponse.error || "An error occurred while creating the game.",
       };
     }
   } catch (error) {
     return {
-      error:
-        "An unexpected error occurred while creating the game.",
+      error: "An unexpected error occurred while creating the game.",
     };
   }
 }
@@ -322,8 +319,7 @@ export async function createAdventure(adventureData) {
     }
   } catch (error) {
     return {
-      error:
-        "An unexpected error occurred while creating the adventure.",
+      error: "An unexpected error occurred while creating the adventure.",
     };
   }
 }
@@ -356,8 +352,7 @@ export async function createAnonymousEntry(data) {
     }
   } catch (error) {
     return {
-      error:
-        "An unexpected error occurred while creating the anonymous entry.",
+      error: "An unexpected error occurred while creating the anonymous entry.",
     };
   }
 }
@@ -390,8 +385,7 @@ export async function createAffirmation(affirmationData) {
     }
   } catch (error) {
     return {
-      error:
-        "An unexpected error occurred while creating the affirmation.",
+      error: "An unexpected error occurred while creating the affirmation.",
     };
   }
 }
@@ -423,8 +417,7 @@ export async function getAnonymousData() {
     }
   } catch (error) {
     return {
-      error:
-        "An unexpected error occurred while fetching anonymous data.",
+      error: "An unexpected error occurred while fetching anonymous data.",
     };
   }
 }
@@ -456,8 +449,7 @@ export async function getAdventureHRData() {
     }
   } catch (error) {
     return {
-      error:
-        "An unexpected error occurred while fetching adventure HR data.",
+      error: "An unexpected error occurred while fetching adventure HR data.",
     };
   }
 }
@@ -489,8 +481,7 @@ export async function getAdventureData() {
     }
   } catch (error) {
     return {
-      error:
-        "An unexpected error occurred while fetching adventure data.",
+      error: "An unexpected error occurred while fetching adventure data.",
     };
   }
 }
@@ -522,8 +513,71 @@ export async function getAffirmationData() {
     }
   } catch (error) {
     return {
-      error:
-        "An unexpected error occurred while fetching affirmation data.",
+      error: "An unexpected error occurred while fetching affirmation data.",
+    };
+  }
+}
+
+export async function getGameData() {
+  const url = useRuntimeConfig();
+  const baseUrl = url.public.baseUrl;
+  const endpoint = "/api/v1/management/get-games";
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorResponse = await response.json();
+      return {
+        error:
+          errorResponse.error ||
+          "An error occurred while fetching affirmation data.",
+      };
+    }
+  } catch (error) {
+    return {
+      error: "An unexpected error occurred while fetching affirmation data.",
+    };
+  }
+}
+
+export async function getGameDataHR() {
+  const url = useRuntimeConfig();
+  const baseUrl = url.public.baseUrl;
+  const endpoint = "/api/v1/management/get-games-hr";
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorResponse = await response.json();
+      return {
+        error:
+          errorResponse.error ||
+          "An error occurred while fetching affirmation data.",
+      };
+    }
+  } catch (error) {
+    return {
+      error: "An unexpected error occurred while fetching affirmation data.",
     };
   }
 }

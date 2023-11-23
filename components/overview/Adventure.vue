@@ -7,113 +7,119 @@
       <p
         class="text-primary font-medium cursor-pointer"
         v-if="loginUser.loginType === 'Company'"
+        @click="isModalVisible = true"
       >
         Add New
       </p>
     </div>
-    <div class="my-4">
+    <div
+      class="my-4"
+      v-if="loginUser.loginType === 'Employee' && adventures.length > 0"
+    >
       <div
+        v-for="adventure in adventures"
         class="border-t border-deactivated py-3 px-4 flex space-x-4 items-start"
       >
         <img class="" src="~/assets/images/adventure_img.svg" alt="" />
         <div class="flex flex-col space-y-1">
-          <p class="text-bodytext font-medium">Piano people</p>
+          <p class="text-bodytext font-medium">{{ adventure.name }}</p>
           <div class="flex space-x-2 items-center">
             <img class="" src="~/assets/images/location.svg" alt="" />
-            <p class="text-body-text">Venue : The Good Beach VI Lagos</p>
+            <p class="text-body-text">Venue : {{ adventure.venue }}</p>
           </div>
           <div class="flex space-x-2 items-center">
             <img class="" src="~/assets/images/calender.svg" alt="" />
-            <p class="text-body-text text-xs">12th March 2024</p>
-          </div>
-        </div>
-      </div>
-      <div
-        class="border-t border-deactivated py-3 px-4 flex space-x-4 items-start"
-      >
-        <img class="" src="~/assets/images/adventure_img.svg" alt="" />
-        <div class="flex flex-col space-y-1">
-          <p class="text-bodytext font-medium">Piano people</p>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/location.svg" alt="" />
-            <p class="text-body-text">Venue : The Good Beach VI Lagos</p>
-          </div>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/calender.svg" alt="" />
-            <p class="text-body-text text-xs">12th March 2024</p>
-          </div>
-        </div>
-      </div>
-      <div
-        class="border-t border-deactivated py-3 px-4 flex space-x-4 items-start"
-      >
-        <img class="" src="~/assets/images/adventure_img.svg" alt="" />
-        <div class="flex flex-col space-y-1">
-          <p class="text-bodytext font-medium">Piano people</p>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/location.svg" alt="" />
-            <p class="text-body-text">Venue : The Good Beach VI Lagos</p>
-          </div>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/calender.svg" alt="" />
-            <p class="text-body-text text-xs">12th March 2024</p>
-          </div>
-        </div>
-      </div>
-      <div
-        class="border-t border-deactivated py-3 px-4 flex space-x-4 items-start"
-      >
-        <img class="" src="~/assets/images/adventure_img.svg" alt="" />
-        <div class="flex flex-col space-y-1">
-          <p class="text-bodytext font-medium">Piano people</p>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/location.svg" alt="" />
-            <p class="text-body-text">Venue : The Good Beach VI Lagos</p>
-          </div>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/calender.svg" alt="" />
-            <p class="text-body-text text-xs">12th March 2024</p>
-          </div>
-        </div>
-      </div>
-      <div
-        class="border-t border-deactivated py-3 px-4 flex space-x-4 items-start"
-      >
-        <img class="" src="~/assets/images/adventure_img.svg" alt="" />
-        <div class="flex flex-col space-y-1">
-          <p class="text-bodytext font-medium">Piano people</p>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/location.svg" alt="" />
-            <p class="text-body-text">Venue : The Good Beach VI Lagos</p>
-          </div>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/calender.svg" alt="" />
-            <p class="text-body-text text-xs">12th March 2024</p>
-          </div>
-        </div>
-      </div>
-      <div
-        class="border-t border-deactivated py-3 px-4 flex space-x-4 items-start"
-      >
-        <img class="" src="~/assets/images/adventure_img.svg" alt="" />
-        <div class="flex flex-col space-y-1">
-          <p class="text-bodytext font-medium">Piano people</p>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/location.svg" alt="" />
-            <p class="text-body-text">Venue : The Good Beach VI Lagos</p>
-          </div>
-          <div class="flex space-x-2 items-center">
-            <img class="" src="~/assets/images/calender.svg" alt="" />
-            <p class="text-body-text text-xs">12th March 2024</p>
+            <p class="text-body-text text-xs">
+              {{ formatDate(adventure.createdAt) }}
+            </p>
           </div>
         </div>
       </div>
     </div>
+    <div
+      class="my-4"
+      v-else-if="loginUser.loginType === 'Company' && adventuresHr.length > 0"
+    >
+      <div
+        v-for="adventure in adventuresHr"
+        class="border-t border-deactivated py-3 px-4 flex space-x-4 items-start"
+      >
+        <img class="" src="~/assets/images/adventure_img.svg" alt="" />
+        <div class="flex flex-col space-y-1">
+          <p class="text-bodytext font-medium">{{ adventure.name }}</p>
+          <div class="flex space-x-2 items-center">
+            <img class="" src="~/assets/images/location.svg" alt="" />
+            <p class="text-body-text">Venue : {{ adventure.venue }}</p>
+          </div>
+          <div class="flex space-x-2 items-center">
+            <img class="" src="~/assets/images/calender.svg" alt="" />
+            <p class="text-body-text text-xs">
+              {{ formatDate(adventure.createdAt) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <EmptyState
+      v-else
+      class="py-32"
+      :image="currentaward"
+      title="No adventures in view"
+      description="Hr will establish the Adventures."
+    />
+    <new-adventure v-if="isModalVisible" @close="closeModal" />
   </div>
 </template>
 <script setup>
 import { useLoginUser } from "~/store/auth";
+import NewAdventure from "./NewAdventure.vue";
+import { getAdventureData, getAdventureHRData } from "~/services/employee";
+import EmptyState from "../global/EmptyState.vue";
+import currentaward from "~/assets/images/empty_currentaward.svg";
 const loginUser = useLoginUser();
+const isModalVisible = ref(false);
+const adventures = ref([]);
+const adventuresHr = ref([]);
+const closeModal = () => {
+  isModalVisible.value = false;
+};
+const fetchAdeventure = async () => {
+  try {
+    const data = await getAdventureData();
+    if (!data.error) {
+      console.log(data);
+      adventures.value = data.data.docs; // Update the reactive variable
+    } else {
+      console.error("Error fetching previous winners:", data.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error occurred:", error);
+  }
+};
+const fetchAdeventureHr = async () => {
+  try {
+    const data = await getAdventureHRData();
+    if (!data.error) {
+      console.log(data);
+      adventuresHr.value = data.data.docs; // Update the reactive variable
+    } else {
+      console.error("Error fetching previous winners:", data.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error occurred:", error);
+  }
+};
+
+const formatDate = (inputDate) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const date = new Date(inputDate);
+  return date.toLocaleDateString("en-US", options);
+};
+
+onMounted(() => {
+  fetchAdeventure();
+  fetchAdeventureHr();
+});
 </script>
 <style>
 /* Styling the scrollbar */
