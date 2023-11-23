@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white w-full rounded-lg p-4 z-30">
+  <div class="bg-white w-full rounded-lg p-4">
     <h1 class="text-[#39404F] text-lg font-semibold">
       Departments - {{ totalDepartments }}
     </h1>
@@ -163,5 +163,6 @@ const conicGradientStyle = computed(() => {
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  position: relative;
 }
 </style>
