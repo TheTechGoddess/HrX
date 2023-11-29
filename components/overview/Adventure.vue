@@ -67,7 +67,16 @@
       title="No adventures in view"
       description="Hr will establish the Adventures."
     />
-    <new-adventure v-if="isModalVisible" @close="closeModal" />
+    <new-adventure
+      v-if="isModalVisible"
+      @close="closeModal"
+      @done="doneModal"
+    />
+    <SuccessPopup
+      v-if="showNotificationFromChild"
+      :message="'Success!!'"
+      @closed="closeNotificationInParent"
+    />
   </div>
 </template>
 <script setup>
@@ -76,12 +85,21 @@ import NewAdventure from "./NewAdventure.vue";
 import { getAdventureData, getAdventureHRData } from "~/services/employee";
 import EmptyState from "../global/EmptyState.vue";
 import currentaward from "~/assets/images/empty_currentaward.svg";
+import SuccessPopup from "../global/SuccessPopup.vue";
 const loginUser = useLoginUser();
 const isModalVisible = ref(false);
 const adventures = ref([]);
 const adventuresHr = ref([]);
+const showNotificationFromChild = ref(false);
 const closeModal = () => {
   isModalVisible.value = false;
+};
+const doneModal = () => {
+  isModalVisible.value = false;
+  showNotificationFromChild.value = true;
+};
+const closeNotificationInParent = () => {
+  showNotificationFromChild.value = false;
 };
 const fetchAdeventure = async () => {
   try {

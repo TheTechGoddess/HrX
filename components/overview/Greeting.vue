@@ -60,7 +60,16 @@
         class="-mt-10 -mb-10 hidden md:flex"
       />
     </div>
-    <new-affirmation v-if="isModalVisible" @close="closeModal" />
+    <NewAffirmation
+      v-if="isModalVisible"
+      @close="closeModal"
+      @done="doneModal"
+    />
+    <SuccessPopup
+      v-if="showNotificationFromChild"
+      :message="'Success!!'"
+      @closed="closeNotificationInParent"
+    />
   </div>
 </template>
 <script setup>
@@ -68,12 +77,24 @@ import { useLoginUser } from "~/store/auth";
 import { useUserStore } from "~/store/user";
 import { useCompanyStore } from "~/store/company";
 import NewAffirmation from "./NewAffirmation.vue";
+import { getAffirmationData } from "~/services/employee";
+import SuccessPopup from "../global/SuccessPopup.vue";
 const userStore = useUserStore();
 const loginUser = useLoginUser();
 const companyStore = useCompanyStore();
 const isModalVisible = ref(false);
+const showNotificationFromChild = ref(false);
 
 const closeModal = () => {
   isModalVisible.value = false;
+};
+
+const doneModal = () => {
+  isModalVisible.value = false;
+  showNotificationFromChild.value = true;
+};
+
+const closeNotificationInParent = () => {
+  showNotificationFromChild.value = false;
 };
 </script>

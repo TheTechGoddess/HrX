@@ -79,11 +79,6 @@ const doneModal = () => {
 const games = ref([]);
 const gamesHr = ref([]);
 
-// Method to handle the showSuccessNotification event emitted by the NewGame component
-const handleSuccessNotification = () => {
-  showNotificationFromChild.value = true; // Show the success notification in the parent
-};
-
 // Method to close the success notification in the parent
 const closeNotificationInParent = () => {
   showNotificationFromChild.value = false;

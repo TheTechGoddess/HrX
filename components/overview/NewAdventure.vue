@@ -37,7 +37,7 @@
               />
             </div>
             <div class="py-3 flex flex-col w-full">
-              <label for="">Date  <span class="text-error">*</span></label>
+              <label for="">Date <span class="text-error">*</span></label>
               <input
                 type="text"
                 class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
@@ -57,29 +57,28 @@
         </div>
       </div>
     </Modal>
-    <InviteSuccess
-      :title="'Success'"
-      :message="'You’ve successfully created an award'"
-      :buttonLink="'/auth/login'"
-      :buttonText="'Close'"
-      v-if="showSuccess"
+    <SuccessPopup
+      v-if="showNotification"
+      :message="'Success!!'"
+      @closed="handleNotificationClose"
     />
   </div>
 </template>
 
 <script setup>
 import Modal from "@/components/global/Modal.vue";
-import OptionsDropdown from "../global/OptionsDropdown.vue";
-import InviteSuccess from "../auth/InviteSuccess.vue";
+import SuccessPopup from "../global/SuccessPopup.vue";
 import { createAdventure } from "~/services/employee";
 import { ref, onMounted, nextTick, computed } from "vue";
+import { defineEmits } from "vue";
 
 // Data properties
 const showModal = ref(false);
-const showSuccess = ref(false);
+const showNotification = ref(false);
 const game = ref("");
 const link = ref("");
 const date = ref("");
+const emits = defineEmits(["done", "showSuccessNotification"]);
 
 const submit = async () => {
   if (game.value.trim() !== "" && link.value.trim() !== "") {
@@ -87,17 +86,26 @@ const submit = async () => {
       const data = {
         name: game.value,
         venue: link.value,
-        date: date.value
+        date: date.value,
       };
       const response = await createAdventure(data);
 
       // Handle response or update UI accordingly
       console.log(response);
-      showSuccess.value = true;
+      emits("done");
+      showModal.value = false;
+      await nextTick();
+      // Emit an event to inform the parent to display the success notification
+      emits("showSuccessNotification");
+      showNotification.value = true; // Show the success notification
     } catch (error) {
       console.error("Error creating anonymous entry:", error);
     }
   }
+};
+
+const handleNotificationClose = () => {
+  showNotification.value = false;
 };
 </script>
 <style>
