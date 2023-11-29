@@ -42,7 +42,7 @@
               <input
                 type="text"
                 :placeholder="performance.comment"
-                class="px-4 py-3.5 w-[70%] placeholder-[#CFD0D0] outline-none text-sm text-[#344054] border rounded-md border-[#F7F8FA] rounded"
+                class="px-4 py-3.5 w-[70%] placeholder-[#CFD0D0] outline-none text-sm text-[#344054] border rounded-md border-[#F7F8FA]"
               />
             </td>
           </tr>
@@ -62,6 +62,7 @@
 <script setup>
 import star from "~/assets/images/star.svg";
 import nostar from "~/assets/images/nostar.svg";
+import { getPeerToPeerPerformanceData } from "~/services/performance";
 const performanceData = [
   {
     type: "Collaboration",

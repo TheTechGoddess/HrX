@@ -42,9 +42,17 @@
             <p>{{ companyStore.data.companyName }}</p>
           </h1>
         </div>
-        <p class="text-bodytext text-lg">
-          Remember info lo fin fo. I hope you have a good day today!
-        </p>
+        <div class="flex space-x-1">
+          <p class="text-bodytext text-lg">
+            Remember info lo fin fo. I hope you have a good day today!
+          </p>
+          <img
+            src="~/assets/images/pen.svg"
+            alt=""
+            class="w-6 cursor-pointer"
+            @click="isModalVisible = true"
+          />
+        </div>
       </div>
       <img
         src="~/assets/images/banner_img.svg"
@@ -52,14 +60,20 @@
         class="-mt-10 -mb-10 hidden md:flex"
       />
     </div>
+    <new-affirmation v-if="isModalVisible" @close="closeModal" />
   </div>
 </template>
 <script setup>
 import { useLoginUser } from "~/store/auth";
 import { useUserStore } from "~/store/user";
 import { useCompanyStore } from "~/store/company";
+import NewAffirmation from "./NewAffirmation.vue";
 const userStore = useUserStore();
 const loginUser = useLoginUser();
 const companyStore = useCompanyStore();
-// if ((loginUser.loginType = "Employee"
+const isModalVisible = ref(false);
+
+const closeModal = () => {
+  isModalVisible.value = false;
+};
 </script>

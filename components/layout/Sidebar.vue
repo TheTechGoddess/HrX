@@ -23,6 +23,12 @@
           <p class="mx-2 text-sm text-[#757C86]">{{ page.title }}</p>
         </router-link>
       </div>
+      <div class="flex space-x-3 mx-5 mt-48">
+        <img src="~/assets/images/logout.svg" alt="" class="" />
+        <p @click="logout" class="text-sm text-[#757C86] cursor-pointer">
+          Logout
+        </p>
+      </div>
     </div>
     <!-- mobile view -->
     <div class="absolute flex flex-col lg:hidden">
@@ -81,13 +87,19 @@
             <p class="mx-2 text-sm text-[#757C86]">{{ page.title }}</p>
           </router-link>
         </div>
+        <div class="flex space-x-3 mx-5 mt-48">
+          <img src="~/assets/images/logout.svg" alt="" class="" />
+          <p @click="logout" class="text-sm text-[#757C86] cursor-pointer">
+            Logout
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { ref } from "vue";
 import overview from "~/assets/images/overview.svg";
 import wellness from "~/assets/images/wellness.svg";
@@ -103,6 +115,7 @@ function toggleSidebar() {
 
 const loginUser = useLoginUser();
 const route = useRoute();
+const router = useRouter();
 
 const pages = [
   { title: "Overview", path: "/dashboard/overview", imageSrc: overview },
@@ -140,6 +153,11 @@ const filteredPages = computed(() => {
 function isActive(path) {
   return route.path.startsWith(path);
 }
+
+const logout = () => {
+  loginUser.logout();
+  router.push("/auth/login"); // Redirect to login page after logout
+};
 </script>
 
 <style scoped></style>

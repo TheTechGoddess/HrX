@@ -4,11 +4,10 @@
       <h1 class="text-[#39404F] text-lg font-semibold">Employees</h1>
 
       <button
-        class="border border-[#CFD0D0] space-x-2 py-2 px-3 flex rounded-xl items-center"
+        @click="setAssessmentModal"
+        class="px-5 py-3 font-medium text-white bg-[#E4669E] rounded-xl"
       >
-        <img src="~/assets/images/annual.svg" alt="" />
-        <p class="text-xs text-[#39404F]">Status</p>
-        <img src="~/assets/images/down_arrow.svg" alt="" />
+        Create Assessment
       </button>
     </div>
     <div class="rounded-b-2xl overflow-x-auto">
@@ -30,7 +29,20 @@
             class="border border-[#F9FAFB] cursor-pointer"
           >
             <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
-              <input type="checkbox" :id="'employee_' + employee._id" />
+              <div
+                @click="toggleEmployeeSelection(employee._id)"
+                class="relative rounded-sm border border-gray-300 w-4 h-4 cursor-pointer flex items-center justify-center"
+                :class="{
+                  'bg-primary': selectedEmployees.includes(employee._id),
+                }"
+              >
+                <img
+                  v-if="selectedEmployees.includes(employee._id)"
+                  src="~/assets/images/checked.svg"
+                  alt=""
+                  class="absolute text-primary"
+                />
+              </div>
             </td>
             <td
               class="py-2 px-8 pl-4 flex space-x-1 mt-2 overflow-hidden whitespace-nowrap text-left"
@@ -74,7 +86,7 @@
                   'text-[#CFD0D0] bg-[#CFD0D0] bg-opacity-10':
                     employee.status === 'Deactivated',
                   'text-[#F6AF45] bg-[#F6AF45] bg-opacity-10':
-                    employee.status === 'On Leave',
+                    employee.status === 'Leave',
                 }"
               >
                 <div
@@ -83,7 +95,7 @@
                     'bg-[#769BAE]': employee.status === 'Invited',
                     'bg-[#058836]': employee.status === 'Active',
                     'bg-[#CFD0D0]': employee.status === 'Deactivated',
-                    'bg-[#F6AF45]': employee.status === 'On Leave',
+                    'bg-[#F6AF45]': employee.status === 'Leave',
                   }"
                 ></div>
                 <p>
@@ -92,13 +104,24 @@
                       ? "Onboarding"
                       : employee.status === "Deactivated"
                       ? "Exited"
+                      : employee.status === "Leave"
+                      ? "On Leave"
                       : employee.status
                   }}
                 </p>
               </div>
             </td>
-            <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
+            <td
+              v-if="employee.averageRating"
+              class="py-2 px-8 overflow-hidden whitespace-nowrap text-left"
+            >
               <div v-html="renderStars(employee.averageRating)"></div>
+            </td>
+            <td
+              v-if="!employee.averageRating"
+              class="py-2 px-8 overflow-hidden whitespace-nowrap text-left"
+            >
+              N/A
             </td>
           </tr>
         </tbody>
@@ -112,14 +135,41 @@
         />
       </div>
     </div>
+    <set-assessment
+      v-if="isModalVisible"
+      :selectedEmployees="selectedEmployees"
+      @close="closeModal"
+    />
   </div>
 </template>
 <script setup>
 import { getEmployeesHr } from "~/services/employee";
 import { ref, onMounted } from "vue";
 import EmptyState from "../global/EmptyState.vue";
+import SetAssessment from "./SetAssessment.vue";
 const router = useRouter();
 const employees = ref([]);
+const selectedEmployees = ref([]);
+const isModalVisible = ref(false);
+
+const toggleEmployeeSelection = (employeeId) => {
+  const index = selectedEmployees.value.indexOf(employeeId);
+  if (index === -1) {
+    // If not selected, add to the list
+    selectedEmployees.value.push(employeeId);
+  } else {
+    // If already selected, remove from the list
+    selectedEmployees.value.splice(index, 1);
+  }
+};
+
+const setAssessmentModal = () => {
+  isModalVisible.value = true;
+};
+
+const closeModal = () => {
+  isModalVisible.value = false;
+};
 
 const renderStars = (rating) => {
   const roundedRating = Math.round(rating); // Round the rating to the nearest integer
@@ -158,25 +208,3 @@ const navigateToEmployee = (employeeId) => {
   router.push(`/dashboard/employee-management/manage-employee/${employeeId}`);
 };
 </script>
-
-<style scoped>
-.elem {
-  width: 150px;
-  height: 150px;
-  position: relative;
-  border-radius: 50%;
-  background: radial-gradient(
-      circle closest-side at 50% 50%,
-      white 75%,
-      transparent 0%
-    ),
-    conic-gradient(
-      #f7fafc 0% 10%,
-      #fcf6bd 10% 25%,
-      #a9def9 25% 30%,
-      #e4669e 30% 60%,
-      #e0abff 60% 85%,
-      #d0f4de 85% 100%
-    );
-}
-</style>

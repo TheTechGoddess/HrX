@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white w-full flex flex-col rounded-lg my-6 max-h-[390px] overflow-auto slim-scrollbar"
+    class="bg-white w-full flex flex-col rounded-lg my-6 max-h-[367px] overflow-auto slim-scrollbar"
   >
     <div class="m-4">
       <h1 class="text-header text-xl">Anonymous Message</h1>
@@ -43,13 +43,13 @@
           class="border-t border-deactivated py-3 px-4 flex space-x-4 items-start"
         >
           <img class="" src="~/assets/images/anonymous.svg" alt="" />
-          <div class="flex flex-col space-y-2">
+          <div class="flex flex-col space-y-.5">
             <p class="text-header">Anonymous</p>
 
-            <p class="text-body-text">
+            <p class="text-bodytext">
               {{ message.message }}
             </p>
-            <p class="text-body-text text-xs">
+            <p class="text-bodytext text-xs">
               {{ formatDate(message.createdAt) }}
             </p>
           </div>
@@ -64,12 +64,10 @@
       />
     </div>
 
-    <InviteSuccess
-      :title="'Success'"
-      :message="'You’ve successfully sent an anonymous message'"
-      :buttonLink="'/auth/login'"
-      :buttonText="'Close'"
+    <SuccessPopup
       v-if="showSuccess"
+      :message="'Success!!'"
+      @closed="showNotification = false"
     />
   </div>
 </template>

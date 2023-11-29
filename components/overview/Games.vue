@@ -20,9 +20,12 @@
         v-for="game in games"
         :key="game._id"
         :href="game.link"
-        class="w-36 h-24 flex justify-center my-2 items-center content-center text-center shadow-inner cursor-pointer rounded-lg bg-deactivated"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-36 h-24 flex justify-center my-2 items-center content-center text-center shadow-inner cursor-pointer rounded-lg bg-deactivated p-4"
       >
-        <p class="font-bold text-xl text-header">{{ game.name }}</p>
+        <img v-if="game.thumbnailUrl" :src="game.thumbnailUrl" alt="" />
+        <p v-else class="font-bold text-xl text-header">{{ game.name }}</p>
       </a>
     </div>
     <div
@@ -33,9 +36,12 @@
         v-for="game in gamesHr"
         :key="game._id"
         :href="game.link"
-        class="w-36 h-24 flex justify-center my-2 items-center content-center text-center shadow-inner cursor-pointer rounded-lg bg-deactivated"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-36 h-24 flex justify-center my-2 items-center content-center text-center shadow-inner cursor-pointer rounded-lg bg-deactivated p-4"
       >
-        <p class="font-bold text-xl text-header">{{ game.name }}</p>
+        <img v-if="game.thumbnailUrl" :src="game.thumbnailUrl" alt="" />
+        <p v-else class="font-bold text-xl text-header">{{ game.name }}</p>
       </a>
     </div>
     <EmptyState
@@ -46,7 +52,12 @@
       description="Hr will establish the Games."
     />
   </div>
-  <new-game v-if="isModalVisible" @close="closeModal" />
+  <new-game v-if="isModalVisible" @close="closeModal" @done="doneModal"/>
+  <SuccessPopup
+    v-if="showNotificationFromChild"
+    :message="'Success!!'"
+    @closed="closeNotificationInParent"
+  />
 </template>
 <script setup>
 import { useLoginUser } from "~/store/auth";
@@ -54,14 +65,29 @@ import NewGame from "./NewGame.vue";
 import { getGameData, getGameDataHR } from "~/services/employee";
 import EmptyState from "../global/EmptyState.vue";
 import currentaward from "~/assets/images/empty_currentaward.svg";
+import SuccessPopup from "../global/SuccessPopup.vue";
 const loginUser = useLoginUser();
 const isModalVisible = ref(false);
-
+const showNotificationFromChild = ref(false);
 const closeModal = () => {
   isModalVisible.value = false;
 };
+const doneModal = () => {
+  isModalVisible.value = false;
+  showNotificationFromChild.value = true
+};
 const games = ref([]);
 const gamesHr = ref([]);
+
+// Method to handle the showSuccessNotification event emitted by the NewGame component
+const handleSuccessNotification = () => {
+  showNotificationFromChild.value = true; // Show the success notification in the parent
+};
+
+// Method to close the success notification in the parent
+const closeNotificationInParent = () => {
+  showNotificationFromChild.value = false;
+};
 
 const fetchGames = async () => {
   try {

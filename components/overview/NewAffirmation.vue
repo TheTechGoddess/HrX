@@ -12,34 +12,30 @@
         />
         <div class="mt-2">
           <div class="mr-5">
-            <h1 class="text-xl text-[#182233] font-medium mb-2">Add Game</h1>
+            <h1 class="text-xl text-[#182233] font-medium mb-2">
+              Words of Affirmation
+            </h1>
           </div>
 
           <form @submit.prevent="submit" class="mt-10">
             <div class="py-3 flex flex-col w-full">
-              <label for=""> Game name <span class="text-error">*</span></label>
-              <input
-                type="text"
-                class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
-                placeholder="Enter"
-                v-model="game"
-              />
-            </div>
-            <div class="py-3 flex flex-col w-full">
-              <label for="">Link <span class="text-error">*</span></label>
-              <input
-                type="text"
-                class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
-                placeholder="Enter"
-                v-model="link"
-              />
+              <label for="">
+                Words of affirmation <span class="text-error">*</span></label
+              >
+              <textarea
+                v-model="affirmation"
+                placeholder="Drop your thoughts here"
+                cols="20"
+                rows="5"
+                class="mt-3 w-full bg-[#F7F8FA] rounded-lg placeholder:text-[#CFD0D0] px-4 py-3 focus:outline-none"
+              ></textarea>
             </div>
             <div class="mt-4 flex flex-col">
               <button
                 type="submit"
                 class="py-3 rounded-lg font-medium px-8 bg-[#E4669E] text-white self-end"
               >
-                Send
+                Save
               </button>
             </div>
           </form>
@@ -49,24 +45,23 @@
     <SuccessPopup
       v-if="showNotification"
       :message="'Success!!'"
-      @closed="handleNotificationClose"
+      @closed="showNotification = false"
     />
   </div>
 </template>
 
 <script setup>
 import Modal from "@/components/global/Modal.vue";
+import OptionsDropdown from "../global/OptionsDropdown.vue";
 import SuccessPopup from "../global/SuccessPopup.vue";
-import { createGame } from "~/services/employee";
-import { ref, nextTick } from "vue";
-import { defineEmits } from "vue";
+import { createGame, getGameData } from "~/services/employee";
+import { ref, onMounted, nextTick, computed } from "vue";
 
 // Data properties
 const showModal = ref(false);
 const game = ref("");
 const link = ref("");
 const showNotification = ref(false);
-const emits = defineEmits(["done", "showSuccessNotification"]);
 
 const submit = async () => {
   if (game.value.trim() !== "" && link.value.trim() !== "") {
@@ -78,21 +73,13 @@ const submit = async () => {
       const response = await createGame(data);
 
       console.log(response);
-      emits("done");
       showModal.value = false;
       await nextTick();
-      // Emit an event to inform the parent to display the success notification
-      emits("showSuccessNotification");
-      showNotification.value = true; // Show the success notification
+      showNotification.value = true;
     } catch (error) {
       console.error("Error creating anonymous entry:", error);
     }
   }
-};
-
-// Handle closing the success notification internally in the component
-const handleNotificationClose = () => {
-  showNotification.value = false;
 };
 </script>
 <style>

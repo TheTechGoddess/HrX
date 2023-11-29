@@ -27,9 +27,7 @@
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
                 :placeholder="
-                  employeeData
-                    ? employeeData.fullName.split(' ')[0]
-                    : 'First Name'
+                  employeeData ? employeeData.companyName : 'Company Name'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">Jurisdiction</label>
@@ -38,9 +36,9 @@
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
                 :placeholder="
-                  employeeData
-                    ? employeeData.fullName.split(' ')[1]
-                    : 'Last Name'
+                  employeeData && employeeData.jurisdiction
+                    ? employeeData.jurisdiction
+                    : 'Jurisdiction'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">TAX ID No.</label>
@@ -48,7 +46,11 @@
                 type="text"
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
-                :placeholder="employeeData ? employeeData.dob : 'Date of Birth'"
+                :placeholder="
+                  employeeData && employeeData.taxIdNo
+                    ? employeeData.taxIdNo
+                    : 'Tax Id'
+                "
               />
             </div>
             <!-- right -->
@@ -59,7 +61,9 @@
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
                 :placeholder="
-                  employeeData ? employeeData.middleName : 'Middle Name'
+                  employeeData && employeeData.industry
+                    ? employeeData.industry
+                    : 'Industry'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">RC No.</label>
@@ -67,7 +71,11 @@
                 type="text"
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
-                :placeholder="employeeData ? employeeData.gender : 'Gender'"
+                :placeholder="
+                  employeeData && employeeData.rcNo
+                    ? employeeData.rcNo
+                    : 'RC Number'
+                "
               />
               <label for="" class="mb-2 text-[#39404F]">Company Size</label>
               <input
@@ -75,7 +83,9 @@
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
                 :placeholder="
-                  employeeData ? employeeData.nationality : 'Nationality'
+                  employeeData && employeeData.companySize
+                    ? employeeData.companySize
+                    : 'Company Size'
                 "
               />
             </div>
@@ -93,7 +103,9 @@
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
                 :placeholder="
-                  employeeData ? employeeData.email : 'Email Address'
+                  employeeData && employeeData.companyEmail
+                    ? employeeData.companyEmail
+                    : 'Email Address'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">Address</label>
@@ -102,7 +114,9 @@
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
                 :placeholder="
-                  employeeData ? employeeData.address : 'Residential Address'
+                  employeeData && employeeData.address
+                    ? employeeData.address
+                    : 'Company Address'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">Website</label>
@@ -111,7 +125,9 @@
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
                 :placeholder="
-                  employeeData ? employeeData.address : 'Website'
+                  employeeData && employeeData.website
+                    ? employeeData.website
+                    : 'Company Website'
                 "
               />
             </div>
@@ -123,7 +139,9 @@
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
                 :placeholder="
-                  employeeData ? employeeData.phoneNumber : 'Phone Number'
+                  employeeData && employeeData.phoneNumber
+                    ? employeeData.phoneNumber
+                    : 'Phone Number'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">Country</label>
@@ -132,7 +150,9 @@
                 readonly
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#39404F] outline-none text-sm text-[#344054] bg-[#EFF3FB] cursor-default rounded"
                 :placeholder="
-                  employeeData ? employeeData.nationality : 'Country'
+                  employeeData && employeeData.country
+                    ? employeeData.country
+                    : 'Country'
                 "
               />
             </div>
@@ -164,31 +184,33 @@
               <label for="" class="mb-2 text-[#39404F]">Company Name</label>
               <input
                 type="text"
-                v-model="firstName"
+                v-model="companyName"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
                 :placeholder="
-                  employeeData
-                    ? employeeData.fullName.split(' ')[0]
-                    : 'First Name'
+                  employeeData ? employeeData.companyName : 'Company Name'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">Jurisdiction</label>
               <input
                 type="text"
-                v-model="lastName"
+                v-model="jurisdiction"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
                 :placeholder="
-                  employeeData
-                    ? employeeData.fullName.split(' ')[1]
-                    : 'Last Name'
+                  employeeData && employeeData.jurisdiction
+                    ? employeeData.jurisdiction
+                    : 'Jurisdiction'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">TAX ID No.</label>
               <input
                 type="text"
-                v-model="dateOfBirth"
+                v-model="taxIdNo"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
-                :placeholder="employeeData ? employeeData.dob : 'Date of Birth'"
+                :placeholder="
+                  employeeData && employeeData.taxIdNo
+                    ? employeeData.taxIdNo
+                    : 'Tax Id'
+                "
               />
             </div>
             <!-- right -->
@@ -196,30 +218,34 @@
               <label for="" class="mb-2 text-[#39404F]">Industry</label>
               <input
                 type="text"
-                v-model="middleName"
+                v-model="industry"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
                 :placeholder="
-                  employeeData ? employeeData.middleName : 'Middle Name'
+                  employeeData && employeeData.industry
+                    ? employeeData.industry
+                    : 'Industry'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">RC No.</label>
-              <OptionsDropdown
+              <input
                 type="text"
-                v-model="gender"
-                class="mb-8 w-40% ::placeholder"
+                v-model="rcNo"
+                class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
                 :placeholder="
-                  employeeData ? employeeData.gender : 'Select Gender'
+                  employeeData && employeeData.rcNo
+                    ? employeeData.rcNo
+                    : 'RC Number'
                 "
-                :options="genderOptions"
-              >
-              </OptionsDropdown>
+              />
               <label for="" class="mb-2 text-[#39404F]">Company Size</label>
               <input
                 type="text"
-                v-model="nationality"
+                v-model="companySize"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
                 :placeholder="
-                  employeeData ? employeeData.nationality : 'Nationality'
+                  employeeData && employeeData.companySize
+                    ? employeeData.companySize
+                    : 'Company Size'
                 "
               />
             </div>
@@ -235,28 +261,33 @@
               <input
                 type="text"
                 readonly
-                v-model="emailAddress"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded cursor-auto"
                 :placeholder="
-                  employeeData ? employeeData.email : 'Email Address'
+                  employeeData && employeeData.companyEmail
+                    ? employeeData.companyEmail
+                    : 'Email Address'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">Address</label>
               <input
                 type="text"
-                v-model="homeAddress"
+                v-model="address"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
                 :placeholder="
-                  employeeData ? employeeData.address : 'Residential Address'
+                  employeeData && employeeData.address
+                    ? employeeData.address
+                    : 'Company Address'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">Website</label>
               <input
                 type="text"
-                v-model="homeAddress"
+                v-model="website"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
                 :placeholder="
-                  employeeData ? employeeData.address : 'Website'
+                  employeeData && employeeData.website
+                    ? employeeData.website
+                    : 'Company Website'
                 "
               />
             </div>
@@ -268,7 +299,9 @@
                 v-model="phoneNumber"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
                 :placeholder="
-                  employeeData ? employeeData.phoneNumber : 'Phone Number'
+                  employeeData && employeeData.phoneNumber
+                    ? employeeData.phoneNumber
+                    : 'Phone Number'
                 "
               />
               <label for="" class="mb-2 text-[#39404F]">Country</label>
@@ -277,7 +310,9 @@
                 v-model="country"
                 class="mb-8 px-4 py-3.5 w-40% placeholder-[#CFD0D0] outline-none text-sm text-[#344054] bg-[#F7F8FA] rounded"
                 :placeholder="
-                  employeeData ? employeeData.nationality : 'Country'
+                  employeeData && employeeData.country
+                    ? employeeData.country
+                    : 'Country'
                 "
               />
             </div>
@@ -290,7 +325,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import OptionsDropdown from "~/components/global/OptionsDropdown.vue";
-import { getEmployeeHr, updateEmployeeHr } from "~/services/employee";
+import { updateCompany, getCompany } from "~/services/employee";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
@@ -303,46 +338,20 @@ const editProfile = () => {
   edited.value = true;
 };
 
-const firstName = ref("");
-const lastName = ref("");
-const dateOfBirth = ref("");
-const department = ref("");
-const middleName = ref("");
-const gender = ref("");
-const nationality = ref("");
-const jobRole = ref("");
-const homeAddress = ref("");
+const companyName = ref("");
+const jurisdiction = ref("");
+const taxIdNo = ref("");
+const industry = ref("");
+const website = ref("");
+const companySize = ref("");
+const rcNo = ref("");
+const address = ref("");
 const phoneNumber = ref("");
 const country = ref("");
-const kinFirstName = ref("");
-const kinLastName = ref("");
-const kinRelationship = ref("");
-const kinPhoneNumber = ref("");
-const kinEmailAddress = ref("");
-const kinAddress = ref("");
-const managerFirstName = ref("");
-const managerLastName = ref("");
-const managerPhoneNumber = ref("");
-const managerDepartment = ref("");
-const managerMiddleName = ref("");
-const managerGender = ref("");
-const manageremailAddress = ref("");
-const managerJobRole = ref("");
-
-const genderOptions = ["Male", "Female"];
-const departmentOptions = [
-  "Operations",
-  "Sales",
-  "Engineering",
-  "Product",
-  "Growth",
-  "Marketing",
-  "Agent",
-];
 
 async function fetchEmployeeHRData() {
   try {
-    const result = await getEmployeeHr(employeeId);
+    const result = await getCompany();
 
     if (result.error) {
       console.error("Error fetching employee HR:", result.error);
@@ -358,78 +367,39 @@ async function fetchEmployeeHRData() {
 
 const save = async () => {
   const updatedData = {};
-  if (firstName.value && lastName.value) {
-    updatedData.fullName = firstName.value + " " + lastName.value;
+  if (companyName.value && jurisdiction.value) {
+    updatedData.fullName = companyName.value + " " + jurisdiction.value;
   }
-  if (lastName.value) {
-    updatedData.lastName = lastName.value;
+  if (jurisdiction.value) {
+    updatedData.jurisdiction = jurisdiction.value;
   }
-  if (middleName.value) {
-    updatedData.middleName = middleName.value;
+  if (industry.value) {
+    updatedData.industry = industry.value;
   }
-  if (dateOfBirth.value) {
-    updatedData.dob = dateOfBirth.value;
+  if (taxIdNo.value) {
+    updatedData.dob = taxIdNo.value;
   }
-  if (department.value) {
-    updatedData.department = department.value;
+  if (rcNo.value) {
+    updatedData.rcNo = rcNo.value;
   }
-  if (jobRole.value) {
-    updatedData.jobRole = jobRole.value;
+  if (website.value) {
+    updatedData.website = website.value;
   }
-  if (gender.value) {
-    updatedData.gender = gender.value;
+  if (country.value) {
+    updatedData.country = country.value;
   }
-  if (homeAddress.value) {
-    updatedData.address = homeAddress.value;
+  if (address.value) {
+    updatedData.address = address.value;
   }
   if (phoneNumber.value) {
     updatedData.phoneNumber = phoneNumber.value;
   }
-  if (kinFirstName.value && kinLastName.value) {
-    updatedData.nextofKin = kinFirstName.value + " " + kinFirstName.value;
-  }
-  if (kinAddress.value) {
-    updatedData.nextofKinContact = kinAddress.value;
-  }
-  if (kinPhoneNumber.value) {
-    updatedData.nextofKinNumber = kinPhoneNumber.value;
-  }
-  if (kinRelationship.value) {
-    updatedData.nextofKinRelationship = kinRelationship.value;
-  }
-  if (kinEmailAddress.value) {
-    updatedData.nextofKinEmail = kinEmailAddress.value;
-  }
-  if (managerFirstName.value) {
-    updatedData.managerFirstName = managerFirstName.value;
-  }
-  if (managerLastName.value) {
-    updatedData.managerLastName = managerLastName.value;
-  }
-  if (managerMiddleName.value) {
-    updatedData.managerMiddleName = managerMiddleName.value;
-  }
-  if (managerDepartment.value) {
-    updatedData.managerDepartment = managerDepartment.value;
-  }
-  if (managerJobRole.value) {
-    updatedData.managerJobRole = managerJobRole.value;
-  }
-  if (managerGender.value) {
-    updatedData.managerGender = managerGender.value;
-  }
-  if (manageremailAddress.value) {
-    updatedData.managerEmail = manageremailAddress.value;
-  }
-  if (managerPhoneNumber.value) {
-    updatedData.managerNumber = managerPhoneNumber.value;
-  }
-  if (nationality.value) {
-    updatedData.nationality = nationality.value;
+  if (companySize.value) {
+    updatedData.companySize = companySize.value;
   }
 
   try {
-    const response = await updateEmployeeHr(employeeId, updatedData);
+    const response = await updateCompany(updatedData);
 
     if (response.error) {
       console.error("Error updating employee data:", response.error);

@@ -1,7 +1,7 @@
 export async function assignAssessment(assessmentData) {
   const url = useRuntimeConfig();
   const baseUrl = url.public.baseUrl;
-  const endpoint = "/api/v1/performance/assign-assessment";
+  const endpoint = "/api/v1/performance/assign-assesment";
   const token = localStorage.getItem("token");
 
   try {

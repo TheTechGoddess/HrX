@@ -10,6 +10,14 @@ export const useLoginUser = defineStore("loginUser", {
     setLoginType(type) {
       this.loginType = type;
     },
+    logout() {
+      this.token = null;
+      this.isLoggedIn = false;
+      this.loginType = null;
+
+      // Clear localStorage
+      localStorage.clear();
+    },
   },
   getters: {
     // Getter to check if the user is logged in

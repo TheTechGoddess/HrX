@@ -10,12 +10,6 @@
         <p class="text-xs text-[#39404F]">2023</p>
         <img src="~/assets/images/down_arrow.svg" alt="" />
       </button>
-      <button
-        v-if="loginUser.loginType === 'Company'"
-        class="px-3 py-2 font-medium text-white bg-[#E4669E] rounded-xl"
-      >
-        Create Assessment
-      </button>
     </div>
 
     <div class="md:flex md:justify-between md:space-x-4 py-6">
