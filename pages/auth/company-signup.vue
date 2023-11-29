@@ -91,14 +91,16 @@
         </div>
         <div class="py-3 flex flex-col">
           <label for="">Country *</label>
-          <input
+          <OptionsDropdown
             type="text"
-            class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
+            class=""
             placeholder="Select Country"
             v-model="country"
-            :class="{ 'border border-[#FF4B41]': errors.country }"
+            :options="countries"
+            :class="{ 'border border-error rounded-lg': errors.country }"
             @input="clearError('country')"
-          />
+          >
+          </OptionsDropdown>
           <p v-if="errors.country" class="text-[#FF4B41] text-xs mt-1">
             {{ errors.country }}
           </p>
@@ -280,6 +282,7 @@
 <script setup>
 import { ref } from "vue";
 import { registerCompany } from "~/services/auth";
+import OptionsDropdown from "../../components/global/OptionsDropdown.vue";
 
 definePageMeta({
   layout: "authsignup",
@@ -304,6 +307,7 @@ const confirmPassword = ref("");
 const companyEmail = ref("");
 const errors = ref({});
 const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+const countries = ref([]);
 
 const validateForm = () => {
   errors.value = {};
@@ -402,6 +406,19 @@ const handleLogoUpload = (event) => {
   }
 };
 
+const fetchCountries = async () => {
+  try {
+    const apiUrl = "https://restcountries.com/v3.1/all"; // API endpoint for all countries
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    countries.value = data
+      .map((country) => country.name.common)
+      .sort((a, b) => a.localeCompare(b));
+  } catch (error) {
+    console.error("Error fetching countries:", error);
+  }
+};
+
 const register = async () => {
   const formData = new FormData();
   formData.append("companyLogo", companyLogo.value);
@@ -437,6 +454,10 @@ const handleSubmit = () => {
     register();
   }
 };
+
+onMounted(() => {
+  fetchCountries();
+});
 </script>
 <style>
 @keyframes rotate {

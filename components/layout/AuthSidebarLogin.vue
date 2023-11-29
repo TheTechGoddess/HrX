@@ -3,7 +3,7 @@
     class="bg-[url('~/assets/images/auth-bg.svg')] flex items-center text-center lg:h-screen 2xl:h-full py-6 lg:py-0"
   >
     <div
-      class="bg-[url('~/assets/images/auth-bg.svg')] lg:fixed border-2 custom-border rounded-lg xl:ml-8 ml-10 px-10 mr-10 lg:mr-20 lg:w-[40%] py-10 flex flex-col justify-center items-center xl:justify-start"
+      class="bg-[url('~/assets/images/auth-bg.svg')] lg:fixed border-2 custom-border rounded-lg xl:ml-8 ml-10 px-10 mr-10 lg:mr-20 lg:w-[40%] py-10 flex flex-col items-center xl:justify-start"
     >
       <!-- <h1>{{ sidebarTitle }}</h1>
         <p>{{ sidebarDescription }}</p> -->
