@@ -7,12 +7,12 @@
         <h1 class="text-[#39404F] font-medium text-2xl">
           Performance Assessment
         </h1>
-        <button
+        <!-- <button
           class="border border-[#CFD0D0] space-x-1 py-1 px-2 flex rounded-xl items-center"
         >
           <p class="text-xs text-[#39404F]">Q1</p>
           <img src="~/assets/images/down_arrow.svg" alt="" />
-        </button>
+        </button> -->
       </div>
     </div>
     <div class="w-full rounded-2xl">

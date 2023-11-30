@@ -246,7 +246,9 @@
             </div>
             <p class="font-semibold text-[#39404F] my-3">
               {{ recentAwardHr.name }}
-              <span class="text-bodytext text-sm">(200 points)</span>
+              <span class="text-bodytext text-sm"
+                >({{ recentAwardHr.point }} points)</span
+              >
             </p>
             <p class="text-bodytext text-sm">
               {{ recentAwardHr.description }}

@@ -1,7 +1,7 @@
 <template>
   <div v-if="visible" :class="['notification', notificationType]">
     <div
-      class="notification-content flex flex-row-reverse justify-between bg-green-400 px-6 rounded py-3"
+      class="notification-content flex flex-row-reverse justify-between bg-[#5cb85c] px-6 rounded py-3"
     >
       <div>{{ message }}</div>
     </div>
@@ -30,7 +30,7 @@ export default {
     // Automatically close the notification after 15 seconds
     setTimeout(() => {
       this.closeNotification();
-    }, 10000);
+    }, 5000);
   },
   methods: {
     closeNotification() {

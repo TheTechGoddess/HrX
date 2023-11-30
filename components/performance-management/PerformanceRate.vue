@@ -7,7 +7,7 @@
         <p
           class="text-[#F6AF45] px-2 py-1 bg-[#F6AF45] bg-opacity-10 rounded-lg text-xs font-medium"
         >
-          50%
+          {{ averagePerformance }}%
         </p>
       </div>
     </div>
@@ -20,25 +20,57 @@
 <script>
 import { ref, onMounted } from "vue";
 import Chart from "chart.js/auto";
+import { getPerformanceRateData } from "~/services/performance";
 
 export default {
   setup() {
     const lineChart = ref(null);
+    let chart; // Store the chart instance
+    const averagePerformance = ref(0); // Use ref for reactivity
 
     onMounted(() => {
-      renderChart();
+      chart = renderChart();
+      fetchData();
     });
+
+    const fetchData = async () => {
+      try {
+        const performanceData = await getPerformanceRateData();
+        if (!performanceData.error) {
+          console.log(performanceData);
+          updateChart(performanceData.data);
+          averagePerformance.value = performanceData.data.averagePerformance;
+        } else {
+          console.error(performanceData.error);
+          // Handle error state if necessary
+        }
+      } catch (error) {
+        console.error("An unexpected error occurred:", error);
+      }
+    };
+
+    function updateChart(data) {
+      // Update the chart's dataset with fetched data
+      chart.data.datasets[0].data = [
+        data.q1Percent,
+        data.q2Percent,
+        data.q3Percent,
+        data.q4Percent,
+      ];
+
+      chart.update(); // Update the chart
+    }
 
     function renderChart() {
       const ctx = lineChart.value.getContext("2d");
-      new Chart(ctx, {
+      const chart = new Chart(ctx, {
         type: "line",
         data: {
           labels: ["Q1", "Q2", "Q3", "Q4"],
           datasets: [
             {
               label: "Performance Graph",
-              data: [0, 50, 25, 100, 75],
+              data: [0, 0, 0, 0],
               borderColor: "black",
               fill: false,
               pointRadius: 0,
@@ -83,10 +115,13 @@ export default {
           },
         },
       });
+
+      return chart; // Return the chart instance
     }
 
     return {
       lineChart,
+      averagePerformance, // Return as a reactive reference
     };
   },
 };

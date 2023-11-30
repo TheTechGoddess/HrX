@@ -34,7 +34,7 @@ export async function assignAssessment(assessmentData) {
 export async function createAssessmentReviewer(reviewerData) {
   const url = useRuntimeConfig();
   const baseUrl = url.public.baseUrl;
-  const endpoint = "/api/v1/performance/create-assessment-reviewer";
+  const endpoint = "/api/v1/performance/create-assesment-reviewer";
   const token = localStorage.getItem("token");
 
   try {
@@ -224,6 +224,101 @@ export async function getTaskMetrics() {
   } catch (error) {
     return {
       error: "An unexpected error occurred while fetching task metrics.",
+    };
+  }
+}
+export async function getEmployeeReviewHR(employeeId) {
+  const url = useRuntimeConfig();
+  const baseUrl = url.public.baseUrl;
+  const endpoint = `/api/v1/performance/employee-review-hr/${employeeId}`;
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorResponse = await response.json();
+      return {
+        error:
+          errorResponse.error ||
+          "An error occurred while fetching employee review data.",
+      };
+    }
+  } catch (error) {
+    return {
+      error:
+        "An unexpected error occurred while fetching employee review data.",
+    };
+  }
+}
+export async function getPeerReviewSingleData(reviewId) {
+  const url = useRuntimeConfig();
+  const baseUrl = url.public.baseUrl;
+  const endpoint = `/api/v1/performance/peer-review-single/${reviewId}`;
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorResponse = await response.json();
+      return {
+        error:
+          errorResponse.error ||
+          "An error occurred while fetching peer review data.",
+      };
+    }
+  } catch (error) {
+    return {
+      error: "An unexpected error occurred while fetching peer review data.",
+    };
+  }
+}
+export async function getPerformanceRateData() {
+  const url = useRuntimeConfig();
+  const baseUrl = url.public.baseUrl;
+  const endpoint = "/api/v1/performance/performance-rate";
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorResponse = await response.json();
+      return {
+        error:
+          errorResponse.error ||
+          "An error occurred while fetching performance rate data.",
+      };
+    }
+  } catch (error) {
+    return {
+      error:
+        "An unexpected error occurred while fetching performance rate data.",
     };
   }
 }
