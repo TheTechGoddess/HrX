@@ -147,7 +147,7 @@
     </Modal>
     <InviteSuccess
       :title="'Success'"
-      :message="'You’ve successfully set an award, you will be notified as soon as employees start nominating and voting '"
+      :message="'You’ve successfully created an assessment '"
       :buttonLink="'/auth/login'"
       :buttonText="'Close'"
       v-if="showSuccess"

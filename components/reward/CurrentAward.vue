@@ -53,7 +53,7 @@
                 @click="isModalVisible = true"
                 class="px-4 py-3 font-medium text-white bg-[#E4669E] rounded-xl"
               >
-                Reset Award
+                Create Award
               </button>
               <button
                 class="px-4 py-3 font-medium text-white bg-[#E4669E] rounded-xl"

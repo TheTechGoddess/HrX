@@ -24,7 +24,6 @@
         v-if="employeeEvents.length > 0 && loginUser.loginType === 'Employee'"
       >
         <div class="my-8 flex justify-between">
-          <h1 class="text-header font-medium text-xl">Health Programs</h1>
           <button
             class="border border-[#CFD0D0] space-x-2 py-2 px-3 flex rounded-xl items-center"
           >
