@@ -27,7 +27,6 @@
             v-for="employee in employees"
             :key="employee.employee"
             class="border border-[#F9FAFB] cursor-pointer"
-            @click="navigateToEmployee(employee._id)"
           >
             <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
               <div
@@ -46,6 +45,7 @@
               </div>
             </td>
             <td
+              @click="navigateToEmployee(employee._id)"
               class="py-2 px-8 pl-4 flex space-x-1 mt-2 overflow-hidden whitespace-nowrap text-left"
             >
               <div v-if="employee.displayPicture" class="px-2">
