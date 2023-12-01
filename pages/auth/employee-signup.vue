@@ -61,21 +61,6 @@
           </p>
         </div>
         <div class="py-3 flex flex-col">
-          <label for=""> Email Address *</label>
-          <input
-            type="text"
-            class="bg-[#F7F8FA] px-4 py-4 mt-2 rounded-lg placeholder-[#CFD0D0] placeholder:font-light focus:outline-none focus:border-none focus:ring-0"
-            placeholder="ade@hrx.co"
-            v-model="companyEmail"
-            :class="{ 'border border-[#FF4B41]': errors.companyEmail }"
-            @input="clearError('companyEmail')"
-          />
-          <p v-if="errors.companyEmail" class="text-[#FF4B41] text-xs mt-1">
-            {{ errors.companyEmail }}
-          </p>
-        </div>
-
-        <div class="py-3 flex flex-col">
           <label for="">Password *</label>
           <div class="relative">
             <input
@@ -265,9 +250,7 @@ const companyLogo = ref(null);
 const companyName = ref("");
 const password = ref("");
 const confirmPassword = ref("");
-const companyEmail = ref("");
 const errors = ref({});
-const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 const validateForm = () => {
   errors.value = {};
@@ -276,12 +259,6 @@ const validateForm = () => {
   }
   if (!companyName.value.trim()) {
     errors.value.companyName = "Full name is required.";
-  }
-  if (!companyEmail.value.trim()) {
-    errors.value.companyEmail = "Email address is required.";
-  } else if (!emailPattern.test(companyEmail.value)) {
-    errors.value.companyEmail =
-      "Invalid email format. Please enter a valid email address.";
   }
   if (password.value.length < 8) {
     errors.value.password =

@@ -23,7 +23,7 @@
           <p class="mx-2 text-sm text-[#757C86]">{{ page.title }}</p>
         </router-link>
       </div>
-      <div class="flex space-x-3 mx-5 mt-48">
+      <div class="flex space-x-3 mx-5 mt-10">
         <img src="~/assets/images/logout.svg" alt="" class="" />
         <p @click="logout" class="text-sm text-[#757C86] cursor-pointer">
           Logout
@@ -87,7 +87,7 @@
             <p class="mx-2 text-sm text-[#757C86]">{{ page.title }}</p>
           </router-link>
         </div>
-        <div class="flex space-x-3 mx-5 mt-48">
+        <div class="flex space-x-3 mx-5 mt-10">
           <img src="~/assets/images/logout.svg" alt="" class="" />
           <p @click="logout" class="text-sm text-[#757C86] cursor-pointer">
             Logout

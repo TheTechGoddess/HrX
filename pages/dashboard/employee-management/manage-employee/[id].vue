@@ -107,6 +107,7 @@ import Permissions from "../../../../components/employee/Permissions.vue";
 import { getEmployeeHr } from "~/services/employee";
 import { useRoute, useRouter } from "vue-router";
 
+
 const route = useRoute();
 const employeeId = route.params.id;
 const employeeData = ref(null);

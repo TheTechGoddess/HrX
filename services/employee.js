@@ -518,6 +518,38 @@ export async function getAffirmationData() {
   }
 }
 
+export async function getAffirmationHrData() {
+  const url = useRuntimeConfig();
+  const baseUrl = url.public.baseUrl;
+  const endpoint = "/api/v1/management/get-affirmation-hr";
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorResponse = await response.json();
+      return {
+        error:
+          errorResponse.error ||
+          "An error occurred while fetching affirmation data.",
+      };
+    }
+  } catch (error) {
+    return {
+      error: "An unexpected error occurred while fetching affirmation data.",
+    };
+  }
+}
+
 export async function getGameData() {
   const url = useRuntimeConfig();
   const baseUrl = url.public.baseUrl;

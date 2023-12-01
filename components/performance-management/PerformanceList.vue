@@ -27,6 +27,7 @@
             v-for="employee in employees"
             :key="employee.employee"
             class="border border-[#F9FAFB] cursor-pointer"
+            @click="navigateToEmployee(employee._id)"
           >
             <td class="py-2 px-8 overflow-hidden whitespace-nowrap text-left">
               <div
@@ -205,6 +206,8 @@ const fetchEmployee = async () => {
 onMounted(fetchEmployee);
 
 const navigateToEmployee = (employeeId) => {
-  router.push(`/dashboard/employee-management/manage-employee/${employeeId}`);
+  router.push(
+    `/dashboard/performance-management/employee-performance/${employeeId}`
+  );
 };
 </script>

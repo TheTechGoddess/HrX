@@ -5,7 +5,7 @@
       class="bg-primary bg-opacity-10 w-full flex justify-between px-4 py-6 rounded-lg items-center"
     >
       <div class="flex flex-col">
-        <p class="text-bodytext">Good Afternoon</p>
+        <p class="text-bodytext">Good Day</p>
         <div class="flex space-x-3 items-center my-1">
           <img
             :src="userStore.data.displayPicture"
@@ -16,8 +16,8 @@
             {{ userStore.data.fullName }}
           </h1>
         </div>
-        <p class="text-bodytext text-lg">
-          Remember info lo fin fo. I hope you have a good day today!
+        <p class="text-bodytext text-lg" v-if="affirmation">
+          {{ affirmation }}
         </p>
       </div>
       <img
@@ -31,7 +31,7 @@
       class="bg-primary bg-opacity-10 w-full flex justify-between px-4 py-6 rounded-lg items-center"
     >
       <div class="flex flex-col">
-        <p class="text-bodytext">Good Afternoon</p>
+        <p class="text-bodytext">Good Day</p>
         <div class="flex space-x-3 items-center my-1">
           <img
             :src="companyStore.data.logo"
@@ -43,8 +43,8 @@
           </h1>
         </div>
         <div class="flex space-x-1">
-          <p class="text-bodytext text-lg">
-            Remember info lo fin fo. I hope you have a good day today!
+          <p class="text-bodytext text-lg" v-if="affirmationHr">
+            {{ affirmationHr }}
           </p>
           <img
             src="~/assets/images/pen.svg"
@@ -77,13 +77,15 @@ import { useLoginUser } from "~/store/auth";
 import { useUserStore } from "~/store/user";
 import { useCompanyStore } from "~/store/company";
 import NewAffirmation from "./NewAffirmation.vue";
-import { getAffirmationData } from "~/services/employee";
+import { getAffirmationData, getAffirmationHrData } from "~/services/employee";
 import SuccessPopup from "../global/SuccessPopup.vue";
 const userStore = useUserStore();
 const loginUser = useLoginUser();
 const companyStore = useCompanyStore();
 const isModalVisible = ref(false);
 const showNotificationFromChild = ref(false);
+const affirmation = ref(null);
+const affirmationHr = ref(null);
 
 const closeModal = () => {
   isModalVisible.value = false;
@@ -97,4 +99,37 @@ const doneModal = () => {
 const closeNotificationInParent = () => {
   showNotificationFromChild.value = false;
 };
+
+const fetchAffirmation = async () => {
+  try {
+    const data = await getAffirmationData();
+    if (!data.error) {
+      console.log(data);
+      affirmation.value = data.data.message;
+    } else {
+      console.error("Error fetching previous winners:", data.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error occurred:", error);
+  }
+};
+
+const fetchAffirmationHr = async () => {
+  try {
+    const data = await getAffirmationHrData();
+    if (!data.error) {
+      console.log(data);
+      affirmationHr.value = data.data.message;
+    } else {
+      console.error("Error fetching previous winners:", data.error);
+    }
+  } catch (error) {
+    console.error("Unexpected error occurred:", error);
+  }
+};
+
+onMounted(() => {
+  fetchAffirmation();
+  fetchAffirmationHr();
+});
 </script>

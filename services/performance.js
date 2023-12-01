@@ -68,7 +68,7 @@ export async function createAssessmentReviewer(reviewerData) {
 export async function createAssessmentForEmployee(employeeId, assessmentData) {
   const url = useRuntimeConfig();
   const baseUrl = url.public.baseUrl;
-  const endpoint = `/api/v1/performance/create-assessment-employee/${employeeId}`;
+  const endpoint = `/api/v1/performance/create-assesment-employee/${employeeId}`;
   const token = localStorage.getItem("token");
 
   try {

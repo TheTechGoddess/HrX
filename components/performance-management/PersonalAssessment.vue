@@ -1,6 +1,6 @@
 <template>
   <div v-if="employees.length > 0">
-    <div v-for="employee in slicedEmployees" :key="employee.id">
+    <div v-for="employee in slicedEmployees" :key="employee._id">
       <div class="bg-white -mt-10 py-8 px-4">
         <p class="text-header font-medium mb-3 text-xl">Reviewer</p>
         <div class="flex justify-between items-center">
@@ -41,25 +41,6 @@
       </div>
 
       <form @submit.prevent="submitAssessment">
-        <div class="bg-white p-4 flex justify-between">
-          <div class="flex space-x-2 items-center">
-            <p>Number of task assigned</p>
-            <input
-              v-model="assignedTasks"
-              type="text"
-              class="bg-[#F7F8FA] flex text-center px-2 py-2 w-12 rounded-lg focus:outline-none focus:border-none focus:ring-0"
-            />
-          </div>
-          <div class="flex space-x-2 items-center">
-            <p>Number of task completed</p>
-            <input
-              v-model="completedTasks"
-              type="text"
-              class="bg-[#F7F8FA] flex text-center px-2 py-2 w-12 rounded-lg focus:outline-none focus:border-none focus:ring-0"
-            />
-          </div>
-        </div>
-
         <table class="w-full border-collapse rounded-b-2xl">
           <thead class="text-left text-[#757C86] font-medium text-sm">
             <tr class="">
@@ -75,10 +56,46 @@
               :key="index"
               class="border border-[#F9FAFB]"
             >
-              <td class="pl-4 py-4">{{ row.criteria }}</td>
+              <td class="pl-4 py-8">{{ row.criteria }}</td>
               <td>
-                <p>Rating: {{ employee[`${row.criteria}Review`] }}</p>
-                <p>Comment: {{ employee[`${row.criteria}Comment`] }}</p>
+                <div>
+                  <template
+                    v-if="
+                      row.criteria === 'Time Management' ||
+                      row.criteria === 'Problem Solving'
+                    "
+                  >
+                    {{ employee[transformPropertyText(row.criteria)] }}
+                  </template>
+                  <template v-else>
+                    {{ employee[`${row.criteria.toLowerCase()}Comment`] }}
+                  </template>
+                </div>
+                <div>
+                  <template
+                    v-if="
+                      row.criteria === 'Time Management' ||
+                      row.criteria === 'Problem Solving'
+                    "
+                  >
+                    <div
+                      v-html="
+                        renderStars(
+                          employee[transformPropertyName(row.criteria)] || 0
+                        )
+                      "
+                    ></div>
+                  </template>
+                  <template v-else>
+                    <div
+                      v-html="
+                        renderStars(
+                          employee[`${row.criteria.toLowerCase()}Review`] || 0
+                        )
+                      "
+                    ></div>
+                  </template>
+                </div>
               </td>
               <td class="flex space-x-2 mt-2 py-4">
                 <span
@@ -147,7 +164,7 @@ import { useUserStore } from "~/store/user";
 import currentaward from "~/assets/images/performance.svg";
 import {
   getMyAssessmentData,
-  createAssessmentReviewer,
+  createAssessmentForEmployee,
 } from "~/services/performance";
 import SuccessPopup from "../global/SuccessPopup.vue";
 import EmptyState from "../global/EmptyState.vue";
@@ -165,11 +182,45 @@ const rows = ref([
   { criteria: "Communication", rating: 0, comment: "" },
   { criteria: "Creativity", rating: 0, comment: "" },
   { criteria: "Time Management", rating: 0, comment: "" },
-  { criteria: "Problem solving", rating: 0, comment: "" },
+  { criteria: "Problem Solving", rating: 0, comment: "" },
 ]);
+
+const transformPropertyName = (criteria) => {
+  // Adjust property names for specific criteria
+  if (criteria === "Time Management") {
+    return "timeManagementReview";
+  } else if (criteria === "Problem Solving") {
+    return "problemSolvingReview";
+  }
+  // If no specific transformation needed, return the criteria name as is
+  return criteria.toLowerCase() + "Review";
+};
+
+const transformPropertyText = (criteria) => {
+  // Adjust property names for specific criteria
+  if (criteria === "Time Management") {
+    return "timeManagementComment";
+  } else if (criteria === "Problem Solving") {
+    return "problemSolvingComment";
+  }
+  // If no specific transformation needed, return the criteria name as is
+  return criteria.toLowerCase() + "Comment";
+};
 
 const setRating = (index, value) => {
   rows.value[index].rating = value;
+};
+
+const renderStars = (rating) => {
+  const roundedRating = Math.round(rating); // Round the rating to the nearest integer
+  const fullStars = '<span class="text-yellow-500 w-6 h-6">★</span>'.repeat(
+    roundedRating
+  ); // Full stars
+  const emptyStars = '<span class="text-gray-300 w-6 h-6">★</span>'.repeat(
+    5 - roundedRating
+  ); // Empty stars
+
+  return fullStars + emptyStars; // Concatenate full and empty stars
 };
 
 const currentPage = ref(1);
@@ -218,11 +269,11 @@ const fetchData = async () => {
     if (!performanceData.error) {
       employees.value = performanceData.data.docs;
 
-      employees.value = allEmployees.filter((employee) => {
-        const startDate = new Date(employee.startDate);
-        const endDate = new Date(employee.endDate);
-        return startDate <= endDate;
-      });
+      // employees.value = allEmployees.filter((employee) => {
+      //   const startDate = new Date(employee.startDate);
+      //   const endDate = new Date(employee.endDate);
+      //   return startDate <= endDate;
+      // });
 
       console.log(employees.value); // Add this log to check if data is retrieved
     } else {
@@ -277,31 +328,18 @@ const formatDate = (dateString) => {
 const submitAssessment = async () => {
   if (Array.isArray(slicedEmployees.value)) {
     for (const employe of slicedEmployees.value) {
-      const assessmentData = {
-        employee: employe.employee._id,
-        quarter: employe.quarter,
-        numberOftaskAssigned: assignedTasks.value,
-        numberOftaskCompleted: completedTasks.value,
-      };
-
+      const assessmentData = {};
       for (const { criteria, rating, comment } of rows.value) {
         const formattedCriteria = criteria.replace(/\s+/g, ""); // Remove spaces from criteria
 
-        // Adjust property names for specific criteria
-        let formattedProperty = formattedCriteria.toLowerCase();
-
-        // Handle specific cases where property names need adjustment
-        if (formattedProperty === "timemanagement") {
-          formattedProperty = "timeManagement";
-        } else if (formattedProperty === "problemsolving") {
-          formattedProperty = "problemSolving";
-        }
-
-        assessmentData[`${formattedProperty}Review`] = rating;
-        assessmentData[`${formattedProperty}Comment`] = comment;
+        assessmentData[`employee${formattedCriteria}Review`] = rating;
+        assessmentData[`employee${formattedCriteria}Comment`] = comment;
       }
 
-      const response = await createAssessmentReviewer(assessmentData);
+      const response = await createAssessmentForEmployee(
+        employe._id,
+        assessmentData
+      );
       if (response.error) {
         console.error("Error submitting assessment:", response.error);
       } else {
