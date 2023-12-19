@@ -75,6 +75,7 @@ const closeModal = () => {
 const doneModal = () => {
   isModalVisible.value = false;
   showNotificationFromChild.value = true
+  fetchGamesHr();
 };
 const games = ref([]);
 const gamesHr = ref([]);

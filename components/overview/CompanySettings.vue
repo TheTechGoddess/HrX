@@ -5,8 +5,8 @@
       <!-- Profile Information-->
       <div class="w-full">
         <div class="w-full">
-          <div class="flex justify-between">
-            <h1 class="text-lg text-[#39404F] font-medium mb-4">
+          <div class="flex justify-between my-3 items-center">
+            <h1 class="text-lg text-[#39404F] font-medium">
               Company Information
             </h1>
             <button

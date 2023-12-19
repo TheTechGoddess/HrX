@@ -5,10 +5,8 @@
       <!-- Profile Information-->
       <div class="w-full">
         <div class="w-full">
-          <div class="flex justify-between">
-            <h1 class="text-lg text-[#39404F] font-medium mb-4">
-              Personal Data
-            </h1>
+          <div class="flex justify-between my-3 items-center">
+            <h1 class="text-lg text-[#39404F] font-medium">Personal Data</h1>
             <button
               v-if="!edited"
               @click="editProfile"

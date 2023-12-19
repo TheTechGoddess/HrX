@@ -255,8 +255,8 @@ const submitawardName = async () => {
       description: description.value,
       NumberOfEmployee: numberOfEmployees.value,
       reward: reward.value,
-      endNomination,
-      endVoting,
+      endNomination: "2023-12-18 14:23",
+      endVoting: "2023-12-18 14:30",
     };
 
     const response = await createAward(awardData);

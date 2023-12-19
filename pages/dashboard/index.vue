@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Your component's content goes here -->
   </div>
 </template>
 

@@ -94,6 +94,7 @@ const closeModal = () => {
 const doneModal = () => {
   isModalVisible.value = false;
   showNotificationFromChild.value = true;
+  fetchAffirmationHr();
 };
 
 const closeNotificationInParent = () => {

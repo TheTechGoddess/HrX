@@ -13,13 +13,13 @@
 
     <Title v-if="loginUser.loginType === 'Employee'" title="Information" />
     <Title v-else title="Company" />
-    <div class="flex w-full p-6 bg-white my-4 rounded-lg h-full">
-      <div class="flex justify-between">
+    <div class="md:flex w-full p-6 bg-white my-4 rounded-lg h-full">
+      <div class="flex">
         <div
           v-if="loginUser.loginType === 'Employee'"
-          class="flex flex-col self-start space-y-5 text-center"
+          class="flex flex-col w-full self-center md:self-start space-y-5 text-center"
         >
-          <div v-if="employeeData" class="relative">
+          <div v-if="employeeData" class="relative self-center">
             <img
               :src="employeeData.displayPicture"
               alt=""
@@ -80,19 +80,23 @@
               }}
             </p>
           </div>
-          <div class="text-sm flex space-x-1">
-            <p class="text-bodytext">
-              date joined:
-              <span
-                v-if="employeeData && employeeData.createdAt"
-                class="text-header"
-                >{{ formatDate(employeeData.createdAt) }}</span
-              >
-            </p>
-          </div>
+          <p class="text-bodytext">
+            date joined:
+            <span
+              v-if="employeeData && employeeData.createdAt"
+              class="text-header"
+              >{{ formatDate(employeeData.createdAt) }}</span
+            >
+          </p>
         </div>
-        <div v-else class="flex flex-col self-start space-y-5 text-center">
-          <div v-if="employeeDataHr && employeeDataHr.logo" class="relative">
+        <div
+          v-else
+          class="flex flex-col w-full self-center md:self-start space-y-5 text-center"
+        >
+          <div
+            v-if="employeeDataHr && employeeDataHr.logo"
+            class="relative self-center"
+          >
             <img
               :src="employeeDataHr.logo"
               alt=""
@@ -124,16 +128,14 @@
             <div class="w-2 h-2 rounded-full mt-1 bg-[#058836]"></div>
             <p>Active</p>
           </div>
-          <div class="text-sm flex space-x-1">
-            <p class="text-bodytext">
-              date joined:
-              <span
-                v-if="employeeDataHr && employeeDataHr.createdAt"
-                class="text-header"
-                >{{ formatDate(employeeDataHr.createdAt) }}</span
-              >
-            </p>
-          </div>
+          <p class="text-bodytext">
+            date joined:
+            <span
+              v-if="employeeDataHr && employeeDataHr.createdAt"
+              class="text-header"
+              >{{ formatDate(employeeDataHr.createdAt) }}</span
+            >
+          </p>
         </div>
       </div>
       <div class="w-[1px] bg-[#ECEDEF] mt-8 mx-4"></div>

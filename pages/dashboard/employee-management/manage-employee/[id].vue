@@ -12,12 +12,14 @@
     >
 
     <Title title="Employee Details" />
-    <div class="flex w-full p-6 bg-white my-4 rounded-lg h-full">
+    <div class="md:flex w-full p-6 bg-white my-4 rounded-lg h-full">
       <div class="flex justify-between">
-        <div class="flex flex-col self-start space-y-5 text-center">
+        <div
+          class="flex flex-col w-full self-center md:self-start space-y-5 text-center"
+        >
           <div
             v-if="employeeData && employeeData.displayPicture"
-            class="relative"
+            class="relative self-center"
           >
             <img
               :src="employeeData.displayPicture"
@@ -79,16 +81,14 @@
               }}
             </p>
           </div>
-          <div class="text-sm flex space-x-1">
-            <p class="text-bodytext">
-              date joined:
-              <span
-                v-if="employeeData && employeeData.createdAt"
-                class="text-header"
-                >{{ formatDate(employeeData.createdAt) }}</span
-              >
-            </p>
-          </div>
+          <p class="text-bodytext">
+            date joined:
+            <span
+              v-if="employeeData && employeeData.createdAt"
+              class="text-header"
+              >{{ formatDate(employeeData.createdAt) }}</span
+            >
+          </p>
         </div>
       </div>
       <div class="w-[1px] bg-[#ECEDEF] mt-8 mx-4"></div>
@@ -106,7 +106,6 @@ import GeneralDetails from "../../../../components/employee/GeneralDetails.vue";
 import Permissions from "../../../../components/employee/Permissions.vue";
 import { getEmployeeHr } from "~/services/employee";
 import { useRoute, useRouter } from "vue-router";
-
 
 const route = useRoute();
 const employeeId = route.params.id;

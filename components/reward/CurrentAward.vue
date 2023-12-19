@@ -129,12 +129,35 @@
 
       <div v-else>
         <!-- nominate employee -->
-        <div class="flex justify-between">
-          <p>Award</p>
-          <div>
-            <p>00:00</p>
+        <div v-if="recentAward && loginUser.loginType === 'Employee'">
+          <div v-if="isVotingTime" class="flex justify-between">
+            <p>Award</p>
+            <div>
+              <p>{{ formatRemainingTime(recentAward.endVoting) }}</p>
+            </div>
+          </div>
+          <div v-else class="flex justify-between">
+            <p>Award</p>
+            <div>
+              <p>{{ formatRemainingTime(recentAward.endNomination) }}</p>
+            </div>
           </div>
         </div>
+        <div v-if="recentAwardHr && loginUser.loginType === 'Company'">
+          <div v-if="isVotingTimeHr" class="flex justify-between">
+            <p>Award</p>
+            <div>
+              <p>{{ formatRemainingTime(recentAwardHr.endVoting) }}</p>
+            </div>
+          </div>
+          <div v-else class="flex justify-between">
+            <p>Award</p>
+            <div>
+              <p>{{ formatRemainingTime(recentAwardHr.endNomination) }}</p>
+            </div>
+          </div>
+        </div>
+
         <!-- recent award employee -->
         <div
           v-if="recentAward && loginUser.loginType === 'Employee'"
@@ -669,6 +692,25 @@ const isVotingTimeHrOver = computed(() => {
 
   return isVotingOver;
 });
+
+const formatRemainingTime = (endTime) => {
+  const currentTime = new Date();
+  const endVotingTime = new Date(endTime);
+
+  // Calculate the difference in milliseconds
+  const difference = endVotingTime - currentTime;
+
+  // Convert milliseconds to hours and minutes
+  const hoursRemaining = Math.floor(difference / (1000 * 60 * 60));
+  const minutesRemaining = Math.floor(
+    (difference % (1000 * 60 * 60)) / (1000 * 60)
+  );
+
+  // Return the formatted remaining time
+  return `${hoursRemaining.toString().padStart(2, "0")}:${minutesRemaining
+    .toString()
+    .padStart(2, "0")}`;
+};
 
 onMounted(async () => {
   try {

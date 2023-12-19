@@ -97,6 +97,7 @@ const closeModal = () => {
 const doneModal = () => {
   isModalVisible.value = false;
   showNotificationFromChild.value = true;
+  fetchAdeventureHr();
 };
 const closeNotificationInParent = () => {
   showNotificationFromChild.value = false;
